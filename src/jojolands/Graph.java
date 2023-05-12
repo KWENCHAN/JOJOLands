@@ -15,8 +15,7 @@ import java.util.Stack;
 public class Graph<T> {
 
     private HashMap<Vertex<T>, ArrayList<Edge<T>>> map;
-    Vertex<String> current = map.;
-    Stack<Vertex<String>> history = new Stack<>();
+    
 
     public Graph() {
         this.map = new HashMap<>();

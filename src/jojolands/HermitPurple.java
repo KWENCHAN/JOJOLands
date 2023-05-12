@@ -47,23 +47,22 @@ public class HermitPurple {
         map.addEdge(location.get(11), location.get(12), 3);
         map.addEdge(location.get(12), location.get(13), 3);
 
-        
         int daynum = 1;
-        System.out.printf("It's Day %d (%s) of our journey in JOJOLands!%n",daynum,getDayOfWeek(daynum));
-        System.out.println("Current Location: "+current.vertexinfo);
-        
-        
+        System.out.printf("It's Day %d (%s) of our journey in JOJOLands!%n", daynum, getDayOfWeek(daynum));
+        System.out.println("Current Location: " + current.vertexinfo);
+
+        Vertex<String> current = location.get(0);
+        Stack<Vertex<String>> history = new Stack<>();
     }
-    
+
     private static String getDayOfWeek(int day) {
         String[] daysOfWeek = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
         int index = (day - 1) % 7;
         return daysOfWeek[index];
     }
-    
-    public void move(Vertex<T> v, Graph<T> map){
+
+    public void move(Vertex<T> v, Graph<T> map) {
         System.out.println("[1] Move to:");
-        
-        }
+
     }
 }
