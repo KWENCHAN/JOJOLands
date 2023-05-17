@@ -1,5 +1,8 @@
 package JOJOLands;
 
+import Graph.Edge;
+import Graph.Graph;
+import Graph.Location;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Stack;
