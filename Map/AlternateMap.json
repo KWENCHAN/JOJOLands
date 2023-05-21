@@ -1,0 +1,58 @@
+{
+    "San Giorgio Maggiore":{
+        "weight": [3, 6],
+        "edge": ["Morioh Grand Hotel","Savage Garden"]
+    },
+    "Morioh Grand Hotel": {
+        "weight": [3, 4,2,2],
+        "edge": ["San Giorgio Maggiore", "Joestar Mansion", "Green Dolphin Street Prison", "Town Hall"]
+    },
+    "Joestar Mansion": {
+        "weight": [4,5],
+        "edge": ["Morioh Grand Hotel", "Trattoria Trussardi"]
+    },
+    "Trattoria Trussardi": {
+        "weight": [5,4,1],
+        "edge": ["Joestar Mansion", "Green Dolphin Street Prison", "Passione Restaurant"]
+    },
+    "Green Dolphin Street Prison": {
+        "weight": [2,3,4],
+        "edge": ["Morioh Grand Hotel", "Town Hall", "Trattoria Trussardi"]
+    },
+    "Town Hall": {
+        "weight": [2,3,7],
+        "edge": ["Morioh Grand Hotel", "Green Dolphin Street Prison", "Passione Restaurant"]
+    },
+    "Passione Restaurant": {
+        "weight": [7,1,6,2,4],
+        "edge": ["Town Hall", "Trattoria Trussardi", "Angelo Rock", "DIO's Mansion", "Cafe Deux Magots"]
+    },
+    "Angelo Rock": {
+        "weight": [6,2,1],
+        "edge": ["Passione Restaurant", "Polnareff Land","Jade Garden"]
+    },
+    "Jade Garden": {
+        "weight": [1, 2],
+        "edge": ["Angelo Rock", "Polnareff Land"]
+    },
+    "Polnareff Land": {
+        "weight": [2, 2],
+        "edge": ["Angelo Rock", "Jade Garden"]
+    },
+    "DIO's Mansion": {
+        "weight": [1,2,2],
+        "edge": ["Cafe Deux Magots", "Passione Restaurant", "Polnareff Land"]
+    },
+    "Cafe Deux Magots": {
+        "weight": [4, 4, 1],
+        "edge": ["Vineyard", "Passione Restaurant", "DIO's Mansion"]
+    },
+    "Vineyard": {
+        "weight": [4,4],
+        "edge": ["Savage Garden", "Cafe Deux Magots"]
+    },
+    "Savage Garden": {
+        "weight": [6, 4],
+        "edge": ["San Giorgio Maggiore", "Vineyard"]
+    }
+}
