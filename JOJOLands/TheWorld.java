@@ -96,15 +96,13 @@ public class TheWorld {
         String path = "C:/HON YAO ZHI/Data Structure/AssignmentJOJO/src/Map/";
         switch (selection) {
             case 1:
-                path += "DefaultMap.json";
                 mapSelection = "DefaultMap.json";
             case 2:
-                path += "ParallelMap.json";
                 mapSelection = "ParallelMap.json";
             case 3:
-                path += "AlternateMap.json";
                 mapSelection = "AlternateMap.json";
         }
+        path += mapSelection;
         System.out.println("=".repeat(70));
         return path;
     }
