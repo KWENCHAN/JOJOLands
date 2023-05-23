@@ -3,10 +3,13 @@ package JOJOLands;
 import Graph.Edge;
 import Graph.Graph;
 import Graph.Location;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Stack;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
@@ -19,6 +22,7 @@ public class TheWorld {
     private Location currentLocation;
     private Stack<Location> history;
     private int day;
+    private int mapSelection;
 
     public TheWorld() throws JSONException {
         welcome();
@@ -88,9 +92,9 @@ public class TheWorld {
         System.out.println("[1] Default Map");
         System.out.println("[2] Parallel Map");
         System.out.println("[3] Alternate Map\n");
-        int select = getSelection();
-        String path = "C:/Users/ASUS/Documents/UM/SEM 2/WIA1002 DATA STRUCTURE/AssignmentSem2/src/Map/";
-        switch (select) {
+        mapSelection = getSelection();
+        String path = "C:/HON YAO ZHI/Data Structure/AssignmentJOJO/src/Map/";
+        switch (mapSelection) {
             case 1 -> path += "DefaultMap.json";
             case 2 -> path += "ParallelMap.json";
             case 3 -> path += "AlternateMap.json";
@@ -123,5 +127,32 @@ public class TheWorld {
         String[] daysOfWeek = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
         int index = (day - 1) % 7;
         return daysOfWeek[index];
+    }
+    
+    private void saveGame(){
+        
+        JSONObject jsonObject = new JSONObject();
+        
+        try {
+            jsonObject.put("day", getDay());
+            jsonObject.put("map select", mapSelection);
+            jsonObject.put("current location", currentLocation.getName());
+            // Need to save for reaastaurant sales, waiting list..
+            
+        } catch (JSONException ex) {
+            System.out.println("Error in saving the game.");
+        }
+
+        // Convert the JSON object or array to a string
+        String json = jsonObject.toString();
+
+        // Write the JSON string to a file
+        try (FileWriter writer = new FileWriter("loadGame.json")) {
+            writer.write(json);
+            System.out.println("Data written to the file successfully.");
+            
+        } catch (IOException e) {
+            System.out.println("Error in saving the game.");
+        }
     }
 }
