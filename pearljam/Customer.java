@@ -5,7 +5,6 @@
 package pearljam;
 
 public class Customer {
-    private int count=0;
     private String name;
     private int age;
     private String gender;
@@ -16,7 +15,6 @@ public class Customer {
         this.age = age;
         this.gender = gender;
         this.order = order;
-        count++;
 }
     
     public void setName(String name){
@@ -53,6 +51,6 @@ public class Customer {
     
     @Override
     public String toString(){
-        return String.format("| %-2d | %-18s | %-3d | %-6s | %-57s |",count,getName(),getAge(),getGender(),getOrder());
+        return String.format("| %-18s | %-3s | %-6s | %-57s |",getName(),getAge(),getGender(),getOrder());
     }
 }

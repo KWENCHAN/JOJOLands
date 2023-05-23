@@ -11,11 +11,8 @@ import java.util.Map;
 
 public class JadeGarden extends PearlJam{
     
-    private Map<String, Double> menu;
-    
-    public JadeGarden(String name){
-        super(name);
-        this.menu = new HashMap<>();
+    public JadeGarden(){
+        super("Jade Garden");
         addToMenu("Braised Chicken in Black Bean Sauce", 15);
         addToMenu("Braised Goose Web with Vermicelli", 21);
         addToMenu("Deep-fried Hiroshima Oysters", 17);
@@ -23,15 +20,7 @@ public class JadeGarden extends PearlJam{
         addToMenu("Scrambled Egg White with Milk", 10);
     }
     
-    public void addToMenu(String itemName, double price){
-        menu.put(itemName, price);
-    }
-    
-    public double getPrice(String itemName){
-        return menu.getOrDefault(itemName, 0.0);
-    }
-    
-    public static List<Customer> sortOrder(List<Customer> waitingList){
+    public List<Customer> sortOrder(List<Customer> waitingList){
         List<Customer> sortedList = new ArrayList<>();
         int left = 0;
         int right = waitingList.size()-1;
@@ -51,5 +40,23 @@ public class JadeGarden extends PearlJam{
             return sortedList;
     }
     
-    
+    public void processOrdersJadeGarden() {
+        int start = 0;
+        int end = waitingList.size() - 1;
+
+        while (start < end) {
+            Customer firstCustomer = waitingList.get(start);
+            Customer lastCustomer = waitingList.get(end);
+
+            orderProcessingList.add(firstCustomer);
+            orderProcessingList.add(lastCustomer);
+
+            start++;
+            end--;
+        }
+
+        if (start == end) {
+            orderProcessingList.add(waitingList.get(start));
+        }
+    }
 }
