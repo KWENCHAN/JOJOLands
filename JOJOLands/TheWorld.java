@@ -22,7 +22,7 @@ public class TheWorld {
     private Location currentLocation;
     private Stack<Location> history;
     private int day;
-    private int mapSelection;
+    private String mapSelection;
 
     public TheWorld() throws JSONException {
         welcome();
@@ -59,12 +59,12 @@ public class TheWorld {
             }
         }
     }
-    
-    public void start(){
-        System.out.printf("It’s Day %d (%s) of our journey in JOJOLands!%n",getDay(),getDayOfWeek(getDay()));
-        System.out.println("Current Location: "+currentLocation.getName());
+
+    public void start() {
+        System.out.printf("It’s Day %d (%s) of our journey in JOJOLands!%n", getDay(), getDayOfWeek(getDay()));
+        System.out.println("Current Location: " + currentLocation.getName());
     }
-    
+
     public void setMap(Graph map) {
         this.map = map;
     }
@@ -80,7 +80,7 @@ public class TheWorld {
     public int getDay() {
         return day;
     }
-    
+
     public int getSelection() {
         System.out.print("Select: ");
         int select = sc.nextInt();
@@ -92,17 +92,23 @@ public class TheWorld {
         System.out.println("[1] Default Map");
         System.out.println("[2] Parallel Map");
         System.out.println("[3] Alternate Map\n");
-        mapSelection = getSelection();
+        int selection = getSelection();
         String path = "C:/HON YAO ZHI/Data Structure/AssignmentJOJO/src/Map/";
-        switch (mapSelection) {
-            case 1 -> path += "DefaultMap.json";
-            case 2 -> path += "ParallelMap.json";
-            case 3 -> path += "AlternateMap.json";
+        switch (selection) {
+            case 1:
+                path += "DefaultMap.json";
+                mapSelection = "DefaultMap.json";
+            case 2:
+                path += "ParallelMap.json";
+                mapSelection = "ParallelMap.json";
+            case 3:
+                path += "AlternateMap.json";
+                mapSelection = "AlternateMap.json";
         }
         System.out.println("=".repeat(70));
         return path;
     }
-    
+
     public void setCurrentLocation(Location location) {
         this.currentLocation = location;
     }
@@ -122,23 +128,23 @@ public class TheWorld {
             System.out.println("No previous location.");
         }
     }
-    
+
     private static String getDayOfWeek(int day) {
         String[] daysOfWeek = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
         int index = (day - 1) % 7;
         return daysOfWeek[index];
     }
-    
-    private void saveGame(){
-        
+
+    private void saveGame() {
+
         JSONObject jsonObject = new JSONObject();
-        
+
         try {
             jsonObject.put("day", getDay());
             jsonObject.put("map select", mapSelection);
             jsonObject.put("current location", currentLocation.getName());
             // Need to save for reaastaurant sales, waiting list..
-            
+
         } catch (JSONException ex) {
             System.out.println("Error in saving the game.");
         }
@@ -147,10 +153,10 @@ public class TheWorld {
         String json = jsonObject.toString();
 
         // Write the JSON string to a file
-        try (FileWriter writer = new FileWriter("loadGame.json")) {
+        try ( FileWriter writer = new FileWriter("loadGame.json")) {
             writer.write(json);
             System.out.println("Data written to the file successfully.");
-            
+
         } catch (IOException e) {
             System.out.println("Error in saving the game.");
         }
