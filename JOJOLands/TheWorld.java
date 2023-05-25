@@ -20,12 +20,15 @@ public class TheWorld {
     private final Scanner sc = new Scanner(System.in);
     private Graph map;
     private Location currentLocation;
-    private Stack<Location> history;
+    private final Stack<Location> backhistory = new Stack<>();
+    private final Stack<Location> forwardhistory = new Stack<>();
     private int day;
     private String mapSelection;
+    private boolean exit;
 
     public TheWorld() throws JSONException {
         welcome();
+        this.exit = false;
     }
 
     private void welcome() throws JSONException {
@@ -33,36 +36,44 @@ public class TheWorld {
         System.out.println("[1] Start Game");
         System.out.println("[2] Load Game");
         System.out.println("[3] Exit\n");
-        int select = getSelection();
+        String select = getSelection();
         System.out.println("=".repeat(70));
 
         switch (select) {
-            case 1 -> {
+            case "1" -> {
                 setMap(JSONReader.readMap(JSONReader.readJSON(selectMap())));
-                map.printGraph();
                 setCurrentLocation(map.getVertex("Town Hall"));
                 setDay(1);
                 start();
+                break;
             }
-            case 2 -> {
+            case "2" -> {
                 System.out.print("Enter the path of your save file: ");
                 sc.nextLine();
                 String savepath = sc.nextLine();
                 System.out.println("=".repeat(70));
+                break;
             }
-            case 3 -> {
+            case "3" -> {
                 return;
             }
             default -> {
                 System.out.println("Option " + select + " is not available. Please reselect.");
                 welcome();
+                break;
             }
         }
     }
 
     public void start() {
-        System.out.printf("It’s Day %d (%s) of our journey in JOJOLands!%n", getDay(), getDayOfWeek(getDay()));
-        System.out.println("Current Location: " + currentLocation.getName());
+        displayDay(getDay());
+        while (!exit) {
+            switch (this.currentLocation.getName()) {
+                case "Town Hall" :                                            
+                    TownHall.action(this);
+                    break;
+            }
+        }
     }
 
     public void setMap(Graph map) {
@@ -81,9 +92,13 @@ public class TheWorld {
         return day;
     }
 
-    public int getSelection() {
+    public Location getCurrentLocation() {
+        return currentLocation;
+    }
+
+    public String getSelection() {
         System.out.print("Select: ");
-        int select = sc.nextInt();
+        String select = sc.nextLine();
         return select;
     }
 
@@ -92,14 +107,14 @@ public class TheWorld {
         System.out.println("[1] Default Map");
         System.out.println("[2] Parallel Map");
         System.out.println("[3] Alternate Map\n");
-        int selection = getSelection();
-        String path = "C:/HON YAO ZHI/Data Structure/AssignmentJOJO/src/Map/";
+        String selection = getSelection();
+        String path = "C:/Users/ASUS/Documents/UM/SEM 2/WIA1002 DATA STRUCTURE/TestJojo/src/Map/";
         switch (selection) {
-            case 1:
+            case "1" ->
                 mapSelection = "DefaultMap.json";
-            case 2:
+            case "2" ->
                 mapSelection = "ParallelMap.json";
-            case 3:
+            case "3" ->
                 mapSelection = "AlternateMap.json";
         }
         path += mapSelection;
@@ -111,15 +126,20 @@ public class TheWorld {
         this.currentLocation = location;
     }
 
+    public void setExit(boolean exit) {
+        this.exit = exit;
+    }
+
     public void move(char selection) {
 
         ArrayList<Edge> edge = map.getEdge(currentLocation);
         setCurrentLocation(edge.get(selection - 'A').getTovertex());
+        System.out.println(edge.get(selection - 'A').getTovertex().getName());
     }
 
-    private void back() {
-        if (!history.isEmpty()) {
-            Location previousLocation = history.pop();
+    public void back() {
+        if (!backhistory.isEmpty()) {
+            Location previousLocation = backhistory.pop();
             System.out.println("Moving back to " + previousLocation.getName());
             setCurrentLocation(previousLocation);
         } else {
@@ -127,13 +147,32 @@ public class TheWorld {
         }
     }
 
-    private static String getDayOfWeek(int day) {
+    public void displayDay(int day) {
+
         String[] daysOfWeek = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
         int index = (day - 1) % 7;
-        return daysOfWeek[index];
+        System.out.printf("It’s Day %d (%s) of our journey in JOJOLands!%n", getDay(), daysOfWeek[index]);
     }
 
-    private void saveGame() {
+    protected void displayCurrentLocationOptions() {
+        System.out.print("[1] Move to:\n    ");
+        ArrayList<Edge> edges = map.getEdge(currentLocation);
+
+        if (edges.isEmpty()) {
+            System.out.println("There are no available destinations from this location.");
+            return;
+        }
+        char option = 'A';
+
+        for (Edge edge : edges) {
+            Location destination = edge.getTovertex();
+            System.out.print("[" + option + "] " + destination.getName() + "     ");
+            option++;
+        }
+        System.out.println("");
+    }
+
+    public void saveGame() {
 
         JSONObject jsonObject = new JSONObject();
 
