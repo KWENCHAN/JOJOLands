@@ -51,18 +51,13 @@ public class Graph {
             addVertex(destination);
         }
         map.get(source).add(new Edge(destination, source, weight));
+
         
-        // Check if the reverse edge already exists in the list
-        boolean reverseEdgeExists = edgeList.stream().anyMatch(e -> e.getSource().equals(destination) && e.getTovertex().equals(source));
-    
-        // Add the new edge only if the reverse edge doesn't exist
-        if (!reverseEdgeExists) {
+        if(source.getName().equals("Town Hall")){
+            edgeList.addFirst(new Edge(destination, source, weight));
             
-            if(source.getName().equals("Town Hall")){
-                edgeList.addFirst(new Edge(destination, source, weight));
-            } else{
-                edgeList.addLast(new Edge(destination, source, weight));
-            }
+        } else{
+            edgeList.addLast(new Edge(destination, source, weight));
         }
     }
 

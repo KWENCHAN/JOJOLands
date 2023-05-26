@@ -43,5 +43,8 @@ public class Edge implements Comparable<Edge>{
         return Integer.compare(weight, other.weight);
     }
     
+    public String toString(){
+        return source.getName() + " -> " + destination.getName();
+    }
     
 }

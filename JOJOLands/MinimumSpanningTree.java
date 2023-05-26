@@ -3,14 +3,12 @@ package JOJOLands;
 
 import Graph.Edge;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+
 
 public class MinimumSpanningTree {
     
@@ -32,11 +30,8 @@ public class MinimumSpanningTree {
         Map<String, String> edgeInHashMap = new HashMap<>();
 
         for (Edge e : edgeList) {
-            
             String edgeKey = e.getSource().getName() + "-" + e.getTovertex().getName();
-            String edgeKey2 = e.getTovertex().getName() + "-" + e.getSource().getName();
-            if(!edgeInHashMap.containsKey(edgeKey) && !edgeInHashMap.containsKey(edgeKey2))
-                edgeInHashMap.put(edgeKey, edgeKey);
+            edgeInHashMap.put(edgeKey, edgeKey);
         }
         
         return edgeInHashMap;
@@ -64,15 +59,15 @@ public class MinimumSpanningTree {
     public void calculateCost(LinkedList<Edge> edgeList) {
         
         int cost = 0;
+
         Collections.sort(edgeList);
         Map<String, String> parent = preprocessEdges(edgeList);
         List<Edge> result = new ArrayList<>();
-
+         
         for (Edge e : edgeList) {
             parent.put(e.getSource().getName(), e.getSource().getName());
             parent.put(e.getTovertex().getName(), e.getTovertex().getName());
         }
-
 
         for (Edge e : edgeList) {
             String rootU = findRoot(parent, e.getSource().getName());
@@ -95,61 +90,57 @@ public class MinimumSpanningTree {
         
         System.out.println("\nTotal length: " + cost + " km");
     }
-    
+
     public void calculateMaxPath(LinkedList<Edge> edgeList) {
         
         int cost = 0;
-        int counter = 0;
-        Edge[]edgeListTownHall = {edgeList.get(0), edgeList.get(1), edgeList.get(2)};
-        
-        for (int i = 0; i < 3; i++) {
-            edgeList.remove();
-        }
+        Map<String, String> parent = new HashMap<>();
+        List<Edge> result = new ArrayList<>();
 
-        Collections.sort(edgeList, Collections.reverseOrder());
-        
-        for (int i = 0; i < 3; i++) {
-            edgeList.addFirst(edgeListTownHall[i]);
-        }
-        
-//        for (int i = 0; i < edgeList.size(); i++) {
-//            System.out.println(edgeList.get(i).getSource().getName());
-//            
-//        }
-        
-        Map<String, String> parent = preprocessEdges(edgeList);
-        List<Edge> remainingEdges = new ArrayList<>();
+        // Find the edge connected to "Town Hall"
+        Edge townHallEdge = null;
 
         for (Edge e : edgeList) {
             parent.put(e.getSource().getName(), e.getSource().getName());
             parent.put(e.getTovertex().getName(), e.getTovertex().getName());
+
+            if (e.getSource().getName().equals("Town Hall") || e.getTovertex().getName().equals("Town Hall")) {
+                townHallEdge = e;
+            }
         }
 
+        // Add the edge connected to "Town Hall" as the first edge in the result list
+        if (townHallEdge != null) {
+            cost += townHallEdge.getWeight();
+            result.add(townHallEdge);
+            mergeTrees(parent, townHallEdge.getSource().getName(), townHallEdge.getTovertex().getName());
+        }
+
+        // Process the remaining edges in descending order of cost
+        Collections.sort(edgeList, Collections.reverseOrder());
+
         for (Edge e : edgeList) {
+            if (e == townHallEdge) {
+                continue; // Skip the edge connected to "Town Hall"
+            }
+
             String rootU = findRoot(parent, e.getSource().getName());
             String rootV = findRoot(parent, e.getTovertex().getName());
 
             if (!rootU.equals(rootV)) {
                 cost += e.getWeight();
+                result.add(e);
                 mergeTrees(parent, rootU, rootV);
-            } else {
-                if(!remainingEdges.contains(e)){
-                    remainingEdges.add(e);
-                    
-                }
             }
         }
-        
-        remainingEdges = sortResult(remainingEdges);
-        
-        System.out.println("Remaining edges (non-maximum):");
-        for (int i = 0; i < remainingEdges.size(); i++) {  
-            System.out.printf("%2d. %s --- %s (%d km)\n", i + 1, remainingEdges.get(i).getSource().getName(), remainingEdges.get(i).getTovertex().getName(), remainingEdges.get(i).getWeight());
-        }
-        
-        System.out.println("\nTotal length: " + cost + " km"+counter);
-    }
 
-    
-    
+        result = sortResult(result);
+        System.out.println("Necessary Power Cables to be Upgraded:");
+
+        for (int i = 0; i < result.size(); i++) {  
+            System.out.printf("%2d. %s --- %s (%d km)\n", i + 1, result.get(i).getSource().getName(), result.get(i).getTovertex().getName(), result.get(i).getWeight());
+        }
+
+        System.out.println("\nTotal length: " + cost + " km");
+    }
 }
