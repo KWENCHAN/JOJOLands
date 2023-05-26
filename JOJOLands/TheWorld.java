@@ -43,6 +43,8 @@ public class TheWorld {
             case "1" -> {
                 setMap(JSONReader.readMap(JSONReader.readJSON(selectMap())));
                 setCurrentLocation(map.getVertex("Town Hall"));
+                redHotChiliPepper();
+                theHand();
                 setDay(1);
                 start();
                 break;
@@ -108,7 +110,7 @@ public class TheWorld {
         System.out.println("[2] Parallel Map");
         System.out.println("[3] Alternate Map\n");
         String selection = getSelection();
-        String path = "C:/Users/ASUS/Documents/UM/SEM 2/WIA1002 DATA STRUCTURE/TestJojo/src/Map/";
+        String path = "C:/HON YAO ZHI/Data Structure/AssignmentJOJO/src/Map/";
         switch (selection) {
             case "1" ->
                 mapSelection = "DefaultMap.json";
@@ -197,5 +199,15 @@ public class TheWorld {
         } catch (IOException e) {
             System.out.println("Error in saving the game.");
         }
+    }
+    
+    public void redHotChiliPepper(){
+        MinimumSpanningTree mst = new MinimumSpanningTree();
+        mst.calculateCost(this.map.getEdgeList());
+    }
+    
+    public void theHand(){
+        MinimumSpanningTree mst = new MinimumSpanningTree();
+        mst.calculateMaxPath(this.map.getEdgeList());
     }
 }

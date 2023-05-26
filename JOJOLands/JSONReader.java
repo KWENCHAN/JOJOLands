@@ -72,7 +72,7 @@ public class JSONReader {
                 graph.addEdge(loc, edgeLoc, weight.getInt(i));
             }
         }
-
+        
         return graph;
     }
 

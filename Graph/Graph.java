@@ -8,6 +8,8 @@ package Graph;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Stack;
 
@@ -18,10 +20,12 @@ import java.util.Stack;
 
 public class Graph {
     private HashMap<Location, ArrayList<Edge>> map;
-    
+    private LinkedList<Edge> edgeList;
+
 
     public Graph() {
         this.map = new HashMap<>();
+        this.edgeList = new LinkedList<>();
     }
 
     public void addVertex(Location v) {
@@ -46,9 +50,22 @@ public class Graph {
         if (!map.containsKey(destination)) {
             addVertex(destination);
         }
-        map.get(source).add(new Edge(destination, weight));
-    }
+        map.get(source).add(new Edge(destination, source, weight));
+        
+        // Check if the reverse edge already exists in the list
+        boolean reverseEdgeExists = edgeList.stream().anyMatch(e -> e.getSource().equals(destination) && e.getTovertex().equals(source));
     
+        // Add the new edge only if the reverse edge doesn't exist
+        if (!reverseEdgeExists) {
+            
+            if(source.getName().equals("Town Hall")){
+                edgeList.addFirst(new Edge(destination, source, weight));
+            } else{
+                edgeList.addLast(new Edge(destination, source, weight));
+            }
+        }
+    }
+
     public ArrayList<Edge> getEdge(Location loc){
         if (map.containsKey(loc)) {
             return map.get(loc);
@@ -66,5 +83,8 @@ public class Graph {
         }
     }
 
+    public LinkedList<Edge> getEdgeList() {
+        return edgeList;
+    }
 }
 
