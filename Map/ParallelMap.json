@@ -44,7 +44,7 @@
         "edge": ["Cafe Deux Magots", "Trattoria Trussardi", "Vineyard", "Libeccio"]
     },
     "Vineyard": {
-        "weight": [3,2],
+        "weight": [3,3],
         "edge": ["Town Hall", "Libeccio"]
     },
     "Libeccio": {
