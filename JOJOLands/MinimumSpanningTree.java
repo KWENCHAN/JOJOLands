@@ -104,7 +104,7 @@ public class MinimumSpanningTree {
                 resultToRemain.add(e);
 
             } else {
-                result.put(key, e);;
+                result.put(key, e);
             }
         }
 
@@ -116,9 +116,7 @@ public class MinimumSpanningTree {
             result.remove(key);
         }
 
-        List<Edge> sortedResult = new ArrayList<>(result.values());
-        System.out.println(sortedResult.size() + " " + result.size());
-        
+        List<Edge> sortedResult = new ArrayList<>(result.values());      
         
         for (int i = 0; i < sortedResult.size(); i++) {
             String keyForward = sortedResult.get(i).getSource().getName() + " -- " + sortedResult.get(i).getTovertex().getName();
