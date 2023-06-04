@@ -5,6 +5,8 @@
 package ResidentsData;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -60,15 +62,23 @@ public class HeavenDoor {
     }
 
     public void sort() {
-        System.out.print("Enter the sorting order: ");
+        System.out.print("Enter the sorting order (Field Name (ASC/DESC)): ");
         String input_order = sc.nextLine();
         String[] sort_order = input_order.split(";");
-        for (String string : sort_order) {
-            String[] temp=string.split("\\s");
-            for (String string1 : temp) {
-                System.out.println(string1);
-            }
-            System.out.println(sort_order.length);
+
+        // Create a list of sort criteria
+        List<SortCriteria> criteriaList = new ArrayList<>();
+        for (String criteria : sort_order) {
+            String[] tokens = criteria.trim().split("\\s*\\(\\s*|\\s*\\)\\s*");
+            String field = tokens[0].split("\\(")[0].toLowerCase();
+            String sortOrder = tokens[1].toLowerCase();
+            criteriaList.add(new SortCriteria(field, sortOrder));
         }
+
+        // Sort the residentList based on the sorting criteria
+        Collections.sort(residentList, new ResidentComparator(criteriaList));
+
+        // Display the sorted resident information
+        viewResidentInfo();
     }
 }

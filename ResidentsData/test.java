@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class test {
     public static void main(String[] args) {
         ArrayList<Resident> temp=CSVreader.readResident("Vineyard");
-        HeavenDoor vine=new HeavenDoor("Morioh Grand Hotel");
+        HeavenDoor vine=new HeavenDoor("Vineyard");
         vine.viewResidentInfo();
         vine.viewResidentProfile();
         vine.sort();
