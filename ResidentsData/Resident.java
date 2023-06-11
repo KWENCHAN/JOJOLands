@@ -1,6 +1,7 @@
 package ResidentsData;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 public class Resident {
     private final String name;
@@ -8,7 +9,8 @@ public class Resident {
     private final String gender;
     private final String parents;
     private final Stand stand;
-    private final HashMap<String,String> orderHistory;
+    private final ArrayList<String> orderHistory=new ArrayList<>();
+    private final ArrayList<String> restaurantHistory=new ArrayList<>();
     
     public Resident(String name, String age, String gender, String parents) {
         this(name, age, gender, parents, null);
@@ -20,7 +22,6 @@ public class Resident {
         this.gender = gender;
         this.parents = parents;
         this.stand=stand;
-        this.orderHistory=new HashMap<>();
     }
 
     public String getName() {
@@ -46,14 +47,22 @@ public class Resident {
         return parents;
     }
     
-    public void addOrderHistory(String food,String restaurant){
-        orderHistory.put(food, restaurant);
+    public void addOrderHistory(String order){
+        this.orderHistory.add(order);
     }
     
-    public HashMap getOrderHistory(){
+    public void addRestaurantHistory(String restaurant){
+        this.restaurantHistory.add(restaurant);
+    }
+
+    public ArrayList<String> getOrderHistory() {
         return orderHistory;
     }
-    
+
+    public ArrayList<String> getRestaurantHistory() {
+        return restaurantHistory;
+    }
+
     @Override
     public String toString() {
         return "Name    : " + name + "\n" +
