@@ -8,11 +8,11 @@ package ResidentsData;
  *
  * @author ASUS
  */
-public class Vineyard extends HeavenDoor{
+public class Vineyard {
 
     public Vineyard() {
         super("Vineyard");
     }
-    
-    
+    //RandomFoodSelection randomFoodSelection = new RandomFoodSelection();
+
 }

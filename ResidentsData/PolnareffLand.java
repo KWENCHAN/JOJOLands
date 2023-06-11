@@ -8,7 +8,7 @@ package ResidentsData;
  *
  * @author ASUS
  */
-public class PolnareffLand extends HeavenDoor{
+public class PolnareffLand{
 
     public PolnareffLand() {
         super("Polnareff Land");
