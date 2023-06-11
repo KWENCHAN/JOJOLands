@@ -31,6 +31,11 @@ class Customer {
     public String getOrder() {
         return order;
     }
+    
+    @Override
+    public String toString(){
+        return String.format(getName());
+    }
 }
 
 class Restaurant {
@@ -166,7 +171,7 @@ class Restaurant {
     }
 
     private void processOrdersLibeccio() {
-        int dayNumber = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+        int dayNumber = 3;
         int currentIndex = dayNumber - 1;
 
         while (!waitingList.isEmpty()) {
@@ -206,5 +211,22 @@ class Restaurant {
         for (Customer customer : orderProcessingList) {
             System.out.println(customer.getName() + " - Age: " + customer.getAge() + " - Gender: " + customer.getGender() + " - Order: " + customer.getOrder());
         }
+    }
+    
+    public static void main(String[] args) {
+        HashMap<String,Double> menu = new HashMap<>();
+        menu.put("Sampling Matured Cheese Platter", 23.0);
+        menu.put("Spring Lobster Salad", 35.0);
+        menu.put("Spring Organic Omelette", 23.0);
+        menu.put("Truffle-flavoured Poultry Supreme", 34.0);
+        menu.put("White Asparagus", 26.0);
+        Restaurant r=new Restaurant("Jade Garden",menu);
+        r.addToWaitingList(new Customer("Jonathan",34,"Male","eateat"));
+        r.addToWaitingList(new Customer("Jonas",32,"Male","dunno"));
+        r.addToWaitingList(new Customer("Jeong",23,"Female","hungry"));
+        r.addToWaitingList(new Customer("Jaey",54,"Male","wat"));
+        r.processOrdersLibeccio();
+        System.out.println(r.waitingList);
+        System.out.println(r.orderProcessingList);
     }
 }

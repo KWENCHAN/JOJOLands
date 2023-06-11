@@ -4,16 +4,14 @@
  */
 package pearljam;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 public class CafeDeuxMagots extends PearlJam{
     
-    private Map<String, Double> menu;
-    
-    public CafeDeuxMagots(String name){
-        super(name);
-        this.menu = new HashMap<>();
+    public CafeDeuxMagots(){
+        super("Cafe Deux Magots");
         addToMenu("Sampling Matured Cheese Platter", 23);
         addToMenu("Spring Lobster Salad", 35);
         addToMenu("Spring Organic Omelette", 23);
@@ -21,11 +19,16 @@ public class CafeDeuxMagots extends PearlJam{
         addToMenu("White Asparagus", 26);
     }
     
-    public void addToMenu(String itemName, double price){
-        menu.put(itemName, price);
-    }
-    
-    public double getPrice(String itemName){
-        return menu.getOrDefault(itemName, 0.0);
+    public void processOrdersCafeDeuxMagots() {
+        List<Customer> sortedList = new ArrayList<>(waitingList);
+        sortedList.sort(Comparator.comparingInt(Customer::getAge));
+        
+        while (!sortedList.isEmpty()) {            
+            orderProcessingList.add(sortedList.remove(sortedList.size()-1));
+            if (sortedList.isEmpty()) {
+                break;
+            }
+            orderProcessingList.add(sortedList.remove(0));
+        }
     }
 }
