@@ -1,5 +1,6 @@
-import JojoLand.Restaurant;
-import pearljam.*;
+package ResidentsData;
+
+import pearljam.PearlJam;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -7,17 +8,17 @@ import java.util.Random;
 
 public class RandomFoodSelection {
 
-    private List<Restaurant> restaurants;
+    private List<PearlJam> restaurants;
     private Random random;
 
-    public RandomFoodSelection(List<Restaurant> restaurants) {
+    public RandomFoodSelection(List<PearlJam> restaurants) {
         this.restaurants = restaurants;
         random = new Random();
     }
 
     public String getRandomFoodItem() {
         // Select a random restaurant
-        Restaurant randomRestaurant = restaurants.get(random.nextInt(restaurants.size()));
+        PearlJam randomRestaurant = restaurants.get(random.nextInt(restaurants.size()));
 
         // Get the menu of the selected restaurant
         Map<String, Double> menu = randomRestaurant.getMenu();
@@ -31,14 +32,14 @@ public class RandomFoodSelection {
 
     public void performActions() {
         // Example usage
-        TrattoriaTrussardi trattoria = new TrattoriaTrussardi();
-        SavageGarden savageGarden = new SavageGarden();
-        Liberrio liberrio = new Liberrio("Liberrio");
-        Libeccio libeccio = new Libeccio();
-        JadeGarden jadeGarden = new JadeGarden();
-        CafeDeuxMagots cafeDeuxMagots = new CafeDeuxMagots();
+        PearlJam trattoria = new PearlJam("Trattoria Trussardi");
+        PearlJam savageGarden = new PearlJam("Savage Garden");
+        PearlJam liberrio = new PearlJam("Liberrio");
+        PearlJam libeccio = new PearlJam("Libeccio");
+        PearlJam jadeGarden = new PearlJam("Jade Garden");
+        PearlJam cafeDeuxMagots = new PearlJam("Cafe Deux Magots");
 
-        List<Restaurant> restaurants = new ArrayList<>();
+        List<PearlJam> restaurants = new ArrayList<>();
         restaurants.add(trattoria);
         restaurants.add(savageGarden);
         restaurants.add(liberrio);

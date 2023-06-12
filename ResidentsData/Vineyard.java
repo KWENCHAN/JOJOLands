@@ -8,7 +8,7 @@ package ResidentsData;
  *
  * @author ASUS
  */
-public class Vineyard {
+public class Vineyard extends HeavenDoor{
 
     public Vineyard() {
         super("Vineyard");

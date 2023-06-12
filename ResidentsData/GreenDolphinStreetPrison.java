@@ -8,7 +8,7 @@ package ResidentsData;
  *
  * @author ASUS
  */
-public class GreenDolphinStreetPrison {
+public class GreenDolphinStreetPrison extends HeavenDoor{
 
     public GreenDolphinStreetPrison() {
         super("Green Dolphin Street Prison");

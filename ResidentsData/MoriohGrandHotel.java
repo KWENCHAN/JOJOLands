@@ -8,7 +8,7 @@ package ResidentsData;
  *
  * @author ASUS
  */
-public class MoriohGrandHotel {
+public class MoriohGrandHotel extends HeavenDoor{
 
     public MoriohGrandHotel() {
         super("Morioh Grand Hotel");
