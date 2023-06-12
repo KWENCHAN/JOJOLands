@@ -8,7 +8,7 @@ package ResidentsData;
  *
  * @author ASUS
  */
-public class AngeloRock {
+public class AngeloRock extends HeavenDoor{
 
     public AngeloRock() {
         super("Angelo Rock");

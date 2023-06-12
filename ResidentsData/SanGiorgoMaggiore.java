@@ -8,7 +8,7 @@ package ResidentsData;
  *
  * @author ASUS
  */
-public class SanGiorgoMaggiore {
+public class SanGiorgoMaggiore extends HeavenDoor{
 
     public SanGiorgoMaggiore() {
         super("San Giorgo Maggiore");

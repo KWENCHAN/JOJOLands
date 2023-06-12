@@ -8,7 +8,7 @@ package ResidentsData;
  *
  * @author ASUS
  */
-public class DIOsMansion {
+public class DIOsMansion extends HeavenDoor{
 
     public DIOsMansion() {
         super("DIO's Mansion");
