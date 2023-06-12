@@ -12,11 +12,11 @@ public class CafeDeuxMagots extends PearlJam{
     
     public CafeDeuxMagots(){
         super("Cafe Deux Magots");
-        addToMenu("Sampling Matured Cheese Platter", 23);
-        addToMenu("Spring Lobster Salad", 35);
-        addToMenu("Spring Organic Omelette", 23);
-        addToMenu("Truffle-flavoured Poultry Supreme", 34);
-        addToMenu("White Asparagus", 26);
+        addToMenu("Sampling Matured Cheese Platter", 23.00);
+        addToMenu("Spring Lobster Salad", 35.00);
+        addToMenu("Spring Organic Omelette", 23.00);
+        addToMenu("Truffle-flavoured Poultry Supreme", 34.00);
+        addToMenu("White Asparagus", 26.00);
     }
     
     public void processOrdersCafeDeuxMagots() {

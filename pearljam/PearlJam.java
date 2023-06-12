@@ -42,7 +42,10 @@ public class PearlJam {
     public double getPrice(String itemName) {
         return menu.getOrDefault(itemName, 0.0);
     }
-    
+
+    public Map<String, Double> getMenu() {
+        return menu;
+    }
     public void displayWaitingList() {
         String format = "| %-2s | %-18s | %-3s | %-6s | %-35s |%n";
         System.out.println("Waiting List");

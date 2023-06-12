@@ -5,19 +5,17 @@
 package pearljam;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class JadeGarden extends PearlJam{
     
     public JadeGarden(){
         super("Jade Garden");
-        addToMenu("Braised Chicken in Black Bean Sauce", 15);
-        addToMenu("Braised Goose Web with Vermicelli", 21);
-        addToMenu("Deep-fried Hiroshima Oysters", 17);
-        addToMenu("Poached Tofu with Dried Shrimps", 12);
-        addToMenu("Scrambled Egg White with Milk", 10);
+        addToMenu("Braised Chicken in Black Bean Sauce", 15.00);
+        addToMenu("Braised Goose Web with Vermicelli", 21.00);
+        addToMenu("Deep-fried Hiroshima Oysters", 17.00);
+        addToMenu("Poached Tofu with Dried Shrimps", 12.00);
+        addToMenu("Scrambled Egg White with Milk", 10.00);
     }
     
     public List<Customer> sortOrder(List<Customer> waitingList){
