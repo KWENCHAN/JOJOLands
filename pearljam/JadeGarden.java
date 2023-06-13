@@ -6,12 +6,7 @@ package pearljam;
 
 import java.util.ArrayList;
 import java.util.List;
-<<<<<<< HEAD
 import java.util.Map;
-import java.util.jar.Attributes.Name;
-=======
->>>>>>> f18ba4fe35cdd7edbac1faba0293bfc56e3752e9
-
 import JOJOLands.Action;
 import JOJOLands.TheWorld;
 import ResidentsData.TheGoldenSpirit;

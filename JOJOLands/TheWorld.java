@@ -3,6 +3,7 @@ package JOJOLands;
 import Graph.Edge;
 import Graph.Graph;
 import Graph.Location;
+import ResidentsData.AngeloRock;
 import ResidentsData.JoestarMansion;
 import ResidentsData.MoriohGrandHotel;
 import pearljam.JadeGarden;
@@ -77,6 +78,8 @@ public class TheWorld {
         locationlist.put("Town Hall", new TownHall());
         locationlist.put("Jade Garden", new JadeGarden());
         locationlist.put("Joestar Mansion", new JoestarMansion());
+        locationlist.put("Morioh Grand Hotel", new MoriohGrandHotel());
+        locationlist.put("Angelo Rock", new AngeloRock());
         displayDay(getDay());
         while (!exit) {
             locationlist.get(this.currentLocation.getName()).action(this);

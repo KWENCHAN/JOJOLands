@@ -47,12 +47,6 @@ public class PearlJam {
         return menu.getOrDefault(itemName, 0.0);
     }
 
-<<<<<<< HEAD
-=======
-    public Map<String, Double> getMenu() {
-        return menu;
-    }
->>>>>>> f18ba4fe35cdd7edbac1faba0293bfc56e3752e9
     public void displayWaitingList() {
         String format = "| %-2s | %-18s | %-3s | %-6s | %-35s |%n";
         System.out.println("Waiting List");

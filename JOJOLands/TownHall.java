@@ -26,7 +26,7 @@ public class TownHall extends Location implements Action{
                 if ((loc_select - 'A' <= game.getMap().getEdge(game.getCurrentLocation()).size() - 1) && Character.isUpperCase(loc_select)) {
                     game.move(loc_select);
                 } else {
-                    System.out.println("Option "+select+" not available. Please reselect.");
+                    System.out.println("Option "+select+" is not available. Please reselect.");
                     action(game);
                 }
                 break;
@@ -44,7 +44,7 @@ public class TownHall extends Location implements Action{
                 } else if (game.getBackhistory().isEmpty() && game.getForwardhistory().isEmpty()) {
                     game.setExit(true);
                 } else {
-                    System.out.println("Option "+select+" not available. Please reselect.");
+                    System.out.println("Option "+select+" is not available. Please reselect.");
                 }
                 break;
             case '5':
@@ -69,12 +69,12 @@ public class TownHall extends Location implements Action{
         }
     }
 
-    private static void advanceToNextDay(TheWorld game) {
+    private void advanceToNextDay(TheWorld game) {
         game.setDay(game.getDay() + 1);
         game.displayDay(game.getDay());
     }
 
-    private static void displayMenu(TheWorld game) {
+    private void displayMenu(TheWorld game) {
         System.out.println("Current Location: " + game.getCurrentLocation().getName());
         game.displayCurrentLocationOptions();
         int i = 2;

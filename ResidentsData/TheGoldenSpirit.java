@@ -14,7 +14,8 @@ public class TheGoldenSpirit {
     private static HashMap<String, Resident> joestarMap = new HashMap<>();
 
     public static void getLCA() {
-        String[] residential = {"Morioh Grand Hotel", "Green Dolphin Street Prison", "San Giorgio Maggiore", "Polnareff Land", "Joestar Mansion", "Vineyard", "DIO's Mansion", "Angelo Rock"};
+        String[] residential = { "Morioh Grand Hotel", "Green Dolphin Street Prison", "San Giorgio Maggiore",
+                "Polnareff Land", "Joestar Mansion", "Vineyard", "DIO's Mansion", "Angelo Rock" };
         ArrayList<Resident> allResidents = new ArrayList<>();
         for (String res : residential) {
             allResidents.addAll(CSVreader.readResident(res));
@@ -23,8 +24,8 @@ public class TheGoldenSpirit {
         for (Resident resident : allResidents) {
             joestarMap.put(resident.getName(), resident);
         }
-        
-        //connect all the residents as a family tree
+
+        // connect all the residents as a family tree
         for (Resident resident : joestarMap.values()) {
             for (String parent : resident.getParents()) {
                 if (parent.equals("N/A")) {
@@ -34,25 +35,34 @@ public class TheGoldenSpirit {
                 if (prt != null) {
                     resident.addtoParentList(joestarMap.get(parent));
                 } else {
-                    resident.addtoParentList(new Resident(parent,null,null,new ArrayList<>()));
+                    resident.addtoParentList(new Resident(parent, null, null, new ArrayList<>()));
                 }
             }
         }
 
         Scanner input = new Scanner(System.in);
-        System.out.print("Enter the name of first Joestar: ");
-        Resident person1 = getJoestar(input.nextLine());
-        if (person1 == null) {
-            System.out.println("Invalid name for the first Joestar.");
-            return;
+        Resident person1 = null;
+        Resident person2 = null;
+        while (person1 == null) {
+            System.out.print("Enter the name of first Joestar: ");
+            person1 = getJoestar(input.nextLine());
+            if (person1 == null) {
+                System.out.println("Invalid name for the first Joestar.");
+                continue;
+            }
+            break;
         }
 
-        System.out.print("Enter the name of second Joestar: ");
-        Resident person2 = getJoestar(input.nextLine());
-        if (person2 == null) {
-            System.out.println("Invalid name for the second Joestar.");
-            return;
+        while (person2 == null) {
+            System.out.print("Enter the name of second Joestar: ");
+            person2 = getJoestar(input.nextLine());
+            if (person2 == null) {
+                System.out.println("Invalid name for the second Joestar.");
+                continue;
+            }
+            break;
         }
+
         System.out.println("==================================================================");
 
         List<ParentInfo> parentLine1 = findParentLine(person1);
