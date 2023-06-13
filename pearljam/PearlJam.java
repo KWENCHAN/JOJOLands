@@ -35,6 +35,10 @@ public class PearlJam {
         waitingList.add(customer);
     }
 
+    public Map<String, Double> getMenu() {
+        return menu;
+    }
+
     public void addToMenu(String itemName, double price) {
         menu.put(itemName, price);
     }
@@ -42,29 +46,53 @@ public class PearlJam {
     public double getPrice(String itemName) {
         return menu.getOrDefault(itemName, 0.0);
     }
-    
+
     public void displayWaitingList() {
         String format = "| %-2s | %-18s | %-3s | %-6s | %-35s |%n";
         System.out.println("Waiting List");
-        System.out.println("+" + "-".repeat(4) + "+" + "-".repeat(20) + "+" + "-".repeat(5) + "+" + "-".repeat(8) + "+" + "-".repeat(37) + "+");
+        System.out.println("+" + "-".repeat(4) + "+" + "-".repeat(20) + "+" + "-".repeat(5) + "+" + "-".repeat(8) + "+"
+                + "-".repeat(37) + "+");
         System.out.printf(format, "No", "Name", "Age", "Gender", "Order");
-        System.out.println("+" + "-".repeat(4) + "+" + "-".repeat(20) + "+" + "-".repeat(5) + "+" + "-".repeat(8) + "+" + "-".repeat(37) + "+");
+        System.out.println("+" + "-".repeat(4) + "+" + "-".repeat(20) + "+" + "-".repeat(5) + "+" + "-".repeat(8) + "+"
+                + "-".repeat(37) + "+");
         for (int i = 0; i < waitingList.size(); i++) {
-            System.out.printf(format, i + 1, waitingList.get(i).getName(), waitingList.get(i).getAge(), waitingList.get(i).getGender(), waitingList.get(i).getOrder());
+            System.out.printf(format, i + 1, waitingList.get(i).getName(), waitingList.get(i).getAge(),
+                    waitingList.get(i).getGender(), waitingList.get(i).getOrder());
         }
-        System.out.println("+" + "-".repeat(4) + "+" + "-".repeat(20) + "+" + "-".repeat(5) + "+" + "-".repeat(8) + "+" + "-".repeat(37) + "+");
+        System.out.println("+" + "-".repeat(4) + "+" + "-".repeat(20) + "+" + "-".repeat(5) + "+" + "-".repeat(8) + "+"
+                + "-".repeat(37) + "+\n");
     }
 
     public void displayOrderProcessingList() {
         String format = "| %-2s | %-18s | %-3s | %-6s | %-35s |%n";
         System.out.println("Order Processing List");
-        System.out.println("+" + "-".repeat(4) + "+" + "-".repeat(20) + "+" + "-".repeat(5) + "+" + "-".repeat(8) + "+" + "-".repeat(37) + "+");
+        System.out.println("+" + "-".repeat(4) + "+" + "-".repeat(20) + "+" + "-".repeat(5) + "+" + "-".repeat(8) + "+"
+                + "-".repeat(37) + "+");
         System.out.printf(format, "No", "Name", "Age", "Gender", "Order");
-        System.out.println("+" + "-".repeat(4) + "+" + "-".repeat(20) + "+" + "-".repeat(5) + "+" + "-".repeat(8) + "+" + "-".repeat(37) + "+");
+        System.out.println("+" + "-".repeat(4) + "+" + "-".repeat(20) + "+" + "-".repeat(5) + "+" + "-".repeat(8) + "+"
+                + "-".repeat(37) + "+");
         for (int i = 0; i < orderProcessingList.size(); i++) {
-            System.out.printf(format, i + 1, orderProcessingList.get(i).getName(), orderProcessingList.get(i).getAge(), orderProcessingList.get(i).getGender(), orderProcessingList.get(i).getOrder());
+            System.out.printf(format, i + 1, orderProcessingList.get(i).getName(), orderProcessingList.get(i).getAge(),
+                    orderProcessingList.get(i).getGender(), orderProcessingList.get(i).getOrder());
         }
-        System.out.println("+" + "-".repeat(4) + "+" + "-".repeat(20) + "+" + "-".repeat(5) + "+" + "-".repeat(8) + "+" + "-".repeat(37) + "+");
+        System.out.println("+" + "-".repeat(4) + "+" + "-".repeat(20) + "+" + "-".repeat(5) + "+" + "-".repeat(8) + "+"
+                + "-".repeat(37) + "+");
+        System.out.println("=".repeat(70));
     }
 
+    public void viewMenu() {
+        String header = "| %-2s | %-35s | %-5s |%n";
+        String format = "| %-2s | %-35s | %.2f |%n";
+        System.out.println("Restaurant: " + getName() + "\n");
+        System.out.println("Menu");
+        System.out.println("+" + "-".repeat(4) + "+" + "-".repeat(37) + "+" + "-".repeat(7) + "+");
+        System.out.printf(header, "No", "Food", "Price");
+        System.out.println("+" + "-".repeat(4) + "+" + "-".repeat(37) + "+" + "-".repeat(7) + "+");
+        int i = 1;
+        for (String food : menu.keySet()) {
+            System.out.printf(format, i++, food, menu.get(food));
+        }
+        System.out.println("+" + "-".repeat(4) + "+" + "-".repeat(37) + "+" + "-".repeat(7) + "+");
+        System.out.println("=".repeat(70));
+    }
 }

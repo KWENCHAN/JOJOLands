@@ -5,7 +5,6 @@ package Graph;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -22,7 +21,6 @@ public class Graph {
     private HashMap<Location, ArrayList<Edge>> map;
     private LinkedList<Edge> edgeList;
 
-
     public Graph() {
         this.map = new HashMap<>();
         this.edgeList = new LinkedList<>();
@@ -33,8 +31,8 @@ public class Graph {
             map.put(v, new ArrayList<>());
         }
     }
-    
-    public Location getVertex(String name){
+
+    public Location getVertex(String name) {
         for (Location location : map.keySet()) {
             if (location.getName().equals(name)) {
                 return location;
@@ -42,7 +40,7 @@ public class Graph {
         }
         return null;
     }
-    
+
     public void addEdge(Location source, Location destination, int weight) {
         if (!map.containsKey(source)) {
             addVertex(source);
@@ -52,22 +50,21 @@ public class Graph {
         }
         map.get(source).add(new Edge(destination, source, weight));
 
-        
-        if(source.getName().equals("Town Hall")){
+        if (source.getName().equals("Town Hall")) {
             edgeList.addFirst(new Edge(destination, source, weight));
-            
-        } else{
+
+        } else {
             edgeList.addLast(new Edge(destination, source, weight));
         }
     }
 
-    public ArrayList<Edge> getEdge(Location loc){
+    public ArrayList<Edge> getEdge(Location loc) {
         if (map.containsKey(loc)) {
             return map.get(loc);
         }
         return null;
     }
-    
+
     public void printGraph() {
         for (Location v : map.keySet()) {
             System.out.print(v.getName() + " --> ");
@@ -82,4 +79,3 @@ public class Graph {
         return edgeList;
     }
 }
-

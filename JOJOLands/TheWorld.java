@@ -3,9 +3,14 @@ package JOJOLands;
 import Graph.Edge;
 import Graph.Graph;
 import Graph.Location;
+import ResidentsData.JoestarMansion;
+import ResidentsData.MoriohGrandHotel;
+import pearljam.JadeGarden;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 import java.util.Stack;
 import org.json.JSONException;
@@ -19,6 +24,7 @@ public class TheWorld {
 
     private final Scanner sc = new Scanner(System.in);
     private Graph map;
+    private final HashMap<String, Action> locationlist = new HashMap<>();
     private Location currentLocation;
     private final Stack<Location> backhistory = new Stack<>();
     private final Stack<Location> forwardhistory = new Stack<>();
@@ -68,13 +74,12 @@ public class TheWorld {
     }
 
     public void start() {
+        locationlist.put("Town Hall", new TownHall());
+        locationlist.put("Jade Garden", new JadeGarden());
+        locationlist.put("Joestar Mansion", new JoestarMansion());
         displayDay(getDay());
         while (!exit) {
-            switch (this.currentLocation.getName()) {
-                case "Town Hall" :                                            
-                    TownHall.action(this);
-                    break;
-            }
+            locationlist.get(this.currentLocation.getName()).action(this);
         }
     }
 
@@ -104,13 +109,21 @@ public class TheWorld {
         return select;
     }
 
+    public Stack<Location> getBackhistory() {
+        return backhistory;
+    }
+
+    public Stack<Location> getForwardhistory() {
+        return forwardhistory;
+    }
+
     public String selectMap() {
         System.out.println("Select a map:");
         System.out.println("[1] Default Map");
         System.out.println("[2] Parallel Map");
         System.out.println("[3] Alternate Map\n");
         String selection = getSelection();
-        String path = "C:/HON YAO ZHI/Data Structure/AssignmentJOJO/src/Map/";
+        String path = "C:\\\\Users\\\\chank\\\\OneDrive\\\\Documents\\\\UM\\\\SEM 2\\\\WIA1002 DATA STRUCTURE\\\\TestJojo\\\\src\\\\Map\\\\";
         switch (selection) {
             case "1" ->
                 mapSelection = "DefaultMap.json";
@@ -118,6 +131,10 @@ public class TheWorld {
                 mapSelection = "ParallelMap.json";
             case "3" ->
                 mapSelection = "AlternateMap.json";
+            default -> {
+                System.out.println("Option " + selection + " is not available. Please reselect.");
+                selectMap();
+            }
         }
         path += mapSelection;
         System.out.println("=".repeat(70));
@@ -133,30 +150,48 @@ public class TheWorld {
     }
 
     public void move(char selection) {
-
+        backhistory.push(currentLocation);
         ArrayList<Edge> edge = map.getEdge(currentLocation);
         setCurrentLocation(edge.get(selection - 'A').getTovertex());
-        System.out.println(edge.get(selection - 'A').getTovertex().getName());
+        if (!forwardhistory.isEmpty()) {
+            if (currentLocation != forwardhistory.peek()) {
+                forwardhistory.clear();
+            }
+        }
     }
 
     public void back() {
         if (!backhistory.isEmpty()) {
+            forwardhistory.push(currentLocation);
             Location previousLocation = backhistory.pop();
             System.out.println("Moving back to " + previousLocation.getName());
             setCurrentLocation(previousLocation);
-        } else {
-            System.out.println("No previous location.");
         }
+    }
+
+    public void forward() {
+        if (!forwardhistory.isEmpty()) {
+            backhistory.push(currentLocation);
+            Location nextLocation = forwardhistory.pop();
+            System.out.println("Moving forward to " + nextLocation.getName());
+            setCurrentLocation(nextLocation);
+        }
+    }
+
+    public void backToTownHall() {
+        setCurrentLocation(getMap().getVertex("Town Hall"));
+        backhistory.clear();
+        forwardhistory.clear();
     }
 
     public void displayDay(int day) {
 
-        String[] daysOfWeek = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+        String[] daysOfWeek = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
         int index = (day - 1) % 7;
         System.out.printf("It’s Day %d (%s) of our journey in JOJOLands!%n", getDay(), daysOfWeek[index]);
     }
 
-    protected void displayCurrentLocationOptions() {
+    public void displayCurrentLocationOptions() {
         System.out.print("[1] Move to:\n    ");
         ArrayList<Edge> edges = map.getEdge(currentLocation);
 
@@ -192,7 +227,7 @@ public class TheWorld {
         String json = jsonObject.toString();
 
         // Write the JSON string to a file
-        try ( FileWriter writer = new FileWriter("loadGame.json")) {
+        try (FileWriter writer = new FileWriter("loadGame.json")) {
             writer.write(json);
             System.out.println("Data written to the file successfully.");
 
@@ -200,13 +235,13 @@ public class TheWorld {
             System.out.println("Error in saving the game.");
         }
     }
-    
-    public void redHotChiliPepper(){
+
+    public void redHotChiliPepper() {
         MinimumSpanningTree mst = new MinimumSpanningTree();
         mst.calculateCost(this.map.getEdgeList());
     }
-    
-    public void theHand(){
+
+    public void theHand() {
         MinimumSpanningTree mst = new MinimumSpanningTree();
         mst.calculateMaxPath(this.map.getEdgeList());
     }
