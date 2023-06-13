@@ -5,10 +5,12 @@
 package pearljam;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+<<<<<<< HEAD
 import java.util.Map;
 import java.util.jar.Attributes.Name;
+=======
+>>>>>>> f18ba4fe35cdd7edbac1faba0293bfc56e3752e9
 
 import JOJOLands.Action;
 import JOJOLands.TheWorld;
@@ -18,11 +20,11 @@ public class JadeGarden extends PearlJam implements Action{
 
     public JadeGarden() {
         super("Jade Garden");
-        addToMenu("Braised Chicken in Black Bean Sauce", 15);
-        addToMenu("Braised Goose Web with Vermicelli", 21);
-        addToMenu("Deep-fried Hiroshima Oysters", 17);
-        addToMenu("Poached Tofu with Dried Shrimps", 12);
-        addToMenu("Scrambled Egg White with Milk", 10);
+        addToMenu("Braised Chicken in Black Bean Sauce", 15.00);
+        addToMenu("Braised Goose Web with Vermicelli", 21.00);
+        addToMenu("Deep-fried Hiroshima Oysters", 17.00);
+        addToMenu("Poached Tofu with Dried Shrimps", 12.00);
+        addToMenu("Scrambled Egg White with Milk", 10.00);
     }
 
     public void action(TheWorld game) {

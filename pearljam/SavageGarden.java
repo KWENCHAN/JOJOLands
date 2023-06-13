@@ -5,19 +5,17 @@
 package pearljam;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class SavageGarden extends PearlJam {
 
     public SavageGarden() {
         super("Savage Garden");
-        addToMenu("Abbacchio's Tea", 1);
+        addToMenu("Abbacchio's Tea", 1.00);
         addToMenu("DIO's Bread", 36.14);
         addToMenu("Giorno's Donuts", 6.66);
-        addToMenu("Joseph's Tequila", 35);
-        addToMenu("Kakyoin's Cherry", 3.5);
+        addToMenu("Joseph's Tequila", 35.00);
+        addToMenu("Kakyoin's Cherry", 3.50);
         addToMenu("Kakyoin's Porridge", 4.44);
     }
 

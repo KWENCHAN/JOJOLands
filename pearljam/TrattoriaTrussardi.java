@@ -6,18 +6,16 @@ package pearljam;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class TrattoriaTrussardi extends PearlJam {
 
     public TrattoriaTrussardi() {
         super("Trattoria Trussardi");
-        addToMenu("Caprese Salad", 10);
-        addToMenu("Creme caramel", 6.5);
-        addToMenu("Lamb Chops with Apple Sauce", 25);
-        addToMenu("Spaghetti alla Puttanesca", 15);
+        addToMenu("Caprese Salad", 10.00);
+        addToMenu("Creme caramel", 6.50);
+        addToMenu("Lamb Chops with Apple Sauce", 25.00);
+        addToMenu("Spaghetti alla Puttanesca", 15.00);
     }
 
     public void processOrdersTrattoriaTrussardi() {

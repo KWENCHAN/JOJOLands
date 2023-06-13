@@ -5,21 +5,19 @@
 package pearljam;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Stack;
 
 public class Libeccio extends PearlJam {
 
     public Libeccio() {
         super("Libeccio");
-        addToMenu("Formaggio", 12.5);
+        addToMenu("Formaggio", 12.50);
         addToMenu("Ghiaccio", 1.01);
-        addToMenu("Melone", 5.2);
+        addToMenu("Melone", 5.20);
         addToMenu("Prosciutto and Pesci", 20.23);
         addToMenu("Risotto", 13.14);
-        addToMenu("Zucchero and Sale", 0.6);
+        addToMenu("Zucchero and Sale", 0.60);
     }
 
     public void processOrdersLibeccio(int dayNumber) {
