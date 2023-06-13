@@ -78,4 +78,24 @@ public class Graph {
     public LinkedList<Edge> getEdgeList() {
         return edgeList;
     }
+    
+    public List<String> getNeighbors(Location vertex){
+        
+        if (map.containsKey(vertex)) {
+            ArrayList<Edge> temp = map.get(vertex);
+            List<String> neighbors = new ArrayList<>();
+            
+            for (int i = 0; i < temp.size(); i++) {
+                neighbors.add(temp.get(i).getTovertex().getName());
+            }
+            return neighbors;
+        }
+        
+        System.out.println("No key");
+        return null;
+    }
+    
+    public boolean containsCity(String cityName){
+        return (this.getVertex(cityName) != null);
+    }
 }

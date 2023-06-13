@@ -18,7 +18,7 @@ public class CSVreader {
 
     public static ArrayList<Resident> readResident(String location) {
         try {
-            Scanner in = new Scanner(new FileInputStream("C:\\Users\\chank\\OneDrive\\Documents\\UM\\SEM 2\\WIA1002 DATA STRUCTURE\\TestJojo\\src\\ResidentsData\\residents.csv"));
+            Scanner in = new Scanner(new FileInputStream("C:\\HON YAO ZHI\\Data Structure\\AssignmentJoJo_toUploadGithub\\src\\ResidentsData\\residents.csv"));
             ArrayList<Resident> residentList = new ArrayList<>();
             while (in.hasNextLine()) {
                 String next = in.nextLine();
@@ -38,7 +38,7 @@ public class CSVreader {
 
     private static Stand readStand(String name) {
         try {
-            Scanner in = new Scanner(new FileInputStream("C:\\Users\\chank\\OneDrive\\Documents\\UM\\SEM 2\\WIA1002 DATA STRUCTURE\\TestJojo\\src\\ResidentsData\\stands.csv"));
+            Scanner in = new Scanner(new FileInputStream("C:\\HON YAO ZHI\\Data Structure\\AssignmentJoJo_toUploadGithub\\src\\ResidentsData\\stands.csv"));
             while (in.hasNextLine()) {
                 String next = in.nextLine();
                 if (next.contains(name)) {
