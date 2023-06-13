@@ -5,9 +5,18 @@ import Graph.Graph;
 import Graph.Location;
 import ResidentsData.AngeloRock;
 import ResidentsData.BurningDownTheHouse;
+import ResidentsData.DIOsMansion;
+import ResidentsData.GreenDolphinStreetPrison;
 import ResidentsData.JoestarMansion;
 import ResidentsData.MoriohGrandHotel;
+import ResidentsData.PolnareffLand;
+import ResidentsData.SanGiorgioMaggiore;
+import ResidentsData.Vineyard;
+import pearljam.CafeDeuxMagots;
 import pearljam.JadeGarden;
+import pearljam.Libeccio;
+import pearljam.SavageGarden;
+import pearljam.TrattoriaTrussardi;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -45,7 +54,6 @@ public class TheWorld {
         System.out.println("[2] Load Game");
         System.out.println("[3] Exit\n");
         String select = getSelection();
-        System.out.println("=".repeat(70));
 
         switch (select) {
             case "1" -> {
@@ -78,10 +86,21 @@ public class TheWorld {
 
     public void start() {
         locationlist.put("Town Hall", new TownHall());
+        
         locationlist.put("Jade Garden", new JadeGarden());
+        locationlist.put("Libeccio", new Libeccio());
+        locationlist.put("Savage Garden", new SavageGarden());
+        locationlist.put("Cafe Deux Magots", new CafeDeuxMagots());
+        locationlist.put("Trattoria Trussardi", new TrattoriaTrussardi());
+        
         locationlist.put("Joestar Mansion", new JoestarMansion());
         locationlist.put("Morioh Grand Hotel", new MoriohGrandHotel());
         locationlist.put("Angelo Rock", new AngeloRock());
+        locationlist.put("DIO's Mansion", new DIOsMansion());
+        locationlist.put("Green Dolphin Street Prison", new GreenDolphinStreetPrison());
+        locationlist.put("Polnareff Land", new PolnareffLand());
+        locationlist.put("San Giorgio Maggiore", new SanGiorgioMaggiore());
+        locationlist.put("Vineyard", new Vineyard());
         displayDay(getDay());
         while (!exit) {
             locationlist.get(this.currentLocation.getName()).action(this);
@@ -111,6 +130,7 @@ public class TheWorld {
     public String getSelection() {
         System.out.print("Select: ");
         String select = sc.nextLine();
+        System.out.println("=".repeat(70));
         return select;
     }
 
@@ -128,7 +148,7 @@ public class TheWorld {
         System.out.println("[2] Parallel Map");
         System.out.println("[3] Alternate Map\n");
         String selection = getSelection();
-        String path = "C:/HON YAO ZHI/Data Structure/AssignmentJOJO/src/Map/";
+        String path = "C:\\Users\\chank\\OneDrive\\Documents\\UM\\SEM 2\\WIA1002 DATA STRUCTURE\\JOJOLandsMaster\\Map\\";
         switch (selection) {
             case "1" ->
                 mapSelection = "DefaultMap.json";
@@ -142,7 +162,6 @@ public class TheWorld {
             }
         }
         path += mapSelection;
-        System.out.println("=".repeat(70));
         return path;
     }
 

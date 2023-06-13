@@ -82,7 +82,7 @@ public class PearlJam {
 
     public void viewMenu() {
         String header = "| %-2s | %-35s | %-5s |%n";
-        String format = "| %-2s | %-35s | %.2f |%n";
+        String format = "| %-2s | %-35s | %5.2f |%n";
         System.out.println("Restaurant: " + getName() + "\n");
         System.out.println("Menu");
         System.out.println("+" + "-".repeat(4) + "+" + "-".repeat(37) + "+" + "-".repeat(7) + "+");

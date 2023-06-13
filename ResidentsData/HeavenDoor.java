@@ -26,16 +26,16 @@ public class HeavenDoor {
         this.residentList = CSVreader.readResident(name);
     }
 
-    public void viewResidentInfo(TheWorld game) {
+    public void viewResidentInfo() {
         System.out.println("Resident Information in " + name);
         String border = "+%s+%s+%s+%s+%s+%s+%s+%s+%s+%s+%s%n";
-        String format = "| %2s | %-21s | %3s | %-6s | %-20s | %-17s | %-5s | %-5s | %-7s | %-9s | %-21s |%n";
-        System.out.printf(border, "-".repeat(4), "-".repeat(23), "-".repeat(5), "-".repeat(8), "-".repeat(22),
-                "-".repeat(19), "-".repeat(7), "-".repeat(7), "-".repeat(9), "-".repeat(11), "-".repeat(23) + "+");
+        String format = "| %2s | %-21s | %3s | %-6s | %-22s | %-17s | %-8s | %-8s | %-8s | %-9s | %-21s |%n";
+        System.out.printf(border, "-".repeat(4), "-".repeat(23), "-".repeat(5), "-".repeat(8), "-".repeat(24),
+                "-".repeat(19), "-".repeat(10), "-".repeat(10), "-".repeat(10), "-".repeat(11), "-".repeat(23) + "+");
         System.out.printf(format, "No", "Name", "Age", "Gender", "Stand", "Destructive Power", "Speed", "Range",
                 "Stamina", "Precision", "Development Potential");
-        System.out.printf(border, "-".repeat(4), "-".repeat(23), "-".repeat(5), "-".repeat(8), "-".repeat(22),
-                "-".repeat(19), "-".repeat(7), "-".repeat(7), "-".repeat(9), "-".repeat(11), "-".repeat(23) + "+");
+        System.out.printf(border, "-".repeat(4), "-".repeat(23), "-".repeat(5), "-".repeat(8), "-".repeat(24),
+                "-".repeat(19), "-".repeat(10), "-".repeat(10), "-".repeat(10), "-".repeat(11), "-".repeat(23) + "+");
         for (int i = 0; i < residentList.size(); i++) {
             Resident resident = residentList.get(i);
             Stand stand = resident.getStand();
@@ -48,8 +48,8 @@ public class HeavenDoor {
                         "N/A", "N/A", "N/A", "N/A", "N/A", "N/A");
             }
         }
-        System.out.printf(border, "-".repeat(4), "-".repeat(23), "-".repeat(5), "-".repeat(8), "-".repeat(22),
-                "-".repeat(19), "-".repeat(7), "-".repeat(7), "-".repeat(9), "-".repeat(11), "-".repeat(23) + "+\n");
+        System.out.printf(border, "-".repeat(4), "-".repeat(23), "-".repeat(5), "-".repeat(8), "-".repeat(24),
+                "-".repeat(19), "-".repeat(10), "-".repeat(10), "-".repeat(10), "-".repeat(11), "-".repeat(23) + "+");
 
         boolean exit = false;
         while (!exit) {
@@ -57,16 +57,21 @@ public class HeavenDoor {
             System.out.println("[2] Sort");
             System.out.println("[3] Exit\n");
 
-            switch (game.getSelection()) {
+            System.out.print("Select: ");
+            String select=sc.nextLine();
+            switch (select) {
                 case "1":
                     viewResidentProfile();
                     break;
                 case "2":
-                    sort(game);
+                    sort();
                     break;
                 case "3":
                     exit=true;
+                    System.out.println("=".repeat(70));
                     return;
+                default:
+                    System.out.println("");
             }
         }
     }
@@ -89,7 +94,7 @@ public class HeavenDoor {
         }
     }
 
-    public void sort(TheWorld game) {
+    public void sort() {
         System.out.print("Enter the sorting order (Field Name (ASC/DESC)): ");
         String input_order = sc.nextLine();
         String[] sort_order = input_order.split(";");
@@ -107,6 +112,6 @@ public class HeavenDoor {
         Collections.sort(residentList, new ResidentComparator(criteriaList));
 
         // Display the sorted resident information
-        viewResidentInfo(game);
+        viewResidentInfo();
     }
 }

@@ -25,7 +25,9 @@ public class JadeGarden extends PearlJam implements Action{
     public void action(TheWorld game) {
         displayMenu(game);
         String select = game.getSelection();
-        System.out.println("=".repeat(70));
+        if(select==""){
+            action(game);
+        }
         switch (select.charAt(0)) {
             case '1':
                 char loc_select = select.charAt(1);

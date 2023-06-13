@@ -21,7 +21,9 @@ public class AngeloRock extends HeavenDoor implements Action {
     public void action(TheWorld game) {
         displayMenu(game);
         String select = game.getSelection();
-        System.out.println("=".repeat(70));
+        if(select==""){
+            action(game);
+        }
         switch (select.charAt(0)) {
             case '1':
                 char loc_select = select.charAt(1);
@@ -34,7 +36,7 @@ public class AngeloRock extends HeavenDoor implements Action {
                 }
                 break;
             case '2':
-                viewResidentInfo(game);
+                viewResidentInfo();
                 break;
             case '3':
                 redHotChiliPepper(game);
