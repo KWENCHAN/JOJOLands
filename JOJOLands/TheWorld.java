@@ -4,6 +4,7 @@ import Graph.Edge;
 import Graph.Graph;
 import Graph.Location;
 import ResidentsData.AngeloRock;
+import ResidentsData.BurningDownTheHouse;
 import ResidentsData.JoestarMansion;
 import ResidentsData.MoriohGrandHotel;
 import pearljam.JadeGarden;
@@ -50,8 +51,9 @@ public class TheWorld {
             case "1" -> {
                 setMap(JSONReader.readMap(JSONReader.readJSON(selectMap())));
                 setCurrentLocation(map.getVertex("Town Hall"));
-                redHotChiliPepper();
-                theHand();
+//                redHotChiliPepper();
+//                theHand();
+                burningDownTheHouse("Town Hall");
                 setDay(1);
                 start();
                 break;
@@ -126,7 +128,7 @@ public class TheWorld {
         System.out.println("[2] Parallel Map");
         System.out.println("[3] Alternate Map\n");
         String selection = getSelection();
-        String path = "C:\\\\Users\\\\chank\\\\OneDrive\\\\Documents\\\\UM\\\\SEM 2\\\\WIA1002 DATA STRUCTURE\\\\TestJojo\\\\src\\\\Map\\\\";
+        String path = "C:/HON YAO ZHI/Data Structure/AssignmentJOJO/src/Map/";
         switch (selection) {
             case "1" ->
                 mapSelection = "DefaultMap.json";
@@ -247,5 +249,16 @@ public class TheWorld {
     public void theHand() {
         MinimumSpanningTree mst = new MinimumSpanningTree();
         mst.calculateMaxPath(this.map.getEdgeList());
+    }
+    
+    public void burningDownTheHouse(String cityName){
+        BurningDownTheHouse bdh = new BurningDownTheHouse();
+        
+        if(map.containsCity(cityName)){
+            bdh.breadthFirstTraversal(map, cityName);
+        }
+        else{
+            System.out.println("No such city in the map.");
+        }
     }
 }
