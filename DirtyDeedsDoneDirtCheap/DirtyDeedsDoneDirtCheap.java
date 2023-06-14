@@ -139,14 +139,14 @@ public class DirtyDeedsDoneDirtCheap{
 
     //method to find the shortest path (Dijkstra algorithm)
     public static List Dijkstra(String source, String destination){
-        Vertex sourceVertex = map.getVertex(source);
-        Vertex destinationVertex = map.getVertex(destination);
+        Graph.Vertex sourceVertex = map.getVertex(source);
+        Graph.Vertex destinationVertex = map.getVertex(destination);
 
         //reset the vertices in case some variables in the vertices have been changed
         map.resetVertices();
 
         //set distance of the source vertex to 0, since source to source = 0
-        sourceVertex.setDistance(0);
+        sourceVertex.setDistance();
 
         //use PriorityQueue to store unvisited vertices in ascending order of the distance from the source
         PriorityQueue<Vertex<String, Integer>> queue = new PriorityQueue<>(Comparator.comparingInt(vertex -> vertex.getDistance()));
@@ -161,11 +161,11 @@ public class DirtyDeedsDoneDirtCheap{
             //getting the neighbour vertices
             Edge<String, Integer> edge = vertex.firstEdge;
             while(edge!=null){
-                Vertex<String, Integer> neighbour = edge.toVertex;
+                Vertex<String, Integer> neighbour = edge.getToVertex();
 
                 //check if the neighbour vertex has been visited previously
                 if (!neighbour.hasVisited()) {
-                    int distance = vertex.getDistance() + edge.weight;  //summing up to distance from the source to the neighbour vertex
+                    int distance = vertex.getDistance() + edge.getWeight();  //summing up to distance from the source to the neighbour vertex
 
                     //if the new distance is shorter than the existing distance from the source
                     if(distance < neighbour.getDistance()){
@@ -176,7 +176,7 @@ public class DirtyDeedsDoneDirtCheap{
                         queue.add(neighbour);
                     }
                 }
-                edge  = edge.nextEdge;
+                edge  = edge.getNextEdge();
             }
         }
 
