@@ -63,7 +63,7 @@ class Graph<T extends Comparable<T>, N extends Comparable <N>> {
             return notFound;
         Vertex<T,N> sourceVertex = head;
         while (sourceVertex!=null){
-            if ( sourceVertex.vertexInfo.compareTo( source ) == 0 ){
+            if (sourceVertex.vertexInfo.equals(source)){
                 // Reached source vertex, look for destination now
                 Edge<T,N> currentEdge = sourceVertex.firstEdge;
                 while (currentEdge != null){
@@ -76,6 +76,10 @@ class Graph<T extends Comparable<T>, N extends Comparable <N>> {
             sourceVertex=sourceVertex.nextVertex;
         }
         return notFound;
+    }
+
+    public void resetEdgeWeight(String spurNode, String nextSpurNode, int maxValue) {
+
     }
 
 

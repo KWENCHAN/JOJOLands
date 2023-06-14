@@ -6,26 +6,28 @@ public class DirtyDeedsDoneDirtCheap{
 
     static Scanner sc = new Scanner(System.in);
     static Graph map = new Graph();
-    static List<String> locations;
+    static ArrayList locations;
 
     //constructor to initialize the list of locations
     public DirtyDeedsDoneDirtCheap(Graph map){
-        this.map = map;
-        locations = this.map.getAllVertexObjects();
+        DirtyDeedsDoneDirtCheap.map = map;
+        locations = DirtyDeedsDoneDirtCheap.map.getAllVertexObjects();
         System.out.println("Welcome to Dirty Deeds Done Dirt Cheap!");
-        System.out.println("Here, you'll be able to find the top three shortest path with their "
-                + "\nrespective total distance between a source and destination that you wish\n");
+        System.out.println("""
+                Here, you'll be able to find the top three shortest path with their\s
+                respective total distance between a source and destination that you wish
+                """);
         DirtyDeeds();
     }
 
     public static void DirtyDeeds(){
         System.out.println("List of locations: ");
         int i = 0;
-        for(String location : locations){
+        for(Object location : locations){
             System.out.printf("[%s] %s\n", i, location);
             i++;
         }
-        System.out.println("");
+        System.out.println();
 
         //get input from user
         System.out.print("Source: ");
@@ -96,7 +98,7 @@ public class DirtyDeedsDoneDirtCheap{
             boolean checker = false;
             for(List<String> path : potentialPaths){
                 for(List<String> paths : result){
-                    if(path.size() != paths.size() && !paths.containsAll(path)){
+                    if(path.size() != paths.size() && !new HashSet<>(paths).containsAll(path)){
                         result.add(path);
                         potentialPaths.remove(path);
                         checker = true;
@@ -136,7 +138,7 @@ public class DirtyDeedsDoneDirtCheap{
     }
 
     //method to find the shortest path (Dijkstra algorithm)
-    public static List<String> Dijkstra(String source, String destination){
+    public static List Dijkstra(String source, String destination){
         Vertex sourceVertex = map.getVertex(source);
         Vertex destinationVertex = map.getVertex(destination);
 
@@ -196,7 +198,7 @@ public class DirtyDeedsDoneDirtCheap{
             }
             num++;
         }
-        System.out.println("");
+        System.out.println();
         System.out.println("======================================================================");
 
         //ask if the user want to reenter the locations
