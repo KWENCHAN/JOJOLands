@@ -31,15 +31,15 @@ class Vertex<T extends Comparable<T>, N extends Comparable<N>> {
         return firstEdge;
     }
 
-    public boolean hasVisited() {
+    public boolean isVisited() {
         return false;
     }
 
-    public N getShortestPaths() {
+    public N getShortestPath() {
         return null;
     }
 
-    public void setShortestPaths() {
+    public void setShortestPath() {
 
     }
 }

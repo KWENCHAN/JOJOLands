@@ -1,6 +1,5 @@
 package DirtyDeedsDoneDirtCheap;
 
-import java.util.ArrayList;
 import java.util.List;
 
 class Graph<T extends Comparable<T>, N extends Comparable<N>> {
@@ -82,10 +81,6 @@ class Graph<T extends Comparable<T>, N extends Comparable<N>> {
         }
     }
 
-    public ArrayList getAllVertexObjects() {
-        return null;
-    }
-
     public static class Vertex<T extends Comparable<T>, N extends Comparable<N>> {
         T vertexInfo;
         Edge<T, N> firstEdge;
@@ -106,7 +101,7 @@ class Graph<T extends Comparable<T>, N extends Comparable<N>> {
         public void setShortestPaths() {
         }
 
-        public List getShortestPaths() {
+        public List<T> getShortestPath() {
             return null;
         }
     }

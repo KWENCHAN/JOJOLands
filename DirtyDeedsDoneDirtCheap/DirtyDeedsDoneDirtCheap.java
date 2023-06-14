@@ -2,213 +2,161 @@ package DirtyDeedsDoneDirtCheap;
 
 import java.util.*;
 
-public class DirtyDeedsDoneDirtCheap{
+public class DirtyDeedsDoneDirtCheap {
 
-    static Scanner sc = new Scanner(System.in);
-    static Graph map = new Graph();
-    static ArrayList locations;
+    private static final Scanner scanner = new Scanner(System.in);
+    private static Graph<String, Integer> map;
+    private static ArrayList locations;
 
-    //constructor to initialize the list of locations
-    public DirtyDeedsDoneDirtCheap(Graph map){
-        DirtyDeedsDoneDirtCheap.map = map;
-        locations = DirtyDeedsDoneDirtCheap.map.getAllVertexObjects();
-        System.out.println("Welcome to Dirty Deeds Done Dirt Cheap!");
-        System.out.println("""
-                Here, you'll be able to find the top three shortest path with their\s
-                respective total distance between a source and destination that you wish
-                """);
-        DirtyDeeds();
-    }
-
-    public static void DirtyDeeds(){
-        System.out.println("List of locations: ");
-        int i = 0;
-        for(Object location : locations){
-            System.out.printf("[%s] %s\n", i, location);
-            i++;
+    public static void dirtyDeeds() {
+        System.out.println("List of locations:");
+        for (int i = 0; i < locations.size(); i++) {
+            System.out.printf("[%d] %s%n", i, locations.get(i));
         }
         System.out.println();
 
-        //get input from user
         System.out.print("Source: ");
-        String source = sc.nextLine();
+        String source = scanner.nextLine();
         System.out.print("Destination: ");
-        String destination = sc.nextLine();
+        String destination = scanner.nextLine();
 
-            //ask if the user want to reenter the locations
-            System.out.print("Do you want to try again? [y/n]: ");
-            String s = sc.nextLine();
-            if(s.equals("y")){
-                System.out.println("======================================================================");
-                DirtyDeeds();
-            }else if(s.equals("n")){
-                System.out.println("======================================================================");
-                System.out.println("Returning back.....\n");
-            }
+        ThreeShortestPaths(source, destination);
+
+        System.out.println("======================================================================");
+        System.out.print("Do you want to try again? [y/n]: ");
+        String choice = scanner.nextLine();
+        if (choice.equalsIgnoreCase("y")) {
+            System.out.println("======================================================================");
+            dirtyDeeds();
+        } else if (choice.equalsIgnoreCase("n")) {
+            System.out.println("Returning back.....\n");
         }
+    }
 
     public static void ThreeShortestPaths(String source, String destination) {
         List<List<String>> result = new ArrayList<>();
         List<List<String>> potentialPaths = new ArrayList<>();
 
-        // Find the shortest path using Dijkstra's algorithm
         List<String> topShortestPath = Dijkstra(source, destination);
         topShortestPath.add(destination);
         result.add(topShortestPath);
 
-        for (int i = 1; i < 3; i++){
+        for (int i = 1; i < 3; i++) {
             List<String> previousPath = result.get(i - 1);
 
-            // Iterate over each edge in the previous path
             for (int j = 0; j < previousPath.size() - 1; j++) {
                 String spurNode = previousPath.get(j);
-                String nextSpurNode = previousPath.get(j+1);
+                String nextSpurNode = previousPath.get(j + 1);
                 List<String> rootPath = previousPath.subList(0, j + 1);
 
-                // Temporarily changing the edge weight between
-                int weight = (int) map.getEdgeWeight(spurNode, nextSpurNode);
+                int weight = map.getEdgeWeight(spurNode, nextSpurNode);
                 map.resetEdgeWeight(spurNode, nextSpurNode, Integer.MAX_VALUE);
 
-                // Find the shortest path from the spur node to the destination
                 List<String> spurPath = Dijkstra(spurNode, destination);
 
-                // Check if a spur path exists
                 if (!spurPath.isEmpty()) {
                     List<String> totalPath = new ArrayList<>(rootPath);
-                    List<String> temp = spurPath.subList(1, spurPath.size());
-                    totalPath.addAll(temp);
+                    totalPath.addAll(spurPath.subList(1, spurPath.size()));
                     totalPath.add(destination);
-                    // Add the potential path to the list
                     potentialPaths.add(totalPath);
                 }
 
-                // Restore back the edge weight
                 map.resetEdgeWeight(spurNode, nextSpurNode, weight);
             }
 
-            // Check if there are no potential paths
             if (potentialPaths.isEmpty()) {
                 break;
             }
 
-            // Sort the potential paths based on their total weight
             potentialPaths.sort(Comparator.comparingInt(DirtyDeedsDoneDirtCheap::calculatePathLength));
 
-            // Add the lowest weight potential path to the result
-            boolean checker = false;
-            for(List<String> path : potentialPaths){
-                for(List<String> paths : result){
-                    if(path.size() != paths.size() && !new HashSet<>(paths).containsAll(path)){
+            boolean added = false;
+            for (List<String> path : potentialPaths) {
+                for (List<String> existingPath : result) {
+                    if (path.size() != existingPath.size() && !new HashSet<>(existingPath).containsAll(path)) {
                         result.add(path);
                         potentialPaths.remove(path);
-                        checker = true;
+                        added = true;
                         break;
                     }
                 }
-                if(checker)
+                if (added) {
                     break;
+                }
             }
-
         }
 
-        // Sort the paths based on their total weight again
         result.sort(Comparator.comparingInt(DirtyDeedsDoneDirtCheap::calculatePathLength));
-
-        //get the length for the three paths
-        List<Integer> length = new ArrayList<>();
-        int totalLength = 0;
-        for(List<String> path : result){
-            totalLength = calculatePathLength(path);
-            length.add(totalLength);
-            totalLength = 0;
+        List<Integer> pathLengths = new ArrayList<>();
+        for (List<String> path : result) {
+            int length = calculatePathLength(path);
+            pathLengths.add(length);
         }
 
-        printPath(result, length);
+        printPath(result, pathLengths);
     }
 
-    //method to calculate the path length
     public static int calculatePathLength(List<String> path) {
         int length = 0;
         for (int i = 0; i < path.size() - 1; i++) {
             String source = path.get(i);
             String destination = path.get(i + 1);
-            length += (int) map.getEdgeWeight(source, destination);
+            length += map.getEdgeWeight(source, destination);
         }
         return length;
     }
 
-    //method to find the shortest path (Dijkstra algorithm)
-    public static List Dijkstra(String source, String destination){
-        Graph.Vertex sourceVertex = map.getVertex(source);
-        Graph.Vertex destinationVertex = map.getVertex(destination);
+    public static List<String> Dijkstra(String source, String destination) {
+        Graph.Vertex<String, Integer> sourceVertex = map.getVertex(source);
+        Graph.Vertex<String, Integer> destinationVertex = map.getVertex(destination);
 
-        //reset the vertices in case some variables in the vertices have been changed
         map.resetVertices();
-
-        //set distance of the source vertex to 0, since source to source = 0
         sourceVertex.setDistance();
+        PriorityQueue<Vertex<String, Integer>> queue = new PriorityQueue<>(Comparator.comparingInt(Vertex::getDistance));
 
-        //use PriorityQueue to store unvisited vertices in ascending order of the distance from the source
-        PriorityQueue<Vertex<String, Integer>> queue = new PriorityQueue<>(Comparator.comparingInt(vertex -> vertex.getDistance()));
-
-        while(!queue.isEmpty()){
-
-            //removing the first vertex from the queue
+        while (!queue.isEmpty()) {
             Vertex<String, Integer> vertex = queue.poll();
-            vertex.setVisited();    //mark the vertex as visited
+            vertex.setVisited();
 
-
-            //getting the neighbour vertices
             Edge<String, Integer> edge = vertex.getFirstEdge();
-            while(edge!=null){
+            while (edge != null) {
                 Vertex<String, Integer> neighbour = edge.getToVertex();
 
-                //check if the neighbour vertex has been visited previously
-                if (!neighbour.hasVisited()) {
-                    int distance = vertex.getDistance() + edge.getWeight();  //summing up to distance from the source to the neighbour vertex
-
-                    //if the new distance is shorter than the existing distance from the source
-                    if(distance < neighbour.getDistance()){
+                if (!neighbour.isVisited()) {
+                    int distance = vertex.getDistance() + edge.getWeight();
+                    if (distance < neighbour.getDistance()) {
                         neighbour.setDistance(distance);
-                        List<String> newPath = new ArrayList<>(vertex.getShortestPaths());
-                        newPath.add(vertex.getVertexInfo());     //append the neighbour vertex to the current vertex for each path
-                        neighbour.setShortestPaths();
+                        List<String> newPath = new ArrayList<>(vertex.getShortestPath());
+                        newPath.add(vertex.getVertexInfo());
+                        neighbour.setShortestPath();
                         queue.add(neighbour);
                     }
                 }
-                edge  = edge.getNextEdge();
+                edge = edge.getNextEdge();
             }
         }
 
-        //destinationVertex.getShortestPaths().add(destination);
-        return destinationVertex.getShortestPaths();
+        return destinationVertex.getShortestPath();
     }
 
-    //method to print the top three shortest paths
-    public static void printPath(List<List<String>> paths, List<Integer> weight){
-        System.out.println("Top Three Shortest paths: ");
-        int num = 1;
-        for(List<String> path : paths){
-            System.out.printf("%d. ", num);
-            for(int i = 0; i < path.size(); i++){
-                if(i==path.size()-1)
-                    System.out.printf("%s (%dkm)\n",path.get(i), weight.get(num-1));
-                else
-                    System.out.print(path.get(i) + " --- ");
+    public static void printPath(List<List<String>> paths, List<Integer> lengths) {
+        System.out.println("Top Three Shortest Paths:");
+        for (int i = 0; i < paths.size(); i++) {
+            System.out.printf("%d. ", i + 1);
+            List<String> path = paths.get(i);
+            for (int j = 0; j < path.size(); j++) {
+                if (j == path.size() - 1) {
+                    System.out.printf("%s (%dkm)%n", path.get(j), lengths.get(i));
+                } else {
+                    System.out.print(path.get(j) + " --- ");
+                }
             }
-            num++;
         }
         System.out.println();
         System.out.println("======================================================================");
-
-        //ask if the user want to reenter the locations
-        System.out.print("Do you want to try again? [y/n]: ");
-        String s = sc.nextLine();
-        if(s.equals("y")){
-            DirtyDeeds();
-        }else if(s.equals("n")){
-            System.out.println("Returning back.....\n");
-        }
     }
 
+    public static void setLocations(ArrayList locations) {
+        DirtyDeedsDoneDirtCheap.locations = locations;
+    }
 }
