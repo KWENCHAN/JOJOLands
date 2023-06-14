@@ -1,25 +1,15 @@
 package DirtyDeedsDoneDirtCheap;
 
-import java.util.ArrayList;
-import java.util.List;
+class Vertex<T extends Comparable<T>, N extends Comparable<N>> {
+    private final T vertexInfo;
+    private final Edge<T, N> firstEdge;
+    private int distance;
 
-class Vertex<T extends Comparable<T>, N extends Comparable <N>> {
-    T vertexInfo;
-    int deg;
-    Vertex<T,N> nextVertex;
-    Edge<T,N> firstEdge;
-    boolean visited;
-    int distance;   //distance to source
-    List<String> shortestPath; //a list of vertices that forms the shortest path (Dijkstra algorithm)
 
-    public Vertex(T vInfo, Vertex<T,N> next){
-        vertexInfo = vInfo;
-        deg = 0;
-        nextVertex = next;
-        firstEdge = null;
-        visited = false;
-        distance = Integer.MAX_VALUE;
-        shortestPath = new ArrayList<>();
+    public Vertex(T vertexInfo) {
+        this.vertexInfo = vertexInfo;
+        this.firstEdge = null;
+        this.distance = Integer.MAX_VALUE;
     }
 
     public int getDistance() {
@@ -30,20 +20,26 @@ class Vertex<T extends Comparable<T>, N extends Comparable <N>> {
         this.distance = distance;
     }
 
-    public List<String> getShortestPaths() {
-        return shortestPath;
+    public void setVisited() {
     }
 
-    public void setShortestPaths(List<String> path) {
-        this.shortestPath = path;
+    public T getVertexInfo() {
+        return vertexInfo;
     }
 
-    //check if the vertex has been visited previously
+    public Edge<T, N> getFirstEdge() {
+        return firstEdge;
+    }
+
     public boolean hasVisited() {
-        return visited;
+        return false;
     }
 
-    public void setVisited(boolean visited) {
-        this.visited = visited;
+    public N getShortestPaths() {
+        return null;
+    }
+
+    public void setShortestPaths() {
+
     }
 }

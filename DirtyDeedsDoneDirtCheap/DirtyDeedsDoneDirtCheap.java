@@ -155,11 +155,11 @@ public class DirtyDeedsDoneDirtCheap{
 
             //removing the first vertex from the queue
             Vertex<String, Integer> vertex = queue.poll();
-            vertex.setVisited(true);    //mark the vertex as visited
+            vertex.setVisited();    //mark the vertex as visited
 
 
             //getting the neighbour vertices
-            Edge<String, Integer> edge = vertex.firstEdge;
+            Edge<String, Integer> edge = vertex.getFirstEdge();
             while(edge!=null){
                 Vertex<String, Integer> neighbour = edge.getToVertex();
 
@@ -171,8 +171,8 @@ public class DirtyDeedsDoneDirtCheap{
                     if(distance < neighbour.getDistance()){
                         neighbour.setDistance(distance);
                         List<String> newPath = new ArrayList<>(vertex.getShortestPaths());
-                        newPath.add(vertex.vertexInfo);     //append the neighbour vertex to the current vertex for each path
-                        neighbour.setShortestPaths(newPath);
+                        newPath.add(vertex.getVertexInfo());     //append the neighbour vertex to the current vertex for each path
+                        neighbour.setShortestPaths();
                         queue.add(neighbour);
                     }
                 }
