@@ -3,9 +3,9 @@ package DirtyDeedsDoneDirtCheap;
 class Edge<T extends Comparable<T>, N extends Comparable<N>> {
     private final Vertex<T, N> toVertex;
     private final N weight;
-    private Edge<T, N> nextEdge;
+    private final Edge<T, N> nextEdge;
 
-    public Edge(Vertex<T, N> source, Vertex<T, N> destination, N weight, Edge<T, N> nextEdge) {
+    public Edge(Vertex<T, N> destination, N weight, Edge<T, N> nextEdge) {
         this.toVertex = destination;
         this.weight = weight;
         this.nextEdge = nextEdge;
