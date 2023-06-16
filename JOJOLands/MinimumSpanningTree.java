@@ -74,7 +74,7 @@ public class MinimumSpanningTree {
         System.out.println("Necessary Power Cables to be Upgraded:");
 
         for (int i = 0; i < result.size(); i++) {  
-            System.out.printf("%2d. %s --- %s (%d km)\n", i + 1, result.get(i).getSource().getName(), result.get(i).getTovertex().getName(), result.get(i).getWeight());
+            System.out.printf("%-2d. %s --- %s (%d km)\n", i + 1, result.get(i).getSource().getName(), result.get(i).getTovertex().getName(), result.get(i).getWeight());
         }
         
         System.out.println("\nTotal length: " + cost + " km");
@@ -136,7 +136,7 @@ public class MinimumSpanningTree {
             Edge edge = sortedResult.get(i);
             cost += edge.getWeight();
             String key = edge.getSource().getName() + " -- " + edge.getTovertex().getName();
-            System.out.printf("%2d. %s (%d km)\n", i + 1, key, edge.getWeight());
+            System.out.printf("%-2d. %s (%d km)\n", i + 1, key, edge.getWeight());
         }
 
     System.out.println("\nTotal length: " + cost + " km");

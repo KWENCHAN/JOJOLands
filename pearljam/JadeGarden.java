@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import JOJOLands.Action;
 import JOJOLands.TheWorld;
+import ResidentsData.Resident;
 import ResidentsData.TheGoldenSpirit;
 
 public class JadeGarden extends PearlJam implements Action{
@@ -41,6 +42,7 @@ public class JadeGarden extends PearlJam implements Action{
             case '2':
             System.out.println("Restaurant: "+getName()+"\n");
                 displayWaitingList();
+                processOrdersJadeGarden();
                 displayOrderProcessingList();
                 break;
             case '3':
@@ -85,36 +87,16 @@ public class JadeGarden extends PearlJam implements Action{
         }
     }
 
-    public List<Customer> sortOrder(List<Customer> waitingList) {
-        List<Customer> sortedList = new ArrayList<>();
-        int left = 0;
-        int right = waitingList.size() - 1;
-        while (left <= right) {
-            sortedList.add(waitingList.get(left));
-            if (left == right) {
-                break;
-            }
-            left += 1;
-
-            sortedList.add(waitingList.get(right));
-            if (left == right) {
-                break;
-            }
-            right -= 1;
-        }
-        return sortedList;
-    }
-
     public void processOrdersJadeGarden() {
         int start = 0;
         int end = waitingList.size() - 1;
 
         while (start < end) {
-            Customer firstCustomer = waitingList.get(start);
-            Customer lastCustomer = waitingList.get(end);
+            Resident firstResident = waitingList.get(start);
+            Resident lastResident = waitingList.get(end);
 
-            orderProcessingList.add(firstCustomer);
-            orderProcessingList.add(lastCustomer);
+            orderProcessingList.add(firstResident);
+            orderProcessingList.add(lastResident);
 
             start++;
             end--;

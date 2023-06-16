@@ -10,6 +10,7 @@ import java.util.Stack;
 
 import JOJOLands.Action;
 import JOJOLands.TheWorld;
+import ResidentsData.Resident;
 
 public class Libeccio extends PearlJam  implements Action{
 
@@ -88,11 +89,11 @@ public class Libeccio extends PearlJam  implements Action{
     }
 
     public void processOrdersLibeccio(int dayNumber) {
-        List<Customer> waitinglist_copy = new ArrayList<>(waitingList);
-        Stack<Customer> reverse = new Stack<>();
+        List<Resident> waitinglist_copy = new ArrayList<>(waitingList);
+        Stack<Resident> reverse = new Stack<>();
         int count = 1;
         while (!waitinglist_copy.isEmpty()) {
-            List<Customer> temp = new ArrayList<>();
+            List<Resident> temp = new ArrayList<>();
             for (int i = 0; i < waitinglist_copy.size(); i++) {
                 if (count % dayNumber == 0) {
                     reverse.push(waitinglist_copy.get(i));
@@ -100,7 +101,7 @@ public class Libeccio extends PearlJam  implements Action{
                 }
                 count++;
             }
-            for (Customer removed : temp) {
+            for (Resident removed : temp) {
                 waitinglist_copy.remove(removed);
             }
             temp.clear();

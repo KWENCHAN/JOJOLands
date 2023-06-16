@@ -33,7 +33,7 @@ public class TownHall extends Location implements Action{
                 }
                 break;
             case '2':
-                advanceToNextDay(game);
+                game.advanceToNextDay();
                 break;
             case '3':
                 game.saveGame();
@@ -71,10 +71,7 @@ public class TownHall extends Location implements Action{
         }
     }
 
-    private void advanceToNextDay(TheWorld game) {
-        game.setDay(game.getDay() + 1);
-        game.displayDay(game.getDay());
-    }
+    
 
     private void displayMenu(TheWorld game) {
         System.out.println("Current Location: " + game.getCurrentLocation().getName());

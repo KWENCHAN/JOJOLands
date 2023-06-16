@@ -48,10 +48,11 @@ public class ResidentComparator implements Comparator<Resident> {
         } else if (field.equalsIgnoreCase("stand")) {
             return compareStands(r1.getStand(), r2.getStand());
         } else if (field.equalsIgnoreCase("age")) {
-            return compareAges(r1.getAge(), r2.getAge());
+//            return compareAges(r1.getAge(), r2.getAge());
         } else {
             return 0; // No sorting for other fields
         }
+        return 0;
     }
 
     private int compareStandField(Stand s1, Stand s2, String field) {

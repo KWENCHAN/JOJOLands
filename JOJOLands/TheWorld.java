@@ -7,9 +7,12 @@ import ResidentsData.AngeloRock;
 import ResidentsData.BurningDownTheHouse;
 import ResidentsData.DIOsMansion;
 import ResidentsData.GreenDolphinStreetPrison;
+import ResidentsData.HeavenDoor;
 import ResidentsData.JoestarMansion;
 import ResidentsData.MoriohGrandHotel;
 import ResidentsData.PolnareffLand;
+import ResidentsData.RandomFoodSelection;
+import ResidentsData.Resident;
 import ResidentsData.SanGiorgioMaggiore;
 import ResidentsData.Vineyard;
 import pearljam.CafeDeuxMagots;
@@ -22,10 +25,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Stack;
 import org.json.JSONException;
 import org.json.JSONObject;
+import pearljam.PearlJam;
 
 /**
  *
@@ -61,7 +66,7 @@ public class TheWorld {
                 setCurrentLocation(map.getVertex("Town Hall"));
 //                redHotChiliPepper();
 //                theHand();
-                burningDownTheHouse("Town Hall");
+                burningDownTheHouse("Trattoria Trussardi");
                 setDay(1);
                 start();
                 break;
@@ -86,13 +91,13 @@ public class TheWorld {
 
     public void start() {
         locationlist.put("Town Hall", new TownHall());
-        
+
         locationlist.put("Jade Garden", new JadeGarden());
         locationlist.put("Libeccio", new Libeccio());
         locationlist.put("Savage Garden", new SavageGarden());
         locationlist.put("Cafe Deux Magots", new CafeDeuxMagots());
         locationlist.put("Trattoria Trussardi", new TrattoriaTrussardi());
-        
+
         locationlist.put("Joestar Mansion", new JoestarMansion());
         locationlist.put("Morioh Grand Hotel", new MoriohGrandHotel());
         locationlist.put("Angelo Rock", new AngeloRock());
@@ -102,6 +107,7 @@ public class TheWorld {
         locationlist.put("San Giorgio Maggiore", new SanGiorgioMaggiore());
         locationlist.put("Vineyard", new Vineyard());
         displayDay(getDay());
+        generateFood_clearWaitingList();
         while (!exit) {
             locationlist.get(this.currentLocation.getName()).action(this);
         }
@@ -170,6 +176,7 @@ public class TheWorld {
     }
 
     public void setExit(boolean exit) {
+        RandomFoodSelection.clearCSV();
         this.exit = exit;
     }
 
@@ -210,9 +217,44 @@ public class TheWorld {
 
     public void displayDay(int day) {
 
-        String[] daysOfWeek = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
+        String[] daysOfWeek = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
         int index = (day - 1) % 7;
         System.out.printf("It’s Day %d (%s) of our journey in JOJOLands!%n", getDay(), daysOfWeek[index]);
+    }
+
+    public void advanceToNextDay() {
+        setDay(getDay() + 1);
+        displayDay(getDay());
+        generateFood_clearWaitingList();
+    }
+
+    public void generateFood_clearWaitingList() {
+        List<PearlJam> restaurantList = new ArrayList<>();
+        List<HeavenDoor> residentialArea = new ArrayList<>();
+        restaurantList.add((PearlJam) locationlist.get("Cafe Deux Magots"));
+        restaurantList.add((PearlJam) locationlist.get("Libeccio"));
+        restaurantList.add((PearlJam) locationlist.get("Jade Garden"));
+        restaurantList.add((PearlJam) locationlist.get("Savage Garden"));
+        restaurantList.add((PearlJam) locationlist.get("Trattoria Trussardi"));
+
+        residentialArea.add((HeavenDoor) locationlist.get("Angelo Rock"));
+        residentialArea.add((HeavenDoor) locationlist.get("DIO's Mansion"));
+        residentialArea.add((HeavenDoor) locationlist.get("Green Dolphin Street Prison"));
+        residentialArea.add((HeavenDoor) locationlist.get("Joestar Mansion"));
+        residentialArea.add((HeavenDoor) locationlist.get("Morioh Grand Hotel"));
+        residentialArea.add((HeavenDoor) locationlist.get("Polnareff Land"));
+        residentialArea.add((HeavenDoor) locationlist.get("San Giorgio Maggiore"));
+        residentialArea.add((HeavenDoor) locationlist.get("Vineyard"));
+
+        for (PearlJam restaurant : restaurantList) {
+            restaurant.getWaitingList().clear();
+            restaurant.getOrderProcessingList().clear();
+        }
+
+        for (HeavenDoor resiArea : residentialArea) {
+            RandomFoodSelection.selectFood(resiArea.getResidentList(), restaurantList);
+        }
+        RandomFoodSelection.printSalesCSV(day, restaurantList);
     }
 
     public void displayCurrentLocationOptions() {
@@ -251,7 +293,7 @@ public class TheWorld {
         String json = jsonObject.toString();
 
         // Write the JSON string to a file
-        try (FileWriter writer = new FileWriter("loadGame.json")) {
+        try ( FileWriter writer = new FileWriter("loadGame.json")) {
             writer.write(json);
             System.out.println("Data written to the file successfully.");
 
@@ -269,14 +311,13 @@ public class TheWorld {
         MinimumSpanningTree mst = new MinimumSpanningTree();
         mst.calculateMaxPath(this.map.getEdgeList());
     }
-    
-    public void burningDownTheHouse(String cityName){
+
+    public void burningDownTheHouse(String cityName) {
         BurningDownTheHouse bdh = new BurningDownTheHouse();
-        
-        if(map.containsCity(cityName)){
+
+        if (map.containsCity(cityName)) {
             bdh.breadthFirstTraversal(map, cityName);
-        }
-        else{
+        } else {
             System.out.println("No such city in the map.");
         }
     }

@@ -10,8 +10,10 @@ import java.util.List;
 
 import JOJOLands.Action;
 import JOJOLands.TheWorld;
+import ResidentsData.Resident;
+import java.util.LinkedList;
 
-public class TrattoriaTrussardi extends PearlJam implements Action{
+public class TrattoriaTrussardi extends PearlJam implements Action {
 
     public TrattoriaTrussardi() {
         super("Trattoria Trussardi");
@@ -24,7 +26,7 @@ public class TrattoriaTrussardi extends PearlJam implements Action{
     public void action(TheWorld game) {
         displayMenu(game);
         String select = game.getSelection();
-        if(select==""){
+        if (select == "") {
             action(game);
         }
         switch (select.charAt(0)) {
@@ -41,6 +43,7 @@ public class TrattoriaTrussardi extends PearlJam implements Action{
             case '2':
                 System.out.println("Restaurant: " + getName() + "\n");
                 displayWaitingList();
+                processOrdersTrattoriaTrussardi();
                 displayOrderProcessingList();
                 break;
             case '3':
@@ -86,27 +89,39 @@ public class TrattoriaTrussardi extends PearlJam implements Action{
     }
 
     public void processOrdersTrattoriaTrussardi() {
-        List<Customer> males = new ArrayList<>();
-        List<Customer> females = new ArrayList<>();
-        List<Customer> unspecified = new ArrayList<>();
+        List<Resident> males = new ArrayList<>();
+        List<Resident> females = new ArrayList<>();
+        List<Resident> unspecified_male = new ArrayList<>();
+        List<Resident> unspecified_female = new ArrayList<>();
+        List<Resident> copyOfwaiting = new LinkedList<>(waitingList);
 
-        for (Customer customer : waitingList) {
-            String gender = customer.getGender();
+        for (Resident resident : copyOfwaiting) {
+            if (resident.getAge().equals("N/A")) {
+                if (resident.getGender().equals("Male")) {
+                    unspecified_male.add(resident);
+                } else {
+                    unspecified_female.add(resident);
+                }
+            }
+        }
+        copyOfwaiting.removeAll(unspecified_male);
+        copyOfwaiting.removeAll(unspecified_female);
+
+        for (Resident resident : copyOfwaiting) {
+            String gender = resident.getGender();
             if (gender.equals("Male")) {
-                males.add(customer);
-            } else if (gender.equals("Female")) {
-                females.add(customer);
+                males.add(resident);
             } else {
-                unspecified.add(customer);
+                females.add(resident);
             }
         }
 
-        males.sort(Comparator.comparingInt(Customer::getAge));
-        females.sort(Comparator.comparingInt(Customer::getAge).reversed());
+        males.sort(Comparator.comparingInt(resident -> Integer.parseInt(resident.getAge())));
+        females.sort(Comparator.comparingInt(resident -> Integer.parseInt(resident.getAge())));
 
         while (!males.isEmpty() && !females.isEmpty()) {
             orderProcessingList.add(males.remove(0));
-            orderProcessingList.add(females.remove(0));
+            orderProcessingList.add(females.remove(females.size()-1));
             if (males.isEmpty() || females.isEmpty()) {
                 break;
             }
@@ -116,7 +131,8 @@ public class TrattoriaTrussardi extends PearlJam implements Action{
 
         orderProcessingList.addAll(males);
         orderProcessingList.addAll(females);
-        orderProcessingList.addAll(unspecified);
+        orderProcessingList.addAll(unspecified_male);
+        orderProcessingList.addAll(unspecified_female);
     }
 
     public static void displayMenu(TheWorld game) {

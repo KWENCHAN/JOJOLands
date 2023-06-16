@@ -6,6 +6,7 @@ package ResidentsData;
 
 import JOJOLands.Action;
 import JOJOLands.TheWorld;
+import java.util.Scanner;
 
 /**
  *
@@ -37,7 +38,7 @@ public class GreenDolphinStreetPrison extends HeavenDoor implements Action{
                 viewResidentInfo();
                 break;
             case '3':
-                TheGoldenSpirit.getLCA();
+                burningDownTheHouse(game);
                 break;
             case '4':
                 if (!game.getBackhistory().isEmpty()) {
@@ -77,7 +78,7 @@ public class GreenDolphinStreetPrison extends HeavenDoor implements Action{
         System.out.println("Current Location: " + game.getCurrentLocation().getName());
         game.displayCurrentLocationOptions();
         System.out.printf("[%d] View Resident Information%n", i++);
-        System.out.printf("[%d] The Golden Spirit%n", i++);
+        System.out.printf("[%d] Burning Down the House%n", i++);
         if (!game.getBackhistory().isEmpty()) {
             System.out.printf("[%d] Back (%s)%n", i++, game.getBackhistory().peek().getName());
         }
@@ -85,5 +86,17 @@ public class GreenDolphinStreetPrison extends HeavenDoor implements Action{
             System.out.printf("[%d] Forward (%s)%n", i++, game.getForwardhistory().peek().getName());
         }
         System.out.printf("[%d] Back to Town Hall%n%n", i++);
+    }
+    
+    public void burningDownTheHouse(TheWorld game) {
+        BurningDownTheHouse bdh = new BurningDownTheHouse();
+        Scanner sc=new Scanner(System.in);
+        System.out.print("Enter location of Emporio: ");
+        String cityName=sc.nextLine();
+        if (game.getMap().containsCity(cityName)) {
+            bdh.breadthFirstTraversal(game.getMap(), cityName);
+        } else {
+            System.out.println("No such city in the map.");
+        }
     }
 }

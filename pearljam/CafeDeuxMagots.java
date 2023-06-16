@@ -10,10 +10,12 @@ import java.util.List;
 
 import JOJOLands.Action;
 import JOJOLands.TheWorld;
+import ResidentsData.Resident;
+import java.util.LinkedList;
 
-public class CafeDeuxMagots extends PearlJam implements Action{
-    
-    public CafeDeuxMagots(){
+public class CafeDeuxMagots extends PearlJam implements Action {
+
+    public CafeDeuxMagots() {
         super("Cafe Deux Magots");
         addToMenu("Sampling Matured Cheese Platter", 23.00);
         addToMenu("Spring Lobster Salad", 35.00);
@@ -21,11 +23,11 @@ public class CafeDeuxMagots extends PearlJam implements Action{
         addToMenu("Truffle-flavoured Poultry Supreme", 34.00);
         addToMenu("White Asparagus", 26.00);
     }
-    
+
     public void action(TheWorld game) {
         displayMenu(game);
         String select = game.getSelection();
-        if(select==""){
+        if (select == "") {
             action(game);
         }
         switch (select.charAt(0)) {
@@ -42,13 +44,14 @@ public class CafeDeuxMagots extends PearlJam implements Action{
             case '2':
                 System.out.println("Restaurant: " + getName() + "\n");
                 displayWaitingList();
+                processOrdersCafeDeuxMagots();
                 displayOrderProcessingList();
                 break;
             case '3':
                 viewMenu();
                 break;
             case '4':
-                // view sales info
+                MoodyBlues.action(this);
                 break;
             case '5':
                 // Milagro Man
@@ -87,19 +90,27 @@ public class CafeDeuxMagots extends PearlJam implements Action{
     }
 
     public void processOrdersCafeDeuxMagots() {
-        List<Customer> sortedList = new ArrayList<>(waitingList);
-        sortedList.sort(Comparator.comparingInt(Customer::getAge));
-        
-        while (!sortedList.isEmpty()) {            
-            orderProcessingList.add(sortedList.remove(sortedList.size()-1));
+        List<Resident> sortedList = new LinkedList<>(waitingList);
+        List<Resident> NAList = new ArrayList<>();
+        for (Resident resident : sortedList) {
+            if (resident.getAge().equals("N/A")) {
+                NAList.add(resident);
+            }
+        }
+        sortedList.removeAll(NAList);
+        sortedList.sort(Comparator.comparing(Resident::getAge));
+
+        while (!sortedList.isEmpty()) {
+            orderProcessingList.add(sortedList.remove(sortedList.size() - 1));
             if (sortedList.isEmpty()) {
                 break;
             }
             orderProcessingList.add(sortedList.remove(0));
         }
+        orderProcessingList.addAll(NAList);
     }
 
-    public static void displayMenu(TheWorld game) {
+    public void displayMenu(TheWorld game) {
         int i = 2;
         System.out.println("Current Location: " + game.getCurrentLocation().getName());
         game.displayCurrentLocationOptions();

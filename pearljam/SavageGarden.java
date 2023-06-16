@@ -9,6 +9,7 @@ import java.util.List;
 
 import JOJOLands.Action;
 import JOJOLands.TheWorld;
+import ResidentsData.Resident;
 
 public class SavageGarden extends PearlJam implements Action {
 
@@ -42,6 +43,7 @@ public class SavageGarden extends PearlJam implements Action {
             case '2':
                 System.out.println("Restaurant: " + getName() + "\n");
                 displayWaitingList();
+                processOrdersSavageGarden(game.getDay());
                 displayOrderProcessingList();
                 break;
             case '3':
@@ -87,20 +89,20 @@ public class SavageGarden extends PearlJam implements Action {
     }
 
     public void processOrdersSavageGarden(int dayNumber) {
-        List<Customer> waitinglist_copy = new ArrayList<>(waitingList);
+        List<Resident> waitinglist_copy = new ArrayList<>(waitingList);
         int count = 1;
         while (!waitinglist_copy.isEmpty()) {
-            List<Customer> temp = new ArrayList<>();
+            List<Resident> temp = new ArrayList<>();
             for (int i = 0; i < waitinglist_copy.size(); i++) {
                 if (count == dayNumber) {
-                    Customer matched = waitinglist_copy.get(i);
+                    Resident matched = waitinglist_copy.get(i);
                     orderProcessingList.add(matched);
                     temp.add(matched);
                     count = 0;
                 }
                 count++;
             }
-            for (Customer removed : temp) {
+            for (Resident removed : temp) {
                 waitinglist_copy.remove(removed);
             }
             temp.clear();
@@ -113,7 +115,7 @@ public class SavageGarden extends PearlJam implements Action {
                 }
                 count++;
             }
-            for (Customer removed : temp) {
+            for (Resident removed : temp) {
                 waitinglist_copy.remove(removed);
             }
             temp.clear();

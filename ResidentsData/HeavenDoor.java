@@ -84,6 +84,7 @@ public class HeavenDoor {
             for (Resident resident : residentList) {
                 if (resident.getName().equals(resident_name)) {
                     System.out.println(resident);
+                    resident.viewOrderHistory();
                     getName = true;
                     break;
                 }
@@ -92,6 +93,10 @@ public class HeavenDoor {
                 System.out.println(resident_name + " is not exist. Please reenter a name.");
             }
         }
+    }
+
+    public ArrayList<Resident> getResidentList() {
+        return residentList;
     }
 
     public void sort() {
