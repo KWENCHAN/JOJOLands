@@ -13,7 +13,7 @@
     },
     "Trattoria Trussardi": {
         "weight": [5,4,1],
-        "edge": ["Joestar Mansion", "Green Dolphin Street Prison", "Passione Restaurant"]
+        "edge": ["Joestar Mansion", "Green Dolphin Street Prison", "Libeccio"]
     },
     "Green Dolphin Street Prison": {
         "weight": [2,3,4],
@@ -21,15 +21,15 @@
     },
     "Town Hall": {
         "weight": [2,3,7],
-        "edge": ["Morioh Grand Hotel", "Green Dolphin Street Prison", "Passione Restaurant"]
+        "edge": ["Morioh Grand Hotel", "Green Dolphin Street Prison", "Libeccio"]
     },
-    "Passione Restaurant": {
+    "Libeccio": {
         "weight": [7,1,6,2,4],
         "edge": ["Town Hall", "Trattoria Trussardi", "Angelo Rock", "DIO's Mansion", "Cafe Deux Magots"]
     },
     "Angelo Rock": {
         "weight": [6,2,1],
-        "edge": ["Passione Restaurant", "Polnareff Land","Jade Garden"]
+        "edge": ["Libeccio", "Polnareff Land","Jade Garden"]
     },
     "Jade Garden": {
         "weight": [1, 2],
@@ -41,11 +41,11 @@
     },
     "DIO's Mansion": {
         "weight": [1,2,2],
-        "edge": ["Cafe Deux Magots", "Passione Restaurant", "Polnareff Land"]
+        "edge": ["Cafe Deux Magots", "Libeccio", "Polnareff Land"]
     },
     "Cafe Deux Magots": {
         "weight": [4, 4, 1],
-        "edge": ["Vineyard", "Passione Restaurant", "DIO's Mansion"]
+        "edge": ["Vineyard", "Libeccio", "DIO's Mansion"]
     },
     "Vineyard": {
         "weight": [4,4],
