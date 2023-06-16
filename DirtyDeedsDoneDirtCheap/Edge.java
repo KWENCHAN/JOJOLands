@@ -1,24 +1,27 @@
 package DirtyDeedsDoneDirtCheap;
 
-class Edge<T extends Comparable<T>, N extends Comparable <N>> {
+class Edge<T extends Comparable<T>, N extends Comparable<N>> {
+    private final Vertex<T, N> toVertex;
+    private final N weight;
+    private final Edge<T, N> nextEdge;
 
-    Vertex<T, N> toVertex;
-    Vertex<T, N> fromVertex;
-    N weight;
-    Edge<T, N> nextEdge;
-
-    public Edge(Vertex<T, N> source, Vertex<T, N> destination, N w, Edge<T, N> a) {
-        fromVertex = source;
-        toVertex = destination;
-        weight = w;
-        nextEdge = a;
+    public Edge(Vertex<T, N> destination, N weight, Edge<T, N> nextEdge) {
+        this.toVertex = destination;
+        this.weight = weight;
+        this.nextEdge = nextEdge;
     }
 
     public N getWeight() {
         return weight;
     }
 
-    public void setWeight(N weight) {
-        this.weight = weight;
+    public Vertex<T, N> getToVertex() {
+        return toVertex;
     }
+
+    public Edge<T, N> getNextEdge() {
+        return nextEdge;
+    }
+
 }
+
