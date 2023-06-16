@@ -45,7 +45,7 @@ public class TheWorld {
     private final Stack<Location> backhistory = new Stack<>();
     private final Stack<Location> forwardhistory = new Stack<>();
     private int day;
-    private String mapSelection;
+    private String mapSelectionPath;
     private boolean exit;
 
     public TheWorld() throws JSONException {
@@ -64,18 +64,18 @@ public class TheWorld {
             case "1" -> {
                 setMap(JSONReader.readMap(JSONReader.readJSON(selectMap())));
                 setCurrentLocation(map.getVertex("Town Hall"));
-//                redHotChiliPepper();
-//                theHand();
-                burningDownTheHouse("Trattoria Trussardi");
+                //burningDownTheHouse("Trattoria Trussardi");
                 setDay(1);
                 start();
                 break;
             }
             case "2" -> {
                 System.out.print("Enter the path of your save file: ");
-                sc.nextLine();
+                //“C:\\HON YAO ZHI\\Data Structure\\AssignmentJOJO\\loadGame.JSON”
                 String savepath = sc.nextLine();
+                loadGame(savepath);
                 System.out.println("=".repeat(70));
+                start();
                 break;
             }
             case "3" -> {
@@ -154,20 +154,20 @@ public class TheWorld {
         System.out.println("[2] Parallel Map");
         System.out.println("[3] Alternate Map\n");
         String selection = getSelection();
-        String path = "C:\\Users\\chank\\OneDrive\\Documents\\UM\\SEM 2\\WIA1002 DATA STRUCTURE\\JOJOLandsMaster\\Map\\";
+        String path = "C:\\HON YAO ZHI\\Data Structure\\AssignmentJOJO\\src\\Map\\";
         switch (selection) {
             case "1" ->
-                mapSelection = "DefaultMap.json";
+                path += "DefaultMap.json";
             case "2" ->
-                mapSelection = "ParallelMap.json";
+                path += "ParallelMap.json";
             case "3" ->
-                mapSelection = "AlternateMap.json";
+                path += "AlternateMap.json";
             default -> {
                 System.out.println("Option " + selection + " is not available. Please reselect.");
                 selectMap();
             }
         }
-        path += mapSelection;
+        mapSelectionPath = path;
         return path;
     }
 
@@ -281,7 +281,7 @@ public class TheWorld {
 
         try {
             jsonObject.put("day", getDay());
-            jsonObject.put("map select", mapSelection);
+            jsonObject.put("map select", mapSelectionPath);
             jsonObject.put("current location", currentLocation.getName());
             // Need to save for reaastaurant sales, waiting list..
 
@@ -300,6 +300,27 @@ public class TheWorld {
         } catch (IOException e) {
             System.out.println("Error in saving the game.");
         }
+    }
+
+    public void loadGame(String path) {
+
+        try {
+            JSONObject obj = new JSONObject(JSONReader.readJSON(path));
+
+            int daySaved = obj.getInt("day");
+            setDay(daySaved);
+
+            String mapSelectedPath = obj.getString("map select");
+            setMap(JSONReader.readMap(JSONReader.readJSON(mapSelectedPath)));
+            // Need another way to retrieve path for map
+
+            String currentLocationSaved = obj.getString("current location");
+            setCurrentLocation(map.getVertex(currentLocationSaved));
+
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
+
     }
 
     public void redHotChiliPepper() {
