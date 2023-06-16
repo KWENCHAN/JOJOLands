@@ -41,10 +41,14 @@ public class Location {
         }
     }
 
-    public void setDistance(int i) {
+    public void setDistance() {
     }
 
     public List<String> getShortestPaths() {
+        return null;
+    }
+
+    public List<String> getShortestPath() {
         return null;
     }
 }

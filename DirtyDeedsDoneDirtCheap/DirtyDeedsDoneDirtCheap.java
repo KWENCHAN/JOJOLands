@@ -1,5 +1,8 @@
 package DirtyDeedsDoneDirtCheap;
 
+import Graph.Graph;
+import Graph.Location;
+
 import java.util.*;
 
 public class DirtyDeedsDoneDirtCheap {
@@ -49,7 +52,7 @@ public class DirtyDeedsDoneDirtCheap {
                 String nextSpurNode = previousPath.get(j + 1);
                 List<String> rootPath = previousPath.subList(0, j + 1);
 
-                int weight = map.getEdgeWeight(spurNode, nextSpurNode);
+                int weight = map.getEdgeWeight1(spurNode, nextSpurNode);
                 map.resetEdgeWeight(spurNode, nextSpurNode, Integer.MAX_VALUE);
 
                 List<String> spurPath = Dijkstra(spurNode, destination);
@@ -101,14 +104,14 @@ public class DirtyDeedsDoneDirtCheap {
         for (int i = 0; i < path.size() - 1; i++) {
             String source = path.get(i);
             String destination = path.get(i + 1);
-            length += map.getEdgeWeight(source, destination);
+            length += map.getEdgeWeight1(source, destination);
         }
         return length;
     }
 
-    public static List<String> Dijkstra(String source, String destination) {
-        Graph.Vertex<String, Integer> sourceVertex = map.getVertex(source);
-        Graph.Vertex<String, Integer> destinationVertex = map.getVertex(destination);
+    public static List<String> Dijkstra(String source1, String destination1) {
+        Location sourceVertex = map.getVertex(source1);
+        Location destinationVertex = map.getVertex(destination1);
 
         map.resetVertices();
         sourceVertex.setDistance();
@@ -118,10 +121,11 @@ public class DirtyDeedsDoneDirtCheap {
             Vertex<String, Integer> vertex = queue.poll();
             vertex.setVisited();
 
-            Edge<String, Integer> edge = vertex.getFirstEdge();
+            DirtyDeedsDoneDirtCheap.Edge edge = vertex.getFirstEdge();
             while (edge != null) {
                 Vertex<String, Integer> neighbour = edge.getToVertex();
 
+                assert neighbour != null;
                 if (!neighbour.isVisited()) {
                     int distance = vertex.getDistance() + edge.getWeight();
                     if (distance < neighbour.getDistance()) {
@@ -158,5 +162,63 @@ public class DirtyDeedsDoneDirtCheap {
 
     public static void setLocations(ArrayList locations) {
         DirtyDeedsDoneDirtCheap.locations = locations;
+    }
+
+    private static class Edge {
+        public DirtyDeedsDoneDirtCheap.DirtyDeedsDoneDirtCheap.Vertex<String, Integer> getToVertex() {
+            return null;
+        }
+
+        public int getWeight() {
+            return 0;
+        }
+
+        public DirtyDeedsDoneDirtCheap.DirtyDeedsDoneDirtCheap.Edge getNextEdge() {
+            return null;
+        }
+    }
+
+    class Vertex<T extends Comparable<T>, N extends Comparable<N>> {
+        private final T vertexInfo;
+        private final DirtyDeedsDoneDirtCheap.DirtyDeedsDoneDirtCheap.Edge firstEdge;
+        private int distance;
+
+
+        public Vertex(T vertexInfo) {
+            this.vertexInfo = vertexInfo;
+            this.firstEdge = null;
+            this.distance = Integer.MAX_VALUE;
+        }
+
+        public int getDistance() {
+            return distance;
+        }
+
+        public void setDistance(int distance) {
+            this.distance = distance;
+        }
+
+        public void setVisited() {
+        }
+
+        public T getVertexInfo() {
+            return vertexInfo;
+        }
+
+        public DirtyDeedsDoneDirtCheap.Edge getFirstEdge() {
+            return firstEdge;
+        }
+
+        public boolean isVisited() {
+            return false;
+        }
+
+        public N getShortestPath() {
+            return null;
+        }
+
+        public void setShortestPath() {
+
+        }
     }
 }
