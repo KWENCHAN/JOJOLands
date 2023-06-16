@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class ResidentComparator implements Comparator<Resident> {
+
     private List<SortCriteria> criteriaList;
 
     public ResidentComparator(List<SortCriteria> criteriaList) {
@@ -48,46 +49,50 @@ public class ResidentComparator implements Comparator<Resident> {
         } else if (field.equalsIgnoreCase("stand")) {
             return compareStands(r1.getStand(), r2.getStand());
         } else if (field.equalsIgnoreCase("age")) {
-//            return compareAges(r1.getAge(), r2.getAge());
+            return compareAges(r1.getAge(), r2.getAge());
         } else {
             return 0; // No sorting for other fields
         }
-        return 0;
     }
 
     private int compareStandField(Stand s1, Stand s2, String field) {
-        if (s1 == null && s2 == null) {
+
+        String value1 = "N/A";
+        String value2 = "N/A";
+
+        if (s1 != null) {
+            value1 = getStandFieldValue(s1, field);
+        }
+        
+        if (s2 != null){
+            value2 = getStandFieldValue(s2, field);
+        }
+
+        if (value1.equals(value2)) {
             return 0;
-        } else if (s1 == null) {
+        } else if (value1.equals("Infinity")) {
             return -1;
-        } else if (s2 == null) {
+        } else if (value2.equals("Infinity")) {
             return 1;
+        } else if (isAlphabetical(value1) && !isAlphabetical(value2)) {
+            return -1;
+        } else if (!isAlphabetical(value1) && isAlphabetical(value2)) {
+            return 1;
+        } else if (value1.equals("?")) {
+            return -1;
+        } else if (value2.equals("?")) {
+            return 1;
+        } else if (value1.equals("N/A")) {
+            return 1;
+        } else if (value2.equals("N/A")) {
+            return -1;
         } else {
-            String value1 = getStandFieldValue(s1, field);
-            String value2 = getStandFieldValue(s2, field);
-
-            // Handle "N/A" values
-            if (value1.equals("N/A") && value2.equals("N/A")) {
-                return 0;
-            } else if (value1.equals("N/A")) {
-                return -1;
-            } else if (value2.equals("N/A")) {
-                return 1;
-            }
-
-            // Invert the comparison for certain fields
-            if (field.equalsIgnoreCase("destructive") ||
-                    field.equalsIgnoreCase("speed") ||
-                    field.equalsIgnoreCase("range") ||
-                    field.equalsIgnoreCase("stamina") ||
-                    field.equalsIgnoreCase("precision") ||
-                    field.equalsIgnoreCase("development")) {
-                return value2.compareTo(value1);
-            }
-
-            // Default comparison for other fields
             return value1.compareTo(value2);
         }
+    }
+
+    private boolean isAlphabetical(String value) {
+        return value.matches("[A-E]");
     }
 
     private String getStandFieldValue(Stand stand, String field) {
@@ -108,6 +113,7 @@ public class ResidentComparator implements Comparator<Resident> {
                 return "N/A";
         }
     }
+
     private int compareNames(String name1, String name2) {
         return name1.compareToIgnoreCase(name2);
     }
@@ -131,9 +137,9 @@ public class ResidentComparator implements Comparator<Resident> {
         if (age1.equalsIgnoreCase("N/A") && age2.equalsIgnoreCase("N/A")) {
             return 0;
         } else if (age1.equalsIgnoreCase("N/A")) {
-            return -1;
-        } else if (age2.equalsIgnoreCase("N/A")) {
             return 1;
+        } else if (age2.equalsIgnoreCase("N/A")) {
+            return -1;
         }
 
         int ageValue1 = parseAge(age1);
