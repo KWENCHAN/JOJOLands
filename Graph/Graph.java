@@ -176,7 +176,7 @@ public class Graph <T extends Comparable<T>, N extends Comparable<N>>{
             public T vertexInfo;
             public Edge<T, N> firstEdge;
             public Vertex1<T, N> nextVertex;
-            public Graph.Graph.Vertex1<T,N> nextVertex1;
+            public Graph.Vertex1<T,N> nextVertex1;
 
             public Vertex1(T v) {
                 vertexInfo = v;
