@@ -165,7 +165,7 @@ public class DirtyDeedsDoneDirtCheap {
     }
 
     private static class Edge {
-        public DirtyDeedsDoneDirtCheap.DirtyDeedsDoneDirtCheap.Vertex<String, Integer> getToVertex() {
+        public DirtyDeedsDoneDirtCheap.Vertex<String, Integer> getToVertex() {
             return null;
         }
 
@@ -173,14 +173,14 @@ public class DirtyDeedsDoneDirtCheap {
             return 0;
         }
 
-        public DirtyDeedsDoneDirtCheap.DirtyDeedsDoneDirtCheap.Edge getNextEdge() {
+        public DirtyDeedsDoneDirtCheap.Edge getNextEdge() {
             return null;
         }
     }
 
     class Vertex<T extends Comparable<T>, N extends Comparable<N>> {
         private final T vertexInfo;
-        private final DirtyDeedsDoneDirtCheap.DirtyDeedsDoneDirtCheap.Edge firstEdge;
+        private final DirtyDeedsDoneDirtCheap.Edge firstEdge;
         private int distance;
 
 

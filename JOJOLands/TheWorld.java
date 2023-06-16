@@ -154,7 +154,7 @@ public class TheWorld {
         System.out.println("[2] Parallel Map");
         System.out.println("[3] Alternate Map\n");
         String selection = getSelection();
-        String path = "C:\\HON YAO ZHI\\Data Structure\\AssignmentJOJO\\src\\Map\\";
+        String path = "C:\\Users\\chank\\OneDrive\\Documents\\UM\\SEM 2\\WIA1002 DATA STRUCTURE\\JOJOLandsMaster\\Map\\";
         switch (selection) {
             case "1" ->
                 path += "DefaultMap.json";

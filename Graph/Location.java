@@ -5,7 +5,6 @@
 package Graph;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -40,15 +39,5 @@ public class Location {
             option++;
         }
     }
-
-    public void setDistance() {
-    }
-
-    public List<String> getShortestPaths() {
-        return null;
-    }
-
-    public List<String> getShortestPath() {
-        return null;
-    }
+    
 }
