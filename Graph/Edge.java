@@ -52,11 +52,11 @@ public abstract class Edge implements Comparable<Edge>{
     }
 
     static class Edge1<T extends Comparable<T>, N extends Comparable<N>> {
-        private final Graph.Graph.Vertex1<T, N> toVertex;
+        private final Graph.Vertex1<T, N> toVertex;
         private final N weight;
         private final Edge1<T, N> nextEdge;
 
-        public Edge1(Graph.Graph.Vertex1<T, N> destination, N weight, Edge1<T, N> nextEdge) {
+        public Edge1(Graph.Vertex1<T, N> destination, N weight, Edge1<T, N> nextEdge) {
             this.toVertex = destination;
             this.weight = weight;
             this.nextEdge = nextEdge;
@@ -66,7 +66,7 @@ public abstract class Edge implements Comparable<Edge>{
             return weight;
         }
 
-        public Graph.Graph.Vertex1<T, N> getToVertex() {
+        public Graph.Vertex1<T, N> getToVertex() {
             return toVertex;
         }
 
