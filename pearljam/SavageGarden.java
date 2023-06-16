@@ -50,7 +50,7 @@ public class SavageGarden extends PearlJam implements Action {
                 viewMenu();
                 break;
             case '4':
-                // view sales info
+                MoodyBlues.action(this);
                 break;
             case '5':
                 // Milagro Man
