@@ -15,6 +15,7 @@ import ResidentsData.Resident;
 import ResidentsData.SanGiorgioMaggiore;
 import ResidentsData.Vineyard;
 import pearljam.CafeDeuxMagots;
+import pearljam.FoodItem;
 import pearljam.JadeGarden;
 import pearljam.Libeccio;
 import pearljam.SavageGarden;
@@ -101,7 +102,9 @@ public class TheWorld {
                 //burningDownTheHouse("Trattoria Trussardi");
                 AnotherOneBitesTheDust obj = new AnotherOneBitesTheDust(map);
                 obj.hasBitesTheDust("Jade Garden > Cafe Deux Magots > Town Hall > Morioh Grand Hotel > Jade Garden > Town Hall > Jade Garden > Cafe Deux Magots > Town Hall > Jade Garden > Town Hall > Morioh Grand Hotel");
-//                obj.hasBitesTheDust("Savage Garden > Angelo Rock > Savage Garden > Angelo Rock > Savage Garden");
+                obj.hasBitesTheDust("Savage Garden > Angelo Rock > Savage Garden > Angelo Rock > Savage Garden");
+                obj.hasBitesTheDust("Joestar Mansion > Libeccio > DIO's Mansion > Vineyard > DIO's Mansion > Libeccio > DIO's Mansion > Vineyard > San Giorgio Maggiore");
+                setDay(1);
                 setDay(1);
                 start();
                 break;
@@ -174,7 +177,7 @@ public class TheWorld {
         System.out.println("[2] Parallel Map");
         System.out.println("[3] Alternate Map\n");
         String selection = getSelection();
-        String path = "C:\\HON YAO ZHI\\Data Structure\\AssigmentJoJO_latest\\src\\Map\\";
+        String path = "C:\\Users\\chank\\Documents\\UM\\SEM 2\\WIA1002 DATA STRUCTURE\\JOJOLandsMaster\\Map\\";
         switch (selection) {
             case "1" ->
                 path += "DefaultMap.json";
@@ -297,10 +300,8 @@ public class TheWorld {
             for (HeavenDoor resArea : residentialArea) {
                 for (Resident resident : resArea.getResidentList()) {
                     JSONArray foodHist = new JSONArray(resident.getOrderHistory());
-                    JSONArray resHist = new JSONArray(resident.getRestaurantHistory());
                     JSONObject resi = new JSONObject();
                     resi.put("Food History", foodHist);
-                    resi.put("Restaurant History", resHist);
                     orderHist.put(resident.getName(), resi);
                 }
             }
@@ -371,12 +372,15 @@ public class TheWorld {
                 for (Resident res : resArea.getResidentList()) {
                     JSONObject history = resident.getJSONObject(res.getName());
                     JSONArray foodHist = history.getJSONArray("Food History");
-                    JSONArray resHist = history.getJSONArray("Restaurant History");
                     for (int i = 0; i < foodHist.length(); i++) {
-                        res.addOrderHistory(foodHist.getString(i));
-                        res.addRestaurantHistory(resHist.getString(i));
+                        JSONObject foodItem = foodHist.getJSONObject(i);
+                        String restauName = foodItem.getString("restaurant");
+                        String food = foodItem.getString("food");
+                        double price = foodItem.getDouble("price");
+                        FoodItem item = new FoodItem(restauName, food, 1, price);
+                        res.addOrderHistory(item);
                     }
-                    PearlJam LastRestaurant = (PearlJam) locationlist.get(resHist.getString(resHist.length() - 1));
+                    PearlJam LastRestaurant = (PearlJam) locationlist.get(foodHist.getJSONObject(foodHist.length() - 1).getString("restaurant"));
                     LastRestaurant.addResidentToWaitingList(res);
                 }
             }
@@ -385,7 +389,8 @@ public class TheWorld {
             for (int i = 0; i < numOfDay; i++) {
                 for (HeavenDoor resArea : residentialArea) {
                     for (Resident resident1 : resArea.getResidentList()) {
-                        RandomFoodSelection.addSales(resident1.getOrderHistory().get(i));
+                        FoodItem foodItem = resident1.getOrderHistory().get(i);
+                        RandomFoodSelection.addSales(foodItem.getFood(), foodItem.getPrice());
                     }
                 }
                 RandomFoodSelection.printSalesCSV(i + 1, restaurantList);
@@ -393,15 +398,13 @@ public class TheWorld {
         } catch (JSONException ex) {
             ex.printStackTrace();
         }
-<<<<<<< HEAD
+
         displayDay(day);
         while (!exit) {
             locationlist.get(this.currentLocation.getName()).action(this);
         }
-=======
->>>>>>> bdb952de2fcf881d0dc20b376ee2142fa0ce0187
     }
-    
+
     public void anotherOneBitesTheDust(){
         AnotherOneBitesTheDust btd = new AnotherOneBitesTheDust(map);
         btd.hasBitesTheDust(btd.getPath());

@@ -108,7 +108,7 @@ public class MoodyBlues {
                     String food = values[2];
                     int quantity = Integer.parseInt(values[3]);
                     double price = Double.parseDouble(values[4]);
-                    FoodItem foodItem = new FoodItem(restaurant.getName(), day, food, quantity, price);
+                    FoodItem foodItem = new FoodItem(restaurant.getName(), food, quantity, price);
                     sales.add(foodItem);
                 }
             }
@@ -162,7 +162,7 @@ public class MoodyBlues {
                         String food = values[2];
                         int quantity = Integer.parseInt(values[3]);
                         double price=Double.parseDouble(values[4]);
-                        FoodItem foodItem = new FoodItem(restaurant.getName(), day, food, quantity,price);
+                        FoodItem foodItem = new FoodItem(restaurant.getName(), food, quantity,price);
                         sales.add(foodItem);
                     }
                 }

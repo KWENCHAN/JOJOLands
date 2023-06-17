@@ -24,7 +24,7 @@ public class Location {
 
     protected void displayLocationOptions(Graph map) {
 
-        ArrayList<Edge> edges = map.getEdge(this);
+        ArrayList<Edge> edges = map.getEdgeListforVertex(this);
 
         if (edges.isEmpty()) {
             System.out.println("There are no available destinations from this location.");

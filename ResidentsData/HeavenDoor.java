@@ -48,6 +48,10 @@ public class HeavenDoor {
         System.out.printf(border, "-".repeat(4), "-".repeat(23), "-".repeat(5), "-".repeat(8), "-".repeat(24),
                 "-".repeat(19), "-".repeat(10), "-".repeat(10), "-".repeat(10), "-".repeat(11), "-".repeat(23) + "+");
 
+        
+    }
+
+    public void Innermenu(){
         boolean exit = false;
         while (!exit) {
             System.out.println("[1] View Resident’s Profile");
@@ -68,7 +72,7 @@ public class HeavenDoor {
                     System.out.println("=".repeat(70));
                     return;
                 default:
-                    System.out.println("");
+                    System.out.println("Option " + select + " is not available. Please reselect.");
             }
         }
     }

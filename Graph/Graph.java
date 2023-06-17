@@ -56,7 +56,7 @@ public class Graph {
         }
     }
 
-    public ArrayList<Edge> getEdge(Location loc) {
+    public ArrayList<Edge> getEdgeListforVertex(Location loc) {
         if (map.containsKey(loc)) {
             return map.get(loc);
         }

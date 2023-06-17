@@ -2,6 +2,7 @@ package ResidentsData;
 
 import java.util.ArrayList;
 import java.util.List;
+import pearljam.FoodItem;
 
 public class Resident {
 
@@ -11,8 +12,7 @@ public class Resident {
     private final List<String> parents;
     private final List<Resident> parentList;
     private final Stand stand;
-    private final ArrayList<String> orderHistory = new ArrayList<>();
-    private final ArrayList<String> restaurantHistory = new ArrayList<>();
+    private final ArrayList<FoodItem> orderHistory = new ArrayList<>();
 
     public Resident(String name, String age, String gender, ArrayList<String> parents) {
         this(name, age, gender, parents, null);
@@ -37,8 +37,8 @@ public class Resident {
         }
         return this.stand;
     }
-    
-    public boolean isStandNull(){
+
+    public boolean isStandNull() {
         return this.stand == null;
     }
 
@@ -62,20 +62,12 @@ public class Resident {
         parentList.add(parent);
     }
 
-    public void addOrderHistory(String order) {
+    public void addOrderHistory(FoodItem order) {
         this.orderHistory.add(order);
     }
 
-    public void addRestaurantHistory(String restaurant) {
-        this.restaurantHistory.add(restaurant);
-    }
-
-    public ArrayList<String> getOrderHistory() {
+    public ArrayList<FoodItem> getOrderHistory() {
         return orderHistory;
-    }
-
-    public ArrayList<String> getRestaurantHistory() {
-        return restaurantHistory;
     }
 
     public void viewOrderHistory() {
@@ -85,7 +77,7 @@ public class Resident {
         System.out.printf(format, "Day", "Food", "Restaurant");
         System.out.println("+" + "-".repeat(5) + "+" + "-".repeat(37) + "+" + "-".repeat(21) + "+");
         for (int i = 0; i < orderHistory.size(); i++) {
-            System.out.printf(format, i + 1, orderHistory.get(i), restaurantHistory.get(i));
+            System.out.printf(format, i + 1, orderHistory.get(i).getFood(), orderHistory.get(i).getRestaurant());
         }
         System.out.println("+" + "-".repeat(5) + "+" + "-".repeat(37) + "+" + "-".repeat(21) + "+");
         System.out.println("=".repeat(70));
