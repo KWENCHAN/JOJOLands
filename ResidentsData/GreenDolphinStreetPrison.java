@@ -8,8 +8,6 @@ import JOJOLands.Action;
 import JOJOLands.TheWorld;
 import java.util.Scanner;
 
-import DirtyDeedsDoneDirtCheap.DirtyDeedsDoneDirtCheap;
-
 /**
  *
  * @author ASUS
@@ -43,8 +41,6 @@ public class GreenDolphinStreetPrison extends HeavenDoor implements Action{
                 burningDownTheHouse(game);
                 break;
             case '4':
-                DirtyDeedsDoneDirtCheap.dirtyDeeds();
-            case '5':
                 if (!game.getBackhistory().isEmpty()) {
                     game.back();
                 } else if (game.getBackhistory().isEmpty() && !game.getForwardhistory().isEmpty()) {
@@ -55,7 +51,7 @@ public class GreenDolphinStreetPrison extends HeavenDoor implements Action{
                     System.out.println("Option "+select+" not available. Please reselect.");
                 }
                 break;
-            case '6':
+            case '5':
                 if (!game.getBackhistory().isEmpty() && !game.getForwardhistory().isEmpty()) {
                     game.forward();
                 } else if ((game.getBackhistory().isEmpty() && !game.getForwardhistory().isEmpty())
@@ -65,7 +61,7 @@ public class GreenDolphinStreetPrison extends HeavenDoor implements Action{
                     System.out.println("Option "+select+" is not available. Please reselect.");
                 }
                 break;
-            case '7':
+            case '6':
                 if (!game.getBackhistory().isEmpty() && !game.getForwardhistory().isEmpty()) {
                     game.backToTownHall();
                 } else {
@@ -83,7 +79,6 @@ public class GreenDolphinStreetPrison extends HeavenDoor implements Action{
         game.displayCurrentLocationOptions();
         System.out.printf("[%d] View Resident Information%n", i++);
         System.out.printf("[%d] Burning Down the House%n", i++);
-        System.out.printf("[%d] Dirty Deeds Done Dirt Cheap%n", i++);
         if (!game.getBackhistory().isEmpty()) {
             System.out.printf("[%d] Back (%s)%n", i++, game.getBackhistory().peek().getName());
         }

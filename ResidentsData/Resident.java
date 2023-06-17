@@ -37,6 +37,10 @@ public class Resident {
         }
         return this.stand;
     }
+    
+    public boolean isStandNull(){
+        return this.stand == null;
+    }
 
     public String getAge() {
         return age;

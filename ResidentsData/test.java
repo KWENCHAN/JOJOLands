@@ -12,8 +12,8 @@ import java.util.ArrayList;
  */
 public class test {
     public static void main(String[] args) {
-        ArrayList<Resident> temp=CSVreader.readResident("Vineyard");
-        HeavenDoor vine=new HeavenDoor("Vineyard");
+        ArrayList<Resident> temp=CSVreader.readResident("San Giorgio Maggiore");
+        HeavenDoor vine=new HeavenDoor("San Giorgio Maggiore");
         vine.viewResidentInfo();
         vine.viewResidentProfile();
         vine.sort();

@@ -29,7 +29,7 @@ public class RandomFoodSelection {
     private static PearlJam JolyneLastRes;
     private static PearlJam JotaroNextRes;
     private static Map<String, Integer> sales = new HashMap<>();
-    private static String csvFile = "C:\\Users\\chank\\OneDrive\\Documents\\UM\\SEM 2\\WIA1002 DATA STRUCTURE\\TestJojo\\src\\pearljam\\orderList.csv";
+    private static String csvFile = "C:\\HON YAO ZHI\\Data Structure\\AssignmentJojo_submitgit\\src\\pearljam\\orderList.csv";
 
     public static void selectFood(List<Resident> residentList, List<PearlJam> restaurantList) {
         for (Resident resident : residentList) {

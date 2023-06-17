@@ -45,8 +45,8 @@ public class Stand {
 
     public String getDevelopmentPotential() {
         return developmentPotential;
-    }
-
+    }  
+    
     @Override
     public String toString() {
         return "Stand                 : " + stand_name + "\n" +

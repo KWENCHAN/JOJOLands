@@ -58,7 +58,7 @@ public class HeavenDoor {
             System.out.println("[3] Exit\n");
 
             System.out.print("Select: ");
-            String select=sc.nextLine();
+            String select = sc.nextLine();
             switch (select) {
                 case "1":
                     viewResidentProfile();
@@ -67,7 +67,7 @@ public class HeavenDoor {
                     sort();
                     break;
                 case "3":
-                    exit=true;
+                    exit = true;
                     System.out.println("=".repeat(70));
                     return;
                 default:
@@ -99,6 +99,26 @@ public class HeavenDoor {
         return residentList;
     }
 
+//    public void sort() {
+//        System.out.print("Enter the sorting order (Field Name (ASC/DESC)): ");
+//        String input_order = sc.nextLine();
+//        String[] sort_order = input_order.split(";");
+//
+//        // Create a list of sort criteria
+//        List<SortCriteria> criteriaList = new ArrayList<>();
+//        for (String criteria : sort_order) {
+//            String[] tokens = criteria.trim().split("\\s*\\(\\s*|\\s*\\)\\s*");
+//            String field = tokens[0].split("\\(")[0].toLowerCase();
+//            String sortOrder = tokens[1].toLowerCase();
+//            criteriaList.add(new SortCriteria(field, sortOrder));
+//        }
+//
+//        // Sort the residentList based on the sorting criteria
+//        Collections.sort(residentList, new ResidentComparator(criteriaList));
+//
+//        // Display the sorted resident information
+//        viewResidentInfo();
+//    }
     public void sort() {
         System.out.print("Enter the sorting order (Field Name (ASC/DESC)): ");
         String input_order = sc.nextLine();
@@ -113,10 +133,44 @@ public class HeavenDoor {
             criteriaList.add(new SortCriteria(field, sortOrder));
         }
 
-        // Sort the residentList based on the sorting criteria
-        Collections.sort(residentList, new ResidentComparator(criteriaList));
+        // Sort the residentList based on the sorting criteria using Quick Sort
+        quickSort(residentList, new ResidentComparator(criteriaList));
 
         // Display the sorted resident information
         viewResidentInfo();
     }
+
+    private void quickSort(List<Resident> list, ResidentComparator comparator) {
+        quickSort(list, 0, list.size() - 1, comparator);
+    }
+
+    private void quickSort(List<Resident> list, int low, int high, ResidentComparator comparator) {
+        if (low < high) {
+            int pivotIndex = partition(list, low, high, comparator);
+            quickSort(list, low, pivotIndex - 1, comparator);
+            quickSort(list, pivotIndex + 1, high, comparator);
+        }
+    }
+
+    private int partition(List<Resident> list, int low, int high, ResidentComparator comparator) {
+        Resident pivot = list.get(high);
+        int i = low - 1;
+
+        for (int j = low; j < high; j++) {
+            if (comparator.compare(list.get(j), pivot) < 0) {
+                i++;
+                swap(list, i, j);
+            }
+        }
+
+        swap(list, i + 1, high);
+        return i + 1;
+    }
+
+    private void swap(List<Resident> list, int i, int j) {
+        Resident temp = list.get(i);
+        list.set(i, list.get(j));
+        list.set(j, temp);
+    }
+
 }
