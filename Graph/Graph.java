@@ -96,4 +96,20 @@ public class Graph {
     public boolean containsCity(String cityName){
         return (this.getVertex(cityName) != null);
     }
+    
+    public boolean hasEdge(String cityName1, String cityName2){
+        if(hasVertex(cityName1) && hasVertex(cityName2)){
+            return getNeighbors(getVertex(cityName1)).contains(cityName2);
+        }
+        return false;
+    }
+    
+    public boolean hasVertex(String cityName){
+        for (Location location : map.keySet()) {
+            if (location.getName().equals(cityName)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -4,7 +4,6 @@ import Graph.Edge;
 import Graph.Graph;
 import Graph.Location;
 import ResidentsData.AngeloRock;
-import ResidentsData.BurningDownTheHouse;
 import ResidentsData.DIOsMansion;
 import ResidentsData.GreenDolphinStreetPrison;
 import ResidentsData.HeavenDoor;
@@ -65,6 +64,9 @@ public class TheWorld {
                 setMap(JSONReader.readMap(JSONReader.readJSON(selectMap())));
                 setCurrentLocation(map.getVertex("Town Hall"));
                 //burningDownTheHouse("Trattoria Trussardi");
+                AnotherOneBitesTheDust obj = new AnotherOneBitesTheDust(map);
+                obj.hasBitesTheDust("Jade Garden > Cafe Deux Magots > Town Hall > Morioh Grand Hotel > Jade Garden > Town Hall > Jade Garden > Cafe Deux Magots > Town Hall > Jade Garden > Town Hall > Morioh Grand Hotel");
+//                obj.hasBitesTheDust("Savage Garden > Angelo Rock > Savage Garden > Angelo Rock > Savage Garden");
                 setDay(1);
                 start();
                 break;
@@ -154,7 +156,7 @@ public class TheWorld {
         System.out.println("[2] Parallel Map");
         System.out.println("[3] Alternate Map\n");
         String selection = getSelection();
-        String path = "C:\\Users\\chank\\OneDrive\\Documents\\UM\\SEM 2\\WIA1002 DATA STRUCTURE\\JOJOLandsMaster\\Map\\";
+        String path = "C:\\HON YAO ZHI\\Data Structure\\AssigmentJoJO_latest\\src\\Map\\";
         switch (selection) {
             case "1" ->
                 path += "DefaultMap.json";
@@ -320,26 +322,10 @@ public class TheWorld {
         } catch (JSONException ex) {
             ex.printStackTrace();
         }
-
     }
-
-    public void redHotChiliPepper() {
-        MinimumSpanningTree mst = new MinimumSpanningTree();
-        mst.calculateCost(this.map.getEdgeList());
-    }
-
-    public void theHand() {
-        MinimumSpanningTree mst = new MinimumSpanningTree();
-        mst.calculateMaxPath(this.map.getEdgeList());
-    }
-
-    public void burningDownTheHouse(String cityName) {
-        BurningDownTheHouse bdh = new BurningDownTheHouse();
-
-        if (map.containsCity(cityName)) {
-            bdh.breadthFirstTraversal(map, cityName);
-        } else {
-            System.out.println("No such city in the map.");
-        }
+    
+    public void anotherOneBitesTheDust(){
+        AnotherOneBitesTheDust btd = new AnotherOneBitesTheDust(map);
+        btd.hasBitesTheDust(btd.getPath());
     }
 }
