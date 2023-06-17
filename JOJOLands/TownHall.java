@@ -25,7 +25,7 @@ public class TownHall extends Location implements Action{
         switch (select.charAt(0)) {
             case '1':
                 char loc_select = select.charAt(1);
-                if ((loc_select - 'A' <= game.getMap().getEdge(game.getCurrentLocation()).size() - 1) && Character.isUpperCase(loc_select)) {
+                if ((loc_select - 'A' <= game.getMap().getEdgeListforVertex(game.getCurrentLocation()).size() - 1) && Character.isUpperCase(loc_select)) {
                     game.move(loc_select);
                 } else {
                     System.out.println("Option "+select+" is not available. Please reselect.");

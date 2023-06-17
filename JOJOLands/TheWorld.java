@@ -25,9 +25,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Stack;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import pearljam.PearlJam;
@@ -47,8 +49,41 @@ public class TheWorld {
     private int day;
     private String mapSelectionPath;
     private boolean exit;
+    private final List<PearlJam> restaurantList = new ArrayList<>();
+    private final List<HeavenDoor> residentialArea = new ArrayList<>();
 
     public TheWorld() throws JSONException {
+        locationlist.put("Town Hall", new TownHall());
+
+        locationlist.put("Jade Garden", new JadeGarden());
+        locationlist.put("Libeccio", new Libeccio());
+        locationlist.put("Savage Garden", new SavageGarden());
+        locationlist.put("Cafe Deux Magots", new CafeDeuxMagots());
+        locationlist.put("Trattoria Trussardi", new TrattoriaTrussardi());
+
+        locationlist.put("Joestar Mansion", new JoestarMansion());
+        locationlist.put("Morioh Grand Hotel", new MoriohGrandHotel());
+        locationlist.put("Angelo Rock", new AngeloRock());
+        locationlist.put("DIO's Mansion", new DIOsMansion());
+        locationlist.put("Green Dolphin Street Prison", new GreenDolphinStreetPrison());
+        locationlist.put("Polnareff Land", new PolnareffLand());
+        locationlist.put("San Giorgio Maggiore", new SanGiorgioMaggiore());
+        locationlist.put("Vineyard", new Vineyard());
+
+        restaurantList.add((PearlJam) locationlist.get("Cafe Deux Magots"));
+        restaurantList.add((PearlJam) locationlist.get("Libeccio"));
+        restaurantList.add((PearlJam) locationlist.get("Jade Garden"));
+        restaurantList.add((PearlJam) locationlist.get("Savage Garden"));
+        restaurantList.add((PearlJam) locationlist.get("Trattoria Trussardi"));
+
+        residentialArea.add((HeavenDoor) locationlist.get("Angelo Rock"));
+        residentialArea.add((HeavenDoor) locationlist.get("DIO's Mansion"));
+        residentialArea.add((HeavenDoor) locationlist.get("Green Dolphin Street Prison"));
+        residentialArea.add((HeavenDoor) locationlist.get("Joestar Mansion"));
+        residentialArea.add((HeavenDoor) locationlist.get("Morioh Grand Hotel"));
+        residentialArea.add((HeavenDoor) locationlist.get("Polnareff Land"));
+        residentialArea.add((HeavenDoor) locationlist.get("San Giorgio Maggiore"));
+        residentialArea.add((HeavenDoor) locationlist.get("Vineyard"));
         welcome();
         this.exit = false;
     }
@@ -74,8 +109,6 @@ public class TheWorld {
                 //“C:\\HON YAO ZHI\\Data Structure\\AssignmentJOJO\\loadGame.JSON”
                 String savepath = sc.nextLine();
                 loadGame(savepath);
-                System.out.println("=".repeat(70));
-                start();
                 break;
             }
             case "3" -> {
@@ -90,22 +123,7 @@ public class TheWorld {
     }
 
     public void start() {
-        locationlist.put("Town Hall", new TownHall());
 
-        locationlist.put("Jade Garden", new JadeGarden());
-        locationlist.put("Libeccio", new Libeccio());
-        locationlist.put("Savage Garden", new SavageGarden());
-        locationlist.put("Cafe Deux Magots", new CafeDeuxMagots());
-        locationlist.put("Trattoria Trussardi", new TrattoriaTrussardi());
-
-        locationlist.put("Joestar Mansion", new JoestarMansion());
-        locationlist.put("Morioh Grand Hotel", new MoriohGrandHotel());
-        locationlist.put("Angelo Rock", new AngeloRock());
-        locationlist.put("DIO's Mansion", new DIOsMansion());
-        locationlist.put("Green Dolphin Street Prison", new GreenDolphinStreetPrison());
-        locationlist.put("Polnareff Land", new PolnareffLand());
-        locationlist.put("San Giorgio Maggiore", new SanGiorgioMaggiore());
-        locationlist.put("Vineyard", new Vineyard());
         displayDay(getDay());
         generateFood_clearWaitingList();
         while (!exit) {
@@ -176,13 +194,15 @@ public class TheWorld {
     }
 
     public void setExit(boolean exit) {
-        RandomFoodSelection.clearCSV();
+        if (exit) {
+            RandomFoodSelection.clearCSV();
+        }
         this.exit = exit;
     }
 
     public void move(char selection) {
         backhistory.push(currentLocation);
-        ArrayList<Edge> edge = map.getEdge(currentLocation);
+        ArrayList<Edge> edge = map.getEdgeListforVertex(currentLocation);
         setCurrentLocation(edge.get(selection - 'A').getTovertex());
         if (!forwardhistory.isEmpty()) {
             if (currentLocation != forwardhistory.peek()) {
@@ -229,22 +249,6 @@ public class TheWorld {
     }
 
     public void generateFood_clearWaitingList() {
-        List<PearlJam> restaurantList = new ArrayList<>();
-        List<HeavenDoor> residentialArea = new ArrayList<>();
-        restaurantList.add((PearlJam) locationlist.get("Cafe Deux Magots"));
-        restaurantList.add((PearlJam) locationlist.get("Libeccio"));
-        restaurantList.add((PearlJam) locationlist.get("Jade Garden"));
-        restaurantList.add((PearlJam) locationlist.get("Savage Garden"));
-        restaurantList.add((PearlJam) locationlist.get("Trattoria Trussardi"));
-
-        residentialArea.add((HeavenDoor) locationlist.get("Angelo Rock"));
-        residentialArea.add((HeavenDoor) locationlist.get("DIO's Mansion"));
-        residentialArea.add((HeavenDoor) locationlist.get("Green Dolphin Street Prison"));
-        residentialArea.add((HeavenDoor) locationlist.get("Joestar Mansion"));
-        residentialArea.add((HeavenDoor) locationlist.get("Morioh Grand Hotel"));
-        residentialArea.add((HeavenDoor) locationlist.get("Polnareff Land"));
-        residentialArea.add((HeavenDoor) locationlist.get("San Giorgio Maggiore"));
-        residentialArea.add((HeavenDoor) locationlist.get("Vineyard"));
 
         for (PearlJam restaurant : restaurantList) {
             restaurant.getWaitingList().clear();
@@ -259,7 +263,7 @@ public class TheWorld {
 
     public void displayCurrentLocationOptions() {
         System.out.print("[1] Move to:\n    ");
-        ArrayList<Edge> edges = map.getEdge(currentLocation);
+        ArrayList<Edge> edges = map.getEdgeListforVertex(currentLocation);
 
         if (edges.isEmpty()) {
             System.out.println("There are no available destinations from this location.");
@@ -280,11 +284,31 @@ public class TheWorld {
         JSONObject jsonObject = new JSONObject();
 
         try {
-            jsonObject.put("day", getDay());
-            jsonObject.put("map select", mapSelectionPath);
-            jsonObject.put("current location", currentLocation.getName());
-            // Need to save for reaastaurant sales, waiting list..
+            jsonObject.put("Day", getDay());
+            jsonObject.put("Map", mapSelectionPath);
+            jsonObject.put("Current Location", currentLocation.getName());
+            JSONArray backHist = new JSONArray(backhistory);
+            JSONArray forwardHist = new JSONArray(forwardhistory);
+            jsonObject.put("Back History", backHist);
+            jsonObject.put("Forward History", forwardHist);
+            JSONObject orderHist = new JSONObject();
+            for (HeavenDoor resArea : residentialArea) {
+                for (Resident resident : resArea.getResidentList()) {
+                    JSONArray foodHist = new JSONArray(resident.getOrderHistory());
+                    JSONArray resHist = new JSONArray(resident.getRestaurantHistory());
+                    JSONObject resi = new JSONObject();
+                    resi.put("Food History", foodHist);
+                    resi.put("Restaurant History", resHist);
+                    orderHist.put(resident.getName(), resi);
+                }
+            }
+            jsonObject.put("Resident", orderHist);
 
+            JSONObject menu = new JSONObject();
+            for (PearlJam restaurant : restaurantList) {
+                menu.put(restaurant.getName(), restaurant.getMenu());
+            }
+            jsonObject.put("Restaurant", menu);
         } catch (JSONException ex) {
             System.out.println("Error in saving the game.");
         }
@@ -307,20 +331,70 @@ public class TheWorld {
         try {
             JSONObject obj = new JSONObject(JSONReader.readJSON(path));
 
-            int daySaved = obj.getInt("day");
+            int daySaved = obj.getInt("Day");
             setDay(daySaved);
 
-            String mapSelectedPath = obj.getString("map select");
+            String mapSelectedPath = obj.getString("Map");
             setMap(JSONReader.readMap(JSONReader.readJSON(mapSelectedPath)));
             // Need another way to retrieve path for map
 
-            String currentLocationSaved = obj.getString("current location");
+            String currentLocationSaved = obj.getString("Current Location");
             setCurrentLocation(map.getVertex(currentLocationSaved));
 
+            JSONArray backHist = obj.getJSONArray("Back History");
+            JSONArray forwardHist = obj.getJSONArray("Forward History");
+            for (int i = 0; i < backHist.length(); i++) {
+                JSONObject name = backHist.getJSONObject(i);
+                backhistory.push(map.getVertex(name.getString("name")));
+            }
+            for (int i = 0; i < forwardHist.length(); i++) {
+                JSONObject name = forwardHist.getJSONObject(i);
+                forwardhistory.push(map.getVertex(name.getString("name")));
+            }
+
+            JSONObject restaurant = obj.getJSONObject("Restaurant");
+            for (PearlJam restau : restaurantList) {
+                restau.getMenu().clear();
+                JSONObject menu = restaurant.getJSONObject(restau.getName());
+                Iterator<String> keys = menu.keys();
+                while (keys.hasNext()) {
+                    String key = keys.next();
+                    double value = menu.getInt(key);
+                    restau.getMenu().put(key, value);
+                }
+            }
+
+            JSONObject resident = obj.getJSONObject("Resident");
+            for (HeavenDoor resArea : residentialArea) {
+                for (Resident res : resArea.getResidentList()) {
+                    JSONObject history = resident.getJSONObject(res.getName());
+                    JSONArray foodHist = history.getJSONArray("Food History");
+                    JSONArray resHist = history.getJSONArray("Restaurant History");
+                    for (int i = 0; i < foodHist.length(); i++) {
+                        res.addOrderHistory(foodHist.getString(i));
+                        res.addRestaurantHistory(resHist.getString(i));
+                    }
+                    PearlJam LastRestaurant = (PearlJam) locationlist.get(resHist.getString(resHist.length() - 1));
+                    LastRestaurant.addResidentToWaitingList(res);
+                }
+            }
+
+            int numOfDay = residentialArea.get(0).getResidentList().get(0).getOrderHistory().size();
+            for (int i = 0; i < numOfDay; i++) {
+                for (HeavenDoor resArea : residentialArea) {
+                    for (Resident resident1 : resArea.getResidentList()) {
+                        RandomFoodSelection.addSales(resident1.getOrderHistory().get(i));
+                    }
+                }
+                RandomFoodSelection.printSalesCSV(i + 1, restaurantList);
+            }
         } catch (JSONException ex) {
             ex.printStackTrace();
         }
-
+        displayDay(day);
+        while (!exit) {
+            locationlist.get(this.currentLocation.getName()).action(this);
+        }
     }
 
     public void redHotChiliPepper() {

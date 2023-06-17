@@ -32,7 +32,7 @@ public class SavageGarden extends PearlJam implements Action {
         switch (select.charAt(0)) {
             case '1':
                 char loc_select = select.charAt(1);
-                if ((loc_select - 'A' <= game.getMap().getEdge(game.getCurrentLocation()).size() - 1)
+                if ((loc_select - 'A' <= game.getMap().getEdgeListforVertex(game.getCurrentLocation()).size() - 1)
                         && Character.isUpperCase(loc_select)) {
                     game.move(loc_select);
                 } else {
@@ -50,10 +50,10 @@ public class SavageGarden extends PearlJam implements Action {
                 viewMenu();
                 break;
             case '4':
-                MoodyBlues.action(this);
+                MoodyBlues.action(this,"C:\\Users\\chank\\OneDrive\\Documents\\UM\\SEM 2\\WIA1002 DATA STRUCTURE\\TestJojo\\src\\pearljam\\orderList.csv",false);
                 break;
             case '5':
-                // Milagro Man
+                MilagroMan.action(this);
                 break;
             case '6':
                 if (!game.getBackhistory().isEmpty()) {

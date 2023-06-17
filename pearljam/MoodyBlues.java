@@ -17,11 +17,10 @@ import java.util.Scanner;
 
 public class MoodyBlues {
 
-    public static void action(PearlJam restaurant) {
-        String csvFile = "C:\\Users\\chank\\OneDrive\\Documents\\UM\\SEM 2\\WIA1002 DATA STRUCTURE\\TestJojo\\src\\pearljam\\orderList.csv";
+    public static void action(PearlJam restaurant, String csvFile, boolean MilagroMan) {
         Scanner input = new Scanner(System.in);
         while (true) {
-            System.out.println("Restaurant: " + restaurant.getName());
+            System.out.println("Restaurant: " + restaurant.getName() + (MilagroMan ? "(Milagro Man Mode)" : ""));
             System.out.println("Sales Information");
             System.out.println("[1] View Sales");
             System.out.println("[2] View Aggregated Information");
@@ -41,7 +40,7 @@ public class MoodyBlues {
                     System.out.print("Enter Day: ");
                     int day = input.nextInt();
                     input.nextLine();
-                    showSalesInformation(restaurant, day, csvFile);
+                    showSalesInformation(restaurant, day, csvFile, MilagroMan);
                     break;
                 case "2A":
                     System.out.print("Enter Start Day: ");
@@ -50,7 +49,7 @@ public class MoodyBlues {
                     endDay = input.nextInt();
                     input.nextLine();
                     System.out.println("======================================================================");
-                    showMinimumSalesForFood(restaurant, startDay, endDay, csvFile);
+                    showMinimumSalesForFood(restaurant, startDay, endDay, csvFile, MilagroMan);
                     break;
                 case "2B":
                     System.out.print("Enter Start Day: ");
@@ -59,7 +58,7 @@ public class MoodyBlues {
                     endDay = input.nextInt();
                     input.nextLine();
                     System.out.println("======================================================================");
-                    showMaximumSalesForFood(restaurant, startDay, endDay, csvFile);
+                    showMaximumSalesForFood(restaurant, startDay, endDay, csvFile, MilagroMan);
                     break;
                 case "2C":
                     System.out.print("Enter Start Day: ");
@@ -70,7 +69,7 @@ public class MoodyBlues {
                     k = input.nextInt();
                     System.out.println("======================================================================");
                     input.nextLine();
-                    showTopKHighestSales(restaurant, startDay, endDay, k, csvFile);
+                    showTopKHighestSales(restaurant, startDay, endDay, k, csvFile, MilagroMan);
                     break;
                 case "2D":
                     System.out.print("Enter Start Day: ");
@@ -79,7 +78,7 @@ public class MoodyBlues {
                     endDay = input.nextInt();
                     input.nextLine();
                     System.out.println("======================================================================");
-                    showTotalAndAverageSales(restaurant, startDay, endDay, csvFile);
+                    showTotalAndAverageSales(restaurant, startDay, endDay, csvFile, MilagroMan);
                     break;
                 case "3":
                     System.out.println("Exiting the program.");
@@ -91,7 +90,7 @@ public class MoodyBlues {
 
     }
 
-    public static void showSalesInformation(PearlJam restaurant, int day, String csv) {
+    public static void showSalesInformation(PearlJam restaurant, int day, String csv, boolean MilagroMan) {
         List<FoodItem> sales = new ArrayList<>();
         double totalPrice = 0.0;
 
@@ -108,8 +107,8 @@ public class MoodyBlues {
                 if (csvRestaurant.equals(restaurant.getName()) && csvDay == day) {
                     String food = values[2];
                     int quantity = Integer.parseInt(values[3]);
-
-                    FoodItem foodItem = new FoodItem(restaurant.getName(), day, food, quantity);
+                    double price = Double.parseDouble(values[4]);
+                    FoodItem foodItem = new FoodItem(restaurant.getName(), day, food, quantity, price);
                     sales.add(foodItem);
                 }
             }
@@ -117,7 +116,7 @@ public class MoodyBlues {
             e.printStackTrace();
         }
 
-        System.out.println("Restaurant: " + restaurant.getName());
+        System.out.println("Restaurant: " + restaurant.getName() + (MilagroMan ? "(Milagro Man Mode)" : ""));
         System.out.println("Day " + day + " Sales");
         System.out.println("+-------------------------------------+-------------+---------------+");
         System.out.format("| %-35s | %-11s | %-13s |\n", "Food", "Quantity", "Total Price");
@@ -127,7 +126,7 @@ public class MoodyBlues {
             System.out.println("| No sales data available             |             |               |");
         } else {
             for (FoodItem foodItem : sales) {
-                double price = restaurant.getPrice(foodItem.getFood());
+                double price = foodItem.getPrice();
                 double totalIndividualPrice = price * foodItem.getQuantity();
                 totalPrice += totalIndividualPrice;
                 System.out.format("| %-35s | %11d | $%12.2f |\n", foodItem.getFood(), foodItem.getQuantity(), totalIndividualPrice);
@@ -139,8 +138,8 @@ public class MoodyBlues {
         System.out.println("+-------------------------------------+-------------+---------------+");
     }
 
-    public static void showTotalAndAverageSales(PearlJam restaurant, int startDay, int endDay, String csv) {
-        
+    public static void showTotalAndAverageSales(PearlJam restaurant, int startDay, int endDay, String csv, boolean MilagroMan) {
+
         int numberOfDay = endDay - startDay + 1;
         Map<String, Integer> totalQuantityMap = new HashMap<>();
         Map<String, Double> totalPriceMap = new HashMap<>();
@@ -162,8 +161,8 @@ public class MoodyBlues {
                     if (csvRestaurant.equals(restaurant.getName()) && csvDay == day) {
                         String food = values[2];
                         int quantity = Integer.parseInt(values[3]);
-
-                        FoodItem foodItem = new FoodItem(restaurant.getName(), day, food, quantity);
+                        double price=Double.parseDouble(values[4]);
+                        FoodItem foodItem = new FoodItem(restaurant.getName(), day, food, quantity,price);
                         sales.add(foodItem);
                     }
                 }
@@ -174,7 +173,7 @@ public class MoodyBlues {
             for (FoodItem foodItem : sales) {
                 String food = foodItem.getFood();
                 int quantity = foodItem.getQuantity();
-                double price = restaurant.getPrice(food);
+                double price = foodItem.getPrice();
                 double totalPrice = price * quantity;
 
                 totalQuantityMap.put(food, totalQuantityMap.getOrDefault(food, 0) + quantity);
@@ -182,7 +181,7 @@ public class MoodyBlues {
                 totalRevenue += totalPrice;
             }
         }
-        System.out.println("Restaurant: " + restaurant.getName());
+        System.out.println("Restaurant: " + restaurant.getName() + (MilagroMan ? "(Milagro Man Mode)" : ""));
         System.out.println("Total and Average Sales (Day " + startDay + " - " + endDay + ")");
         System.out.println("+-------------------------------------+-------------+---------------+");
         System.out.format("| %-35s | %-11s | %-13s |\n", "Food", "Quantity", "Total Price");
@@ -203,8 +202,8 @@ public class MoodyBlues {
         System.out.println("+-------------------------------------+-------------+---------------+");
     }
 
-    public static void showTopKHighestSales(PearlJam restaurant, int startDay, int endDay, int k, String csv) {
-        
+    public static void showTopKHighestSales(PearlJam restaurant, int startDay, int endDay, int k, String csv, boolean MilagroMan) {
+
         Map<String, Double> foodSalesMap = new HashMap<>();
 
         try ( BufferedReader reader = new BufferedReader(new FileReader(csv))) {
@@ -219,7 +218,7 @@ public class MoodyBlues {
                 if (csvRestaurant.equals(restaurant.getName()) && csvDay >= startDay && csvDay <= endDay) {
                     String food = values[2];
                     int quantity = Integer.parseInt(values[3]);
-                    double price = restaurant.getPrice(food);
+                    double price = Double.parseDouble(values[4]);
                     double totalSales = price * quantity;
 
                     foodSalesMap.put(food, foodSalesMap.getOrDefault(food, 0.0) + totalSales);
@@ -229,7 +228,7 @@ public class MoodyBlues {
             e.printStackTrace();
         }
 
-        System.out.println("Restaurant: " + restaurant.getName());
+        System.out.println("Restaurant: " + restaurant.getName() + (MilagroMan ? "(Milagro Man Mode)" : ""));
         System.out.println("Top " + k + " Highest Sales(Day " + startDay + " - " + endDay + ")");
         System.out.println("+-------------------------------------+-------------+---------------+");
         System.out.format("| %-35s | %-11s | %-13s |\n", "Food", "Quantity", "Total Sales");
@@ -259,16 +258,16 @@ public class MoodyBlues {
         System.out.println("+-------------------------------------+-------------+---------------+");
     }
 
-    public static void showMinimumSalesForFood(PearlJam restaurant, int startDay, int endDay, String csv) {
-        showAggregateInformation(restaurant, startDay, endDay, csv, "Minimum Sales");
+    public static void showMinimumSalesForFood(PearlJam restaurant, int startDay, int endDay, String csv, boolean MilagroMan) {
+        showAggregateInformation(restaurant, startDay, endDay, csv, "Minimum Sales", MilagroMan);
     }
 
-    public static void showMaximumSalesForFood(PearlJam restaurant, int startDay, int endDay, String csv) {
-        showAggregateInformation(restaurant, startDay, endDay, csv, "Maximum Sales");
+    public static void showMaximumSalesForFood(PearlJam restaurant, int startDay, int endDay, String csv, boolean MilagroMan) {
+        showAggregateInformation(restaurant, startDay, endDay, csv, "Maximum Sales", MilagroMan);
     }
 
-    public static void showAggregateInformation(PearlJam restaurant, int startDay, int endDay, String csv, String title) {
-        
+    public static void showAggregateInformation(PearlJam restaurant, int startDay, int endDay, String csv, String title, boolean MilagroMan) {
+
         Map<String, Double> foodSalesMap = new HashMap<>();
 
         try ( BufferedReader reader = new BufferedReader(new FileReader(csv))) {
@@ -283,7 +282,7 @@ public class MoodyBlues {
                 if (csvRestaurant.equals(restaurant.getName()) && csvDay >= startDay && csvDay <= endDay) {
                     String food = values[2];
                     int quantity = Integer.parseInt(values[3]);
-                    double price = restaurant.getPrice(food);
+                    double price = Double.parseDouble(values[4]);
                     double totalSales = price * quantity;
 
                     foodSalesMap.put(food, foodSalesMap.getOrDefault(food, 0.0) + totalSales);
@@ -293,7 +292,7 @@ public class MoodyBlues {
             e.printStackTrace();
         }
 
-        System.out.println("Restaurant: " + restaurant.getName());
+        System.out.println("Restaurant: " + restaurant.getName() + (MilagroMan ? "(Milagro Man Mode)" : ""));
         System.out.println(title + " (Day " + startDay + " - " + endDay + ")");
         System.out.println("+-------------------------------------+-------------+---------------+");
         System.out.format("| %-35s | %-11s | %-13s |\n", "Food", "Quantity", "Total Sales");

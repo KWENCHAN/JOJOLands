@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import ResidentsData.Resident;
+import java.util.Scanner;
 
 public class PearlJam {
 
@@ -17,6 +18,7 @@ public class PearlJam {
     protected List<Resident> waitingList;
     protected List<Resident> orderProcessingList;
     protected final Map<String, Double> menu;
+    private final Scanner sc=new Scanner(System.in);
 
     public PearlJam(String name) {
         this.name = name;
@@ -106,5 +108,52 @@ public class PearlJam {
         }
         System.out.println("+" + "-".repeat(4) + "+" + "-".repeat(37) + "+" + "-".repeat(7) + "+");
         System.out.println("=".repeat(70));
+    }
+    
+    private void modifyFoodPrices(PearlJam restaurant) {
+        System.out.print("Enter food name: ");
+        String foodName = sc.nextLine();
+        if (!restaurant.getMenu().containsKey(foodName)) {
+            System.out.println("Food not found.");
+            return;
+        }
+        System.out.print("Enter new price: $");
+        double newPrice = sc.nextDouble();
+        sc.nextLine(); // Consume newline character
+
+        Map<String, Double> menu = restaurant.getMenu();
+        menu.replace(foodName, newPrice);
+
+        System.out.println("Food price modified successfully.");
+    }
+    
+    private void addNewFood(PearlJam restaurant) {
+        System.out.print("Enter food name: ");
+        String foodName = sc.nextLine();
+        if (restaurant.getMenu().containsKey(foodName)) {
+            System.out.println("Food already exists.");
+            return;
+        }
+
+        System.out.print("Enter price: $");
+        double price = sc.nextDouble();
+        sc.nextLine(); // Consume newline character
+
+        restaurant.addToMenu(foodName, price);
+
+        System.out.println("Food added successfully.");
+    }
+
+    private void removeFood(PearlJam restaurant) {
+        System.out.print("Enter food name: ");
+        String foodName = sc.nextLine();
+        if (!restaurant.getMenu().containsKey(foodName)) {
+            System.out.println("Food not found.");
+            return;
+        }
+
+        restaurant.getMenu().remove(foodName);
+
+        System.out.println("Food removed successfully.");
     }
 }
