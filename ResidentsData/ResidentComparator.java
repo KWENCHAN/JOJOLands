@@ -118,7 +118,7 @@ public class ResidentComparator implements Comparator<Resident> {
     }
 
     public enum StandValueOrder {
-        N_A, QUESTION_MARK, E, D, C, B, A, INFINITY ;
+        INFINITY, A, B, C, D, E, QUESTION_MARK, N_A;
 
         public static StandValueOrder getOrder(String value) {
             if (value.equals("Infinity")) {
