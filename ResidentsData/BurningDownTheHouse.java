@@ -48,7 +48,6 @@ public class BurningDownTheHouse {
 
             for (int i = 0; i < node.children.size(); i++) {
                 TreeNode child = node.children.get(i);
-//                    child.printTreeHelper(child, childrenPrefix + "^-- ", childrenPrefix + "\t");
                 if (i < node.children.size() - 1) {
                     child.printTreeHelper(child, childrenPrefix + "↖── ", childrenPrefix + "│   ");
                 } else {

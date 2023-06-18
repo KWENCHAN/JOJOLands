@@ -90,7 +90,7 @@ public class MoriohGrandHotel extends HeavenDoor implements Action {
         System.out.println("Current Location: " + game.getCurrentLocation().getName());
         game.displayCurrentLocationOptions();
         System.out.printf("[%d] View Resident Information%n", i++);
-        System.out.printf("[%d] Red Hot Chili Pepper%n", i++);
+        System.out.printf("[%d] The Hand%n", i++);
         if (!game.getBackhistory().isEmpty()) {
             System.out.printf("[%d] Back (%s)%n", i++, game.getBackhistory().peek().getName());
         }

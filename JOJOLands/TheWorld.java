@@ -96,6 +96,7 @@ public class TheWorld {
             System.out.println("[3] Exit\n");
             String select = getSelection();
 
+<<<<<<< HEAD
             if (select == ""||select.matches("\\s+")) {
                 System.out.println("Invalid input. Please reselect.");
                 continue;
@@ -130,6 +131,29 @@ public class TheWorld {
                 default -> {
                     System.out.println("Option " + select + " is not available. Please reselect.");
                 }
+=======
+        switch (select) {
+            case "1" -> {
+                setMap(JSONReader.readMap(JSONReader.readJSON(selectMap())));
+                setCurrentLocation(map.getVertex("Town Hall"));
+                setDay(1);
+                start();
+                break;
+            }
+            case "2" -> {
+                System.out.print("Enter the path of your save file: ");
+                String savepath = sc.nextLine();
+                loadGame(savepath);
+                break;
+            }
+            case "3" -> {
+                return;
+            }
+            default -> {
+                System.out.println("Option " + select + " is not available. Please reselect.");
+                welcome();
+                break;
+>>>>>>> 33b7c425fbdc5e18f2fd9e319fa20b132083ca9e
             }
         }
     }
@@ -427,6 +451,9 @@ public class TheWorld {
             locationlist.get(this.currentLocation.getName()).action(this);
         }
     }
+<<<<<<< HEAD
 
     
+=======
+>>>>>>> 33b7c425fbdc5e18f2fd9e319fa20b132083ca9e
 }
