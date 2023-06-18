@@ -52,10 +52,10 @@ public class MilagroMan {
     }
 
     private static void printMenu(PearlJam restaurant) {
-        System.out.println("Restaurant: "+restaurant+" (Milagro Man Mode)");
+        System.out.println("Restaurant: "+restaurant.getName()+" (Milagro Man Mode)");
         System.out.println("[1] Modify Food Prices");
         System.out.println("[2] View Sales Information");
-        System.out.println("[5] Exit Milagro Man\n");
+        System.out.println("[3] Exit Milagro Man\n");
         System.out.print("Select: ");
     }
 
