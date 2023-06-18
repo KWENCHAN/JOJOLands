@@ -20,7 +20,6 @@ public class AngeloRock extends HeavenDoor implements Action {
     }
 
     public void action(TheWorld game) {
-<<<<<<< HEAD
         while (true) {
             displayMenu(game);
             String select = game.getSelection();
@@ -88,52 +87,6 @@ public class AngeloRock extends HeavenDoor implements Action {
                         continue;
                     }
                 default:
-=======
-        displayMenu(game);
-        String select = game.getSelection();
-        if (select == "") {
-            action(game);
-        }
-        switch (select.charAt(0)) {
-            case '1':
-                char loc_select = select.charAt(1);
-                if ((loc_select - 'A' <= game.getMap().getEdgeListforVertex(game.getCurrentLocation()).size() - 1)
-                        && Character.isUpperCase(loc_select)) {
-                    game.move(loc_select);
-                } else {
-                    System.out.println("Option " + select + " not available. Please reselect.");
-                    action(game);
-                }
-                break;
-            case '2':
-                viewResidentInfo();
-                Innermenu();
-                break;
-            case '3':
-                redHotChiliPepper(game);
-                break;
-            case '4':
-                anotherOneBitesTheDust(game);
-                break;
-            case '5':
-                if (!game.getBackhistory().isEmpty()) {
-                    game.back();
-                } else if (game.getBackhistory().isEmpty() && !game.getForwardhistory().isEmpty()) {
-                    game.forward();
-                } else if (game.getBackhistory().isEmpty() && game.getForwardhistory().isEmpty()) {
-                    game.backToTownHall();
-                } else {
-                    System.out.println("Option " + select + " not available. Please reselect.");
-                }
-                break;
-            case '6':
-                if (!game.getBackhistory().isEmpty() && !game.getForwardhistory().isEmpty()) {
-                    game.forward();
-                } else if ((game.getBackhistory().isEmpty() && !game.getForwardhistory().isEmpty())
-                        || (!game.getBackhistory().isEmpty()) && game.getForwardhistory().isEmpty()) {
-                    game.backToTownHall();
-                } else {
->>>>>>> 33b7c425fbdc5e18f2fd9e319fa20b132083ca9e
                     System.out.println("Option " + select + " is not available. Please reselect.");
             }
         }
@@ -160,13 +113,8 @@ public class AngeloRock extends HeavenDoor implements Action {
         mst.calculateCost(game.getMap().getEdgeList());
         System.out.println("=".repeat(70));
     }
-<<<<<<< HEAD
 
     public void anotherOneBitesTheDust(TheWorld game) {
-=======
-    
-    public void anotherOneBitesTheDust(TheWorld game){
->>>>>>> 33b7c425fbdc5e18f2fd9e319fa20b132083ca9e
         AnotherOneBitesTheDust btd = new AnotherOneBitesTheDust(game.getMap());
         btd.hasBitesTheDust(btd.getPath());
     }

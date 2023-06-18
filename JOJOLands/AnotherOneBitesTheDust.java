@@ -50,7 +50,6 @@ public class AnotherOneBitesTheDust {
             numLocation = 1;
             for (int j = i; j < pathArr.length - 1; j++) {
 
-<<<<<<< HEAD
                 String currentLocation = pathArr[j].trim();
                 String nextLocation = pathArr[j + 1].trim();
 
@@ -65,17 +64,6 @@ public class AnotherOneBitesTheDust {
                     numLocation = 1;
                     break;
                 }
-=======
-            if (isConsecutive(currentLocation, nextLocation) && !temp.contains(nextLocation)) {
-                temp += " > " + nextLocation;
-                numLocation++;
-            } else {      // Consecutive location ended
-                if (numLocation > 1) {
-                    result.add(temp);
-                }
-                temp = nextLocation;
-                numLocation = 1;
->>>>>>> 33b7c425fbdc5e18f2fd9e319fa20b132083ca9e
             }
 
         }
@@ -84,13 +72,10 @@ public class AnotherOneBitesTheDust {
             result.add(temp);
         }
 
-<<<<<<< HEAD
         for (int i = 0; i < result.size(); i++) {
             System.out.println(result.get(i));
         }
 
-=======
->>>>>>> 33b7c425fbdc5e18f2fd9e319fa20b132083ca9e
         result.sort((a, b) -> a.length() - b.length());
         boolean hasBitesTheDust = false;
         System.out.println("=".repeat(70));
