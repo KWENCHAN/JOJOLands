@@ -40,7 +40,6 @@ public class JadeGarden extends PearlJam implements Action {
                 case '2':
                     System.out.println("Restaurant: " + getName() + "\n");
                     displayWaitingList();
-                    processOrdersJadeGarden();
                     displayOrderProcessingList();
                     break;
                 case '3':

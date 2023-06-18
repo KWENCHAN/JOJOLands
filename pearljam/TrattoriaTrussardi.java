@@ -45,7 +45,6 @@ public class TrattoriaTrussardi extends PearlJam implements Action {
                 case '2':
                     System.out.println("Restaurant: " + getName() + "\n");
                     displayWaitingList();
-                    processOrdersTrattoriaTrussardi();
                     displayOrderProcessingList();
                     break;
                 case '3':
@@ -140,7 +139,7 @@ public class TrattoriaTrussardi extends PearlJam implements Action {
                 break;
             }
             orderProcessingList.add(males.remove(males.size() - 1));
-            orderProcessingList.add(females.remove(females.size() - 1));
+            orderProcessingList.add(females.remove(0));
         }
 
         orderProcessingList.addAll(males);

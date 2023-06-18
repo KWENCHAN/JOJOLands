@@ -46,7 +46,6 @@ public class CafeDeuxMagots extends PearlJam implements Action {
                 case '2':
                     System.out.println("Restaurant: " + getName() + "\n");
                     displayWaitingList();
-                    processOrdersCafeDeuxMagots();
                     displayOrderProcessingList();
                     break;
                 case '3':

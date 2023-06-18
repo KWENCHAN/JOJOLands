@@ -96,7 +96,7 @@ public class TheWorld {
             System.out.println("[3] Exit\n");
             String select = getSelection();
 
-            if (select == ""||select.matches("\\s+")) {
+            if (select == "" || select.matches("\\s+")) {
                 System.out.println("Invalid input. Please reselect.");
                 continue;
             }
@@ -128,8 +128,8 @@ public class TheWorld {
     }
 
     public void start() {
-
         generateFood_clearWaitingList();
+        processOrderList();
         displayDay(getDay());
         while (!exit) {
             locationlist.get(this.currentLocation.getName()).action(this);
@@ -180,7 +180,7 @@ public class TheWorld {
             System.out.println("[3] Alternate Map\n");
             String selection = getSelection();
 
-            if (selection == ""||selection.matches("\\s+")) {
+            if (selection == "" || selection.matches("\\s+")) {
                 System.out.println("Invalid input. Please reselect.");
                 continue;
             }
@@ -266,6 +266,7 @@ public class TheWorld {
         setDay(getDay() + 1);
         displayDay(getDay());
         generateFood_clearWaitingList();
+        processOrderList();
     }
 
     public void generateFood_clearWaitingList() {
@@ -279,6 +280,33 @@ public class TheWorld {
             RandomFoodSelection.selectFood(resiArea.getResidentList(), restaurantList);
         }
         RandomFoodSelection.printSalesCSV(day, restaurantList);
+    }
+
+    public void processOrderList() {
+        for (PearlJam restaurant : restaurantList) {
+            switch (restaurant.getName()) {
+                case "Cafe Deux Magots":
+                    CafeDeuxMagots cafe = (CafeDeuxMagots) restaurant;
+                    cafe.processOrdersCafeDeuxMagots();
+                    break;
+                case "Jade Garden":
+                    JadeGarden jg = (JadeGarden) restaurant;
+                    jg.processOrdersJadeGarden();
+                    break;
+                case "Libeccio":
+                    Libeccio lib = (Libeccio) restaurant;
+                    lib.processOrdersLibeccio(day);
+                    break;
+                case "Savage Garden":
+                    SavageGarden sg = (SavageGarden) restaurant;
+                    sg.processOrdersSavageGarden(day);
+                    break;
+                case "Trattoria Trussardi":
+                    TrattoriaTrussardi tt = (TrattoriaTrussardi) restaurant;
+                    tt.processOrdersTrattoriaTrussardi();
+                    break;
+            }
+        }
     }
 
     public void displayCurrentLocationOptions() {

@@ -46,7 +46,6 @@ public class Libeccio extends PearlJam  implements Action{
                 case '2':
                     System.out.println("Restaurant: " + getName() + "\n");
                     displayWaitingList();
-                    processOrdersLibeccio(game.getDay());
                     displayOrderProcessingList();
                     break;
                 case '3':
