@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -22,33 +23,39 @@ public class MilagroMan {
     private static String csv = "C:\\Users\\chank\\Documents\\UM\\SEM 2\\WIA1002 DATA STRUCTURE\\TestJojo\\src\\pearljam\\MilagroMan.csv";
 
     public static void action(PearlJam restaurant) {
-        copyCSVFile("C:\\Users\\chank\\Documents\\UM\\SEM 2\\WIA1002 DATA STRUCTURE\\TestJojo\\src\\pearljam\\orderList.csv", csv);
+        copyCSVFile(
+                "C:\\Users\\chank\\Documents\\UM\\SEM 2\\WIA1002 DATA STRUCTURE\\TestJojo\\src\\pearljam\\orderList.csv",
+                csv);
         String option;
         do {
-            printMenu();
+            printMenu(restaurant);
             option = scanner.nextLine();
-
+            if (option == "" || option.matches("\\s+")) {
+                System.out.println("Invalid input. Please reselect.");
+                continue;
+            }
             switch (option) {
                 case "1":
                     modifyFoodPrices(restaurant);
                     break;
                 case "2":
-                    MoodyBlues.action(restaurant, "C:\\Users\\chank\\OneDrive\\Documents\\UM\\SEM 2\\WIA1002 DATA STRUCTURE\\TestJojo\\src\\pearljam\\MilagroMan.csv", true);
+                    MoodyBlues.action(restaurant,
+                            "C:\\Users\\chank\\OneDrive\\Documents\\UM\\SEM 2\\WIA1002 DATA STRUCTURE\\TestJojo\\src\\pearljam\\MilagroMan.csv",
+                            true);
                     break;
                 case "3":
                     break;
                 default:
-                    System.out.println("Invalid option. Please try again.");
+                    System.out.println("Option " + option + " is not available. Please try again.");
             }
         } while (!option.equals("3"));
     }
 
-    private static void printMenu() {
+    private static void printMenu(PearlJam restaurant) {
+        System.out.println("Restaurant: "+restaurant+" (Milagro Man Mode)");
         System.out.println("[1] Modify Food Prices");
         System.out.println("[2] View Sales Information");
-        System.out.println("[3] Add New Food");
-        System.out.println("[4] Remove Food");
-        System.out.println("[5] Exit Milagro Man");
+        System.out.println("[5] Exit Milagro Man\n");
         System.out.print("Select: ");
     }
 
@@ -85,22 +92,35 @@ public class MilagroMan {
                 }
             } while (!haveFood(foodName, csv));
 
-            System.out.print("Enter new price: $");
-            double newPrice = scanner.nextDouble();
-            scanner.nextLine(); // Consume newline character
-            System.out.print("Enter Start Day: ");
-            int startday = scanner.nextInt();
-            scanner.nextLine();
-            System.out.print("Enter End Day: ");
-            int endday = scanner.nextInt();
-            scanner.nextLine();
+            double newPrice;
+            int startday;
+            int endday;
+
+            while (true) {
+                try {
+                    System.out.print("Enter new price: $");
+                    newPrice = scanner.nextDouble();
+                    scanner.nextLine(); // Consume newline character
+                    System.out.print("Enter Start Day: ");
+                    startday = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.print("Enter End Day: ");
+                    endday = scanner.nextInt();
+                    scanner.nextLine();
+                    break;
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input. Please try again. ");
+                    scanner.nextLine();
+                }
+            }
 
             // Read the original file
             BufferedReader reader = new BufferedReader(new FileReader(csv));
             String line;
             StringBuilder content = new StringBuilder();
 
-            // Read each line and append it to the content, replacing the line at the specified index
+            // Read each line and append it to the content, replacing the line at the
+            // specified index
             while ((line = reader.readLine()) != null) {
                 String[] values = line.split(",");
                 for (int i = startday; i <= endday; i++) {
@@ -108,7 +128,7 @@ public class MilagroMan {
                         values[4] = Double.toString(newPrice);
                     }
                 }
-                line = String.join(",",values);
+                line = String.join(",", values);
                 content.append(line).append("\n");
             }
             reader.close();
@@ -141,7 +161,6 @@ public class MilagroMan {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String line;
 
         return false; // String not found in the CSV file
     }

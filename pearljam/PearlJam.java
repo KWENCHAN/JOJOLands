@@ -6,6 +6,7 @@ package pearljam;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +19,7 @@ public class PearlJam {
     protected List<Resident> waitingList;
     protected List<Resident> orderProcessingList;
     protected final Map<String, Double> menu;
-    private final Scanner sc=new Scanner(System.in);
+    private final Scanner sc = new Scanner(System.in);
 
     public PearlJam(String name) {
         this.name = name;
@@ -70,7 +71,7 @@ public class PearlJam {
         for (int i = 0; i < waitingList.size(); i++) {
             Resident resident = waitingList.get(i);
             System.out.printf(format, i + 1, resident.getName(), resident.getAge(),
-                    resident.getGender(), resident.getOrderHistory().get(resident.getOrderHistory().size() - 1));
+                    resident.getGender(), resident.getOrderHistory().get(resident.getOrderHistory().size() - 1).getFood());
         }
         System.out.println("+" + "-".repeat(4) + "+" + "-".repeat(24) + "+" + "-".repeat(5) + "+" + "-".repeat(8) + "+"
                 + "-".repeat(37) + "+\n");
@@ -87,7 +88,7 @@ public class PearlJam {
         for (int i = 0; i < orderProcessingList.size(); i++) {
             Resident resident = orderProcessingList.get(i);
             System.out.printf(format, i + 1, resident.getName(), resident.getAge(),
-                    resident.getGender(), resident.getOrderHistory().get(resident.getOrderHistory().size() - 1));
+                    resident.getGender(), resident.getOrderHistory().get(resident.getOrderHistory().size() - 1).getFood());
         }
         System.out.println("+" + "-".repeat(4) + "+" + "-".repeat(24) + "+" + "-".repeat(5) + "+" + "-".repeat(8) + "+"
                 + "-".repeat(37) + "+");
@@ -109,51 +110,123 @@ public class PearlJam {
         System.out.println("+" + "-".repeat(4) + "+" + "-".repeat(37) + "+" + "-".repeat(7) + "+");
         System.out.println("=".repeat(70));
     }
-    
-    private void modifyFoodPrices(PearlJam restaurant) {
+
+    protected void modifyFoodName() {
         System.out.print("Enter food name: ");
         String foodName = sc.nextLine();
-        if (!restaurant.getMenu().containsKey(foodName)) {
+        if (!menu.containsKey(foodName)) {
             System.out.println("Food not found.");
             return;
         }
-        System.out.print("Enter new price: $");
-        double newPrice = sc.nextDouble();
-        sc.nextLine(); // Consume newline character
+        System.out.print("Enter new name: ");
+        String newName = sc.nextLine();
 
-        Map<String, Double> menu = restaurant.getMenu();
+        menu.put(newName, menu.get(foodName));
+        menu.remove(foodName);
+        System.out.println("Food name modified successfully.");
+    }
+
+    protected void modifyFoodPrices() {
+        System.out.print("Enter food name: ");
+        String foodName = sc.nextLine();
+        if (!menu.containsKey(foodName)) {
+            System.out.println("Food not found.");
+            return;
+        }
+
+        double newPrice;
+        while (true) {
+            try {
+                System.out.print("Enter new price: $");
+                newPrice = sc.nextDouble();
+                sc.nextLine(); // Consume newline character
+                break;
+            } catch (Exception e) {
+                System.out.println("Invalid input. Please try again. ");
+                sc.nextLine();
+            }
+        }
+
         menu.replace(foodName, newPrice);
 
         System.out.println("Food price modified successfully.");
     }
-    
-    private void addNewFood(PearlJam restaurant) {
+
+    protected void addNewFood() {
         System.out.print("Enter food name: ");
         String foodName = sc.nextLine();
-        if (restaurant.getMenu().containsKey(foodName)) {
+        if (menu.containsKey(foodName)) {
             System.out.println("Food already exists.");
             return;
         }
+        double price;
+        while (true) {
+            try {
+                System.out.print("Enter price: $");
+                price = sc.nextDouble();
+                sc.nextLine(); // Consume newline character
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please try again. ");
+                sc.nextLine();
+            }
+        }
 
-        System.out.print("Enter price: $");
-        double price = sc.nextDouble();
-        sc.nextLine(); // Consume newline character
-
-        restaurant.addToMenu(foodName, price);
+        addToMenu(foodName, price);
 
         System.out.println("Food added successfully.");
     }
 
-    private void removeFood(PearlJam restaurant) {
+    protected void removeFood() {
         System.out.print("Enter food name: ");
         String foodName = sc.nextLine();
-        if (!restaurant.getMenu().containsKey(foodName)) {
+        if (!menu.containsKey(foodName)) {
             System.out.println("Food not found.");
             return;
         }
 
-        restaurant.getMenu().remove(foodName);
+        menu.remove(foodName);
 
         System.out.println("Food removed successfully.");
+    }
+
+    protected void modifyMenu() {
+        boolean exit = false;
+        while (!exit) {
+            System.out.println("Restaurant: " + name);
+            System.out.println("\n[1] Create new food");
+            System.out.println("[2] Modify food name");
+            System.out.println("[3] Modify food price");
+            System.out.println("[4] Remove food from menu");
+            System.out.println("[5] Exit\n");
+
+            System.out.print("Select: ");
+            String select = sc.nextLine();
+            
+            if (select == ""||select.matches("\\s+")) {
+                System.out.println("Invalid input. Please reselect.");
+                continue;
+            }
+            switch (select) {
+                case "1":
+                    addNewFood();
+                    break;
+                case "2":
+                    modifyFoodName();
+                    break;
+                case "3":
+                    modifyFoodPrices();
+                    break;
+                case "4":
+                    removeFood();
+                    break;
+                case "5":
+                    exit = true;
+                    System.out.println("=".repeat(70));
+                    return;
+                default:
+                    System.out.println("Option " + select + " is not available. Please reselect.");
+            }
+        }
     }
 }

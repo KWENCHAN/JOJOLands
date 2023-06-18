@@ -42,16 +42,15 @@ public class HeavenDoor {
                         stand.getStamina(), stand.getPrecision(), stand.getDevelopmentPotential());
             } else {
                 System.out.printf(format, i + 1, resident.getName(), resident.getAge(), resident.getGender(), "N/A",
-                        "N/A", "N/A", "N/A", "N/A", "N/A", "N/A");
+                        "Null", "Null", "Null", "Null", "Null", "Null");
             }
         }
         System.out.printf(border, "-".repeat(4), "-".repeat(23), "-".repeat(5), "-".repeat(8), "-".repeat(24),
                 "-".repeat(19), "-".repeat(10), "-".repeat(10), "-".repeat(10), "-".repeat(11), "-".repeat(23) + "+");
 
-        
     }
 
-    public void Innermenu(){
+    public void Innermenu() {
         boolean exit = false;
         while (!exit) {
             System.out.println("[1] View Resident’s Profile");
@@ -60,6 +59,10 @@ public class HeavenDoor {
 
             System.out.print("Select: ");
             String select = sc.nextLine();
+            if (select == "" || select.matches("\\s+")) {
+                System.out.println("Invalid input. Please reselect.");
+                continue;
+            }
             switch (select) {
                 case "1":
                     viewResidentProfile();
@@ -82,6 +85,10 @@ public class HeavenDoor {
         while (!getName) {
             System.out.print("Enter the resident's name: ");
             String resident_name = sc.nextLine();
+            if (resident_name == "" || resident_name.matches("\\s+")) {
+                System.out.println("Invalid input. Please reselect.");
+                continue;
+            }
             for (Resident resident : residentList) {
                 if (resident.getName().equals(resident_name)) {
                     System.out.println(resident);
@@ -100,29 +107,16 @@ public class HeavenDoor {
         return residentList;
     }
 
-//    public void sort() {
-//        System.out.print("Enter the sorting order (Field Name (ASC/DESC)): ");
-//        String input_order = sc.nextLine();
-//        String[] sort_order = input_order.split(";");
-//
-//        // Create a list of sort criteria
-//        List<SortCriteria> criteriaList = new ArrayList<>();
-//        for (String criteria : sort_order) {
-//            String[] tokens = criteria.trim().split("\\s*\\(\\s*|\\s*\\)\\s*");
-//            String field = tokens[0].split("\\(")[0].toLowerCase();
-//            String sortOrder = tokens[1].toLowerCase();
-//            criteriaList.add(new SortCriteria(field, sortOrder));
-//        }
-//
-//        // Sort the residentList based on the sorting criteria
-//        Collections.sort(residentList, new ResidentComparator(criteriaList));
-//
-//        // Display the sorted resident information
-//        viewResidentInfo();
-//    }
     public void sort() {
-        System.out.print("Enter the sorting order (Field Name (ASC/DESC)): ");
-        String input_order = sc.nextLine();
+        String input_order;
+        while (true) {
+            System.out.print("Enter the sorting order (Field Name (ASC/DESC);): ");
+            input_order = sc.nextLine();
+            if (input_order.matches("(.+) \\((.+)\\);")) {
+                break;
+            }
+            System.out.println("Wrong input format. Please try again. ");
+        }
         String[] sort_order = input_order.split(";");
 
         // Create a list of sort criteria

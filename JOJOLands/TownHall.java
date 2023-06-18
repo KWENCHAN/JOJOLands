@@ -10,68 +10,77 @@ import Graph.Location;
  *
  * @author ASUS
  */
-public class TownHall extends Location implements Action{
+public class TownHall extends Location implements Action {
 
     public TownHall() {
         super("Town Hall");
     }
 
     public void action(TheWorld game) {
-        displayMenu(game);
-        String select = game.getSelection();
-        if(select==""){
-            action(game);
+        while (true) {
+            displayMenu(game);
+            String select = game.getSelection();
+            if (select == "" || select.matches("\\s+")) {
+                System.out.println("Invalid input. Please reselect.");
+                continue;
+            }
+            switch (select.charAt(0)) {
+                case '1':
+                    char loc_select = select.charAt(1);
+                    if ((loc_select - 'A' <= game.getMap().getEdgeListforVertex(game.getCurrentLocation()).size() - 1)
+                            && Character.isUpperCase(loc_select)) {
+                        game.move(loc_select);
+                        return;
+                    } else {
+                        System.out.println("Option " + select + " is not available. Please reselect.");
+                        continue;
+                    }
+                case '2':
+                    game.advanceToNextDay();
+                    break;
+                case '3':
+                    game.saveGame();
+                    break;
+                case '4':
+                    if (!game.getBackhistory().isEmpty()) {
+                        game.back();
+                        return;
+                    } else if (game.getBackhistory().isEmpty() && !game.getForwardhistory().isEmpty()) {
+                        game.forward();
+                        return;
+                    } else if (game.getBackhistory().isEmpty() && game.getForwardhistory().isEmpty()) {
+                        game.setExit(true);
+                        return;
+                    } else {
+                        System.out.println("Option " + select + " is not available. Please reselect.");
+                        continue;
+                    }
+                case '5':
+                    if (!game.getBackhistory().isEmpty() && !game.getForwardhistory().isEmpty()) {
+                        game.forward();
+                        return;
+                    } else if ((game.getBackhistory().isEmpty() && !game.getForwardhistory().isEmpty())
+                            || (!game.getBackhistory().isEmpty()) && game.getForwardhistory().isEmpty()) {
+                        game.setExit(true);
+                        return;
+                    } else {
+                        System.out.println("Option " + select + " is not available. Please reselect.");
+                        continue;
+                    }
+                case '6':
+                    if (!game.getBackhistory().isEmpty() && !game.getForwardhistory().isEmpty()) {
+                        game.setExit(true);
+                        return;
+                    } else {
+                        System.out.println("Option " + select + " is not available. Please reselect.");
+                        continue;
+                    }
+                default:
+                    System.out.println("Option " + select + " is not available. Please reselect.");
+            }
         }
-        switch (select.charAt(0)) {
-            case '1':
-                char loc_select = select.charAt(1);
-                if ((loc_select - 'A' <= game.getMap().getEdgeListforVertex(game.getCurrentLocation()).size() - 1) && Character.isUpperCase(loc_select)) {
-                    game.move(loc_select);
-                } else {
-                    System.out.println("Option "+select+" is not available. Please reselect.");
-                    action(game);
-                }
-                break;
-            case '2':
-                game.advanceToNextDay();
-                break;
-            case '3':
-                game.saveGame();
-                break;
-            case '4':
-                if (!game.getBackhistory().isEmpty()) {
-                    game.back();
-                } else if (game.getBackhistory().isEmpty() && !game.getForwardhistory().isEmpty()) {
-                    game.forward();
-                } else if (game.getBackhistory().isEmpty() && game.getForwardhistory().isEmpty()) {
-                    game.setExit(true);
-                } else {
-                    System.out.println("Option "+select+" is not available. Please reselect.");
-                }
-                break;
-            case '5':
-                if (!game.getBackhistory().isEmpty() && !game.getForwardhistory().isEmpty()) {
-                    game.forward();
-                } else if ((game.getBackhistory().isEmpty() && !game.getForwardhistory().isEmpty())
-                        || (!game.getBackhistory().isEmpty()) && game.getForwardhistory().isEmpty()) {
-                    game.setExit(true);
-                } else {
-                    System.out.println("Option "+select+" is not available. Please reselect.");
-                }
-                break;
-            case '6':
-                if (!game.getBackhistory().isEmpty() && !game.getForwardhistory().isEmpty()) {
-                    game.setExit(true);
-                } else {
-                    System.out.println("Option "+select+" is not available. Please reselect.");
-                }
-                break;
-            default:
-                System.out.println("Option "+select+" is not available. Please reselect.");
-        }
-    }
 
-    
+    }
 
     private void displayMenu(TheWorld game) {
         System.out.println("Current Location: " + game.getCurrentLocation().getName());

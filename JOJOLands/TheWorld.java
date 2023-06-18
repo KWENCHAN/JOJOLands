@@ -89,48 +89,55 @@ public class TheWorld {
     }
 
     private void welcome() throws JSONException {
-        System.out.println("Welcome, to the fantastical realm of JOJOLands.");
-        System.out.println("[1] Start Game");
-        System.out.println("[2] Load Game");
-        System.out.println("[3] Exit\n");
-        String select = getSelection();
+        while (true) {
+            System.out.println("Welcome, to the fantastical realm of JOJOLands.");
+            System.out.println("[1] Start Game");
+            System.out.println("[2] Load Game");
+            System.out.println("[3] Exit\n");
+            String select = getSelection();
 
-        switch (select) {
-            case "1" -> {
-                setMap(JSONReader.readMap(JSONReader.readJSON(selectMap())));
-                setCurrentLocation(map.getVertex("Town Hall"));
-                //burningDownTheHouse("Trattoria Trussardi");
-                AnotherOneBitesTheDust obj = new AnotherOneBitesTheDust(map);
-                obj.hasBitesTheDust("Jade Garden > Cafe Deux Magots > Town Hall > Morioh Grand Hotel > Jade Garden > Town Hall > Jade Garden > Cafe Deux Magots > Town Hall > Jade Garden > Town Hall > Morioh Grand Hotel");
-                obj.hasBitesTheDust("Savage Garden > Angelo Rock > Savage Garden > Angelo Rock > Savage Garden");
-                obj.hasBitesTheDust("Joestar Mansion > Libeccio > DIO's Mansion > Vineyard > DIO's Mansion > Libeccio > DIO's Mansion > Vineyard > San Giorgio Maggiore");
-                setDay(1);
-                setDay(1);
-                start();
-                break;
+            if (select == ""||select.matches("\\s+")) {
+                System.out.println("Invalid input. Please reselect.");
+                continue;
             }
-            case "2" -> {
-                System.out.print("Enter the path of your save file: ");
-                //“C:\\HON YAO ZHI\\Data Structure\\AssignmentJOJO\\loadGame.JSON”
-                String savepath = sc.nextLine();
-                loadGame(savepath);
-                break;
-            }
-            case "3" -> {
-                return;
-            }
-            default -> {
-                System.out.println("Option " + select + " is not available. Please reselect.");
-                welcome();
-                break;
+
+            switch (select) {
+                case "1" -> {
+                    setMap(JSONReader.readMap(JSONReader.readJSON(selectMap())));
+                    setCurrentLocation(map.getVertex("Town Hall"));
+                    // burningDownTheHouse("Trattoria Trussardi");
+                    AnotherOneBitesTheDust obj = new AnotherOneBitesTheDust(map);
+                    obj.hasBitesTheDust(
+                            "Jade Garden > Cafe Deux Magots > Town Hall > Morioh Grand Hotel > Jade Garden > Town Hall > Jade Garden > Cafe Deux Magots > Town Hall > Jade Garden > Town Hall > Morioh Grand Hotel");
+                    obj.hasBitesTheDust("Savage Garden > Angelo Rock > Savage Garden > Angelo Rock > Savage Garden");
+                    obj.hasBitesTheDust(
+                            "Joestar Mansion > Libeccio > DIO's Mansion > Vineyard > DIO's Mansion > Libeccio > DIO's Mansion > Vineyard > San Giorgio Maggiore");
+                    setDay(1);
+                    setExit(false);
+                    start();
+                    break;
+                }
+                case "2" -> {
+                    System.out.print("Enter the path of your save file: ");
+                    // “C:\\HON YAO ZHI\\Data Structure\\AssignmentJOJO\\loadGame.JSON”
+                    String savepath = sc.nextLine();
+                    loadGame(savepath);
+                    break;
+                }
+                case "3" -> {
+                    return;
+                }
+                default -> {
+                    System.out.println("Option " + select + " is not available. Please reselect.");
+                }
             }
         }
     }
 
     public void start() {
 
-        displayDay(getDay());
         generateFood_clearWaitingList();
+        displayDay(getDay());
         while (!exit) {
             locationlist.get(this.currentLocation.getName()).action(this);
         }
@@ -172,23 +179,38 @@ public class TheWorld {
     }
 
     public String selectMap() {
-        System.out.println("Select a map:");
-        System.out.println("[1] Default Map");
-        System.out.println("[2] Parallel Map");
-        System.out.println("[3] Alternate Map\n");
-        String selection = getSelection();
         String path = "C:\\Users\\chank\\Documents\\UM\\SEM 2\\WIA1002 DATA STRUCTURE\\JOJOLandsMaster\\Map\\";
-        switch (selection) {
-            case "1" ->
-                path += "DefaultMap.json";
-            case "2" ->
-                path += "ParallelMap.json";
-            case "3" ->
-                path += "AlternateMap.json";
-            default -> {
-                System.out.println("Option " + selection + " is not available. Please reselect.");
-                selectMap();
+        while (true) {
+            System.out.println("Select a map:");
+            System.out.println("[1] Default Map");
+            System.out.println("[2] Parallel Map");
+            System.out.println("[3] Alternate Map\n");
+            String selection = getSelection();
+
+            if (selection == ""||selection.matches("\\s+")) {
+                System.out.println("Invalid input. Please reselect.");
+                continue;
             }
+
+            switch (selection) {
+                case "1" -> {
+                    path += "DefaultMap.json";
+                    break;
+                }
+                case "2" -> {
+                    path += "ParallelMap.json";
+                    break;
+                }
+                case "3" -> {
+                    path += "AlternateMap.json";
+                    break;
+                }
+                default -> {
+                    System.out.println("Option " + selection + " is not available. Please reselect.");
+                    continue;
+                }
+            }
+            break;
         }
         mapSelectionPath = path;
         return path;
@@ -242,7 +264,7 @@ public class TheWorld {
 
     public void displayDay(int day) {
 
-        String[] daysOfWeek = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+        String[] daysOfWeek = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
         int index = (day - 1) % 7;
         System.out.printf("It’s Day %d (%s) of our journey in JOJOLands!%n", getDay(), daysOfWeek[index]);
     }
@@ -320,7 +342,7 @@ public class TheWorld {
         String json = jsonObject.toString();
 
         // Write the JSON string to a file
-        try ( FileWriter writer = new FileWriter("loadGame.json")) {
+        try (FileWriter writer = new FileWriter("loadGame.json")) {
             writer.write(json);
             System.out.println("Data written to the file successfully.");
 
@@ -380,7 +402,8 @@ public class TheWorld {
                         FoodItem item = new FoodItem(restauName, food, 1, price);
                         res.addOrderHistory(item);
                     }
-                    PearlJam LastRestaurant = (PearlJam) locationlist.get(foodHist.getJSONObject(foodHist.length() - 1).getString("restaurant"));
+                    PearlJam LastRestaurant = (PearlJam) locationlist
+                            .get(foodHist.getJSONObject(foodHist.length() - 1).getString("restaurant"));
                     LastRestaurant.addResidentToWaitingList(res);
                 }
             }
@@ -405,8 +428,5 @@ public class TheWorld {
         }
     }
 
-    public void anotherOneBitesTheDust(){
-        AnotherOneBitesTheDust btd = new AnotherOneBitesTheDust(map);
-        btd.hasBitesTheDust(btd.getPath());
-    }
+    
 }

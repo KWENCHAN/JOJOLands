@@ -11,12 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
-import pearljam.CafeDeuxMagots;
 import pearljam.FoodItem;
-import pearljam.JadeGarden;
-import pearljam.Libeccio;
-import pearljam.SavageGarden;
-import pearljam.TrattoriaTrussardi;
 
 public class RandomFoodSelection {
 
@@ -91,7 +86,6 @@ public class RandomFoodSelection {
         resident.addOrderHistory(foodItem);
         selected_res.addResidentToWaitingList(resident);
         addSales(selectedfood, price);
-        System.out.printf("%-40s %10s%n", selectedfood, "random");
     }
 
     /*
@@ -122,7 +116,6 @@ public class RandomFoodSelection {
             PearlJam resObj = getRestaurantObj(restaurant, restaurantList);
             resObj.addResidentToWaitingList(resident);
             addSales(leastfood, price);
-            System.out.printf("%-40s %-40s%n", leastfood, getMostFrequentFood(foodHistory));
             freqExceed1 = true;
         } else {
             if (freqExceed1) {
@@ -143,7 +136,6 @@ public class RandomFoodSelection {
                 PearlJam resObj = getRestaurantObj(restaurant, restaurantList);
                 resObj.addResidentToWaitingList(resident);
                 addSales(selected, price);
-                System.out.printf("%-40s %-40s%n", selected, "exceed1");
             } else {
                 getRandomFoodItem(resident, restaurantList);
             }
@@ -217,7 +209,6 @@ public class RandomFoodSelection {
         if (JosephHistory.containsAll(food_res.keySet())) {
             // The resident has tried all the available foods
             // Reset the food history and start again from the beginning of the menu
-            System.out.println("tried all");
             JosephHistory.clear();
         }
 
@@ -261,7 +252,6 @@ public class RandomFoodSelection {
          ***************************
          */
         JotaroFoodHistory.add(selected);
-        System.out.printf("%-20s%n", currentRes.getName());
 
         if (JotaroFoodHistory.containsAll(foodMenu)) {
             JotaroFoodHistory.clear();
@@ -282,9 +272,7 @@ public class RandomFoodSelection {
         }
 
         if (resident.getOrderHistory().size() % 7 == 0) {
-            System.out.println("total=" + JosukeExpense);
             JosukeExpense = 0;
-            System.out.println("reset");
         }
 
         String selected = "";
@@ -293,10 +281,8 @@ public class RandomFoodSelection {
             List<String> foodMenu = new ArrayList<>(food_res.keySet());
             do {
                 //all food price+expenses exceed 100, select cheapest food
-                System.out.println("size=" + foodMenu.size());
                 if (foodMenu.size() <= 0) {
                     selected = getCheapestFood(food_$);
-                    System.out.println("cheapest=" + selected);
                     break;
                 }
                 selected = foodMenu.get(random.nextInt(foodMenu.size()));
@@ -308,11 +294,9 @@ public class RandomFoodSelection {
         } else {
             //find the cheapest food
             selected = getCheapestFood(food_$);
-            System.out.println("cheapest=" + selected);
         }
         price = food_$.get(selected);
         JosukeExpense += price;
-        System.out.println(price);
         String restaurant = food_res.get(selected);
         FoodItem foodItem = new FoodItem(restaurant, selected, 1, price);
         resident.addOrderHistory(foodItem);
@@ -351,7 +335,6 @@ public class RandomFoodSelection {
 
         if (foodHistory.size() % 7 == 0) {
             GiornoFoodHistory.clear();
-            System.out.println("reset");
         }
 
         String selected;
@@ -365,7 +348,6 @@ public class RandomFoodSelection {
             List<String> TTMenu = new ArrayList<>(trattoria.getMenu().keySet());
             selected = selectRandomFoodFromList(TTMenu);
             restaurant = trattoria.getName();
-            System.out.println("Friday");
         } else if (foodHistory.size() % 7 == 6 && GiornoFoodHistory.size() < 2) {
             List<String> TTMenu = new ArrayList<>(trattoria.getMenu().keySet());
             //if menu options more than 1
@@ -374,7 +356,6 @@ public class RandomFoodSelection {
             }
             selected = selectRandomFoodFromList(TTMenu);
             restaurant = trattoria.getName();
-            System.out.println("Saturday");
         } else {
             List<String> foodMenu = new ArrayList<>(food_res.keySet());
             foodMenu.remove(GiornoFoodHistory.isEmpty() ? "" : GiornoFoodHistory.get(GiornoFoodHistory.size() - 1));
@@ -384,7 +365,6 @@ public class RandomFoodSelection {
         if (restaurant.equals("Trattoria Trussardi")) {
             GiornoFoodHistory.add(selected);
         }
-        System.out.printf("%-40s %-20s%n", selected, restaurant);
         double price = food_$.get(selected);
         FoodItem foodItem = new FoodItem(restaurant, selected, 1, price);
         resident.addOrderHistory(foodItem);
@@ -409,7 +389,6 @@ public class RandomFoodSelection {
             resident.addOrderHistory(foodItem);
             restaurant.addResidentToWaitingList(resident);
             addSales(selected, price);
-            System.out.printf("%-20s", restaurant.getName());
             return;
         }
 
@@ -418,13 +397,11 @@ public class RandomFoodSelection {
         //Friday
         if (resident.getOrderHistory().size() % 7 == 5) {
             //to prevent Friday same with Saturday
-            System.out.println("friday ");
             resList.remove(JotaroCurrentRes);
             resList.remove(JotaroNextRes);
         }
         resList.remove(JolyneLastRes);
         if (resident.getOrderHistory().size() % 7 == 6) {
-            System.out.println("saturday ");
             restaurant = JotaroCurrentRes;
         } else {
             restaurant = resList.get(random.nextInt(resList.size()));
@@ -437,7 +414,6 @@ public class RandomFoodSelection {
         resident.addOrderHistory(foodItem);
         restaurant.addResidentToWaitingList(resident);
         addSales(selected, price);
-        System.out.printf("%-20s", restaurant.getName());
     }
 
     public static void addSales(String food, Double price) {
@@ -484,39 +460,6 @@ public class RandomFoodSelection {
             fileWriter.close();
         } catch (IOException e) {
             System.out.println("An error occurred while clearing the file.");
-        }
-    }
-
-    public static void main(String[] args) {
-        // Example usage
-        List<PearlJam> restaurants = new ArrayList<>();
-        restaurants.add(new TrattoriaTrussardi());
-        restaurants.add(new SavageGarden());
-        restaurants.add(new Libeccio());
-        restaurants.add(new JadeGarden());
-        restaurants.add(new CafeDeuxMagots());
-
-        JoestarMansion jm = new JoestarMansion();
-        Resident jotaro = null;
-        Resident jolyne = null;
-        for (Resident resident : jm.getResidentList()) {
-            if (resident.getName().equals("Jonathan Joestar")) {
-                jotaro = resident;
-            }
-            if (resident.getName().equals("Joseph Joestar")) {
-                jolyne = resident;
-            }
-        }
-        List<Resident> reslist = new ArrayList<>();
-        reslist.add(jolyne);
-        reslist.add(jotaro);
-        for (int i = 0; i < 60; i++) {
-            RandomFoodSelection.selectFood(reslist, restaurants);
-        }
-        System.out.println("");
-        for (int i = 0; i < 60; i++) {
-            System.out.println(jotaro.getOrderHistory().get(i).getFood());
-//            System.out.printf("%-40s %-20s%n", jolyne.getOrderHistory().get(i).getRestaurant(), jotaro.getOrderHistory().get(i).getRestaurant());
         }
     }
 

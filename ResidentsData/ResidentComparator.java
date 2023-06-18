@@ -53,8 +53,8 @@ public class ResidentComparator implements Comparator<Resident> {
 
     private int compareStandField(Stand s1, Stand s2, String field) {
 
-        String value1 = "N/A";
-        String value2 = "N/A";
+        String value1 = "Null";
+        String value2 = "Null";
 
         if (s1 != null) {
             value1 = getStandFieldValue(s1, field);
@@ -118,7 +118,7 @@ public class ResidentComparator implements Comparator<Resident> {
     }
 
     public enum StandValueOrder {
-        INFINITY, A, B, C, D, E, QUESTION_MARK, N_A;
+        INFINITY, A, B, C, D, E, QUESTION_MARK, NULL;
         public static StandValueOrder getOrder(String value) {
             if (value.equals("Infinity")) {
                 return INFINITY;
@@ -135,7 +135,7 @@ public class ResidentComparator implements Comparator<Resident> {
             } else if (value.equals("?")) {
                 return QUESTION_MARK;
             } else {
-                return N_A;
+                return NULL;
             }
         }
     }
@@ -157,7 +157,7 @@ public class ResidentComparator implements Comparator<Resident> {
             case "stand":
                 return stand.getName();
             default:
-                return "N/A";
+                return "Null";
         }
     }
 

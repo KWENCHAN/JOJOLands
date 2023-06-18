@@ -4,13 +4,9 @@
  */
 package pearljam;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import JOJOLands.Action;
 import JOJOLands.TheWorld;
 import ResidentsData.Resident;
-import ResidentsData.TheGoldenSpirit;
 
 public class JadeGarden extends PearlJam implements Action {
 
@@ -24,66 +20,80 @@ public class JadeGarden extends PearlJam implements Action {
     }
 
     public void action(TheWorld game) {
-        displayMenu(game);
-        String select = game.getSelection();
-        if (select == "") {
-            action(game);
-        }
-        switch (select.charAt(0)) {
-            case '1':
-                char loc_select = select.charAt(1);
-                if ((loc_select - 'A' <= game.getMap().getEdgeListforVertex(game.getCurrentLocation()).size() - 1) && Character.isUpperCase(loc_select)) {
-                    game.move(loc_select);
-                } else {
+        while (true) {
+            displayMenu(game);
+            String select = game.getSelection();
+            if (select == ""||select.matches("\\s+")) {
+                System.out.println("Invalid input. Please reselect.");
+                continue;
+            }
+            switch (select.charAt(0)) {
+                case '1':
+                    char loc_select = select.charAt(1);
+                    if ((loc_select - 'A' <= game.getMap().getEdgeListforVertex(game.getCurrentLocation()).size() - 1)
+                            && Character.isUpperCase(loc_select)) {
+                        game.move(loc_select);
+                        return;
+                    } else {
+                        System.out.println("Option " + select + " is not available. Please reselect.");
+                    }
+                case '2':
+                    System.out.println("Restaurant: " + getName() + "\n");
+                    displayWaitingList();
+                    processOrdersJadeGarden();
+                    displayOrderProcessingList();
+                    break;
+                case '3':
+                    viewMenu();
+                    break;
+                case '4':
+                    modifyMenu();
+                    break;
+                case '5':
+                    MoodyBlues.action(this,
+                            "C:\\Users\\chank\\OneDrive\\Documents\\UM\\SEM 2\\WIA1002 DATA STRUCTURE\\TestJojo\\src\\pearljam\\orderList.csv",
+                            false);
+                    break;
+                case '6':
+                    MilagroMan.action(this);
+                    break;
+                case '7':
+                    if (!game.getBackhistory().isEmpty()) {
+                        game.back();
+                        return;
+                    } else if (game.getBackhistory().isEmpty() && !game.getForwardhistory().isEmpty()) {
+                        game.forward();
+                        return;
+                    } else if (game.getBackhistory().isEmpty() && game.getForwardhistory().isEmpty()) {
+                        game.backToTownHall();
+                        return;
+                    } else {
+                        System.out.println("Option " + select + " is not available. Please reselect.");
+                        continue;
+                    }
+                case '8':
+                    if (!game.getBackhistory().isEmpty() && !game.getForwardhistory().isEmpty()) {
+                        game.forward();
+                        return;
+                    } else if ((game.getBackhistory().isEmpty() && !game.getForwardhistory().isEmpty())
+                            || (!game.getBackhistory().isEmpty()) && game.getForwardhistory().isEmpty()) {
+                        game.backToTownHall();
+                        return;
+                    } else {
+                        System.out.println("Option " + select + " is not available. Please reselect.");
+                        continue;
+                    }
+                case '9':
+                    if (!game.getBackhistory().isEmpty() && !game.getForwardhistory().isEmpty()) {
+                        game.backToTownHall();
+                        return;
+                    } else {
+                        System.out.println("Option " + select + " is not available. Please reselect.");
+                        continue;
+                    }
+                default:
                     System.out.println("Option " + select + " is not available. Please reselect.");
-                    action(game);
-                }
-                break;
-            case '2':
-                System.out.println("Restaurant: " + getName() + "\n");
-                displayWaitingList();
-                processOrdersJadeGarden();
-                displayOrderProcessingList();
-                break;
-            case '3':
-                viewMenu();
-                break;
-            case '4':
-                MoodyBlues.action(this,"C:\\Users\\chank\\OneDrive\\Documents\\UM\\SEM 2\\WIA1002 DATA STRUCTURE\\TestJojo\\src\\pearljam\\orderList.csv",false);
-                break;
-            case '5':
-                MilagroMan.action(this);
-                break;
-            case '6':
-                if (!game.getBackhistory().isEmpty()) {
-                    game.back();
-                } else if (game.getBackhistory().isEmpty() && !game.getForwardhistory().isEmpty()) {
-                    game.forward();
-                } else if (game.getBackhistory().isEmpty() && game.getForwardhistory().isEmpty()) {
-                    game.backToTownHall();
-                } else {
-                    System.out.println("Option " + select + " is not available. Please reselect.");
-                }
-                break;
-            case '7':
-                if (!game.getBackhistory().isEmpty() && !game.getForwardhistory().isEmpty()) {
-                    game.forward();
-                } else if ((game.getBackhistory().isEmpty() && !game.getForwardhistory().isEmpty())
-                        || (!game.getBackhistory().isEmpty()) && game.getForwardhistory().isEmpty()) {
-                    game.backToTownHall();
-                } else {
-                    System.out.println("Option " + select + " is not available. Please reselect.");
-                }
-                break;
-            case '8':
-                if (!game.getBackhistory().isEmpty() && !game.getForwardhistory().isEmpty()) {
-                    game.backToTownHall();
-                } else {
-                    System.out.println("Option " + select + " is not available. Please reselect.");
-                }
-                break;
-            default:
-                System.out.println("Option " + select + " is not available. Please reselect.");
+            }
         }
     }
 
@@ -113,6 +123,7 @@ public class JadeGarden extends PearlJam implements Action {
         game.displayCurrentLocationOptions();
         System.out.printf("[%d] View Waiting List and Order Processing List%n", i++);
         System.out.printf("[%d] View Menu%n", i++);
+        System.out.printf("[%d] Modify Menu%n", i++);
         System.out.printf("[%d] View Sales Information%n", i++);
         System.out.printf("[%d] Milagro Man%n", i++);
         if (!game.getBackhistory().isEmpty()) {

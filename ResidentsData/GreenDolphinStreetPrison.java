@@ -14,68 +14,79 @@ import java.util.Scanner;
  *
  * @author ASUS
  */
-public class GreenDolphinStreetPrison extends HeavenDoor implements Action{
+public class GreenDolphinStreetPrison extends HeavenDoor implements Action {
 
     public GreenDolphinStreetPrison() {
         super("Green Dolphin Street Prison");
     }
-    
+
     public void action(TheWorld game) {
-        displayMenu(game);
-        String select = game.getSelection();
-        if(select==""){
-            action(game);
+        while (true) {
+            displayMenu(game);
+            String select = game.getSelection();
+            if (select == ""||select.matches("\\s+")) {
+                System.out.println("Invalid input. Please reselect.");
+                continue;
+            }
+            switch (select.charAt(0)) {
+                case '1':
+                    char loc_select = select.charAt(1);
+                    if ((loc_select - 'A' <= game.getMap().getEdgeListforVertex(game.getCurrentLocation()).size() - 1)
+                            && Character.isUpperCase(loc_select)) {
+                        game.move(loc_select);
+                        return;
+                    } else {
+                        System.out.println("Option " + select + " not available. Please reselect.");
+                        continue;
+                    }
+                case '2':
+                    viewResidentInfo();
+                    Innermenu();
+                    break;
+                case '3':
+                    burningDownTheHouse(game);
+                    break;
+                case '4':
+                    // DirtyDeedsDoneDirtCheap.dirtyDeeds();
+                case '5':
+                    if (!game.getBackhistory().isEmpty()) {
+                        game.back();
+                        return;
+                    } else if (game.getBackhistory().isEmpty() && !game.getForwardhistory().isEmpty()) {
+                        game.forward();
+                        return;
+                    } else if (game.getBackhistory().isEmpty() && game.getForwardhistory().isEmpty()) {
+                        game.backToTownHall();
+                        return;
+                    } else {
+                        System.out.println("Option " + select + " not available. Please reselect.");
+                        continue;
+                    }
+                case '6':
+                    if (!game.getBackhistory().isEmpty() && !game.getForwardhistory().isEmpty()) {
+                        game.forward();
+                        return;
+                    } else if ((game.getBackhistory().isEmpty() && !game.getForwardhistory().isEmpty())
+                            || (!game.getBackhistory().isEmpty()) && game.getForwardhistory().isEmpty()) {
+                        game.backToTownHall();
+                        return;
+                    } else {
+                        System.out.println("Option " + select + " is not available. Please reselect.");
+                        continue;
+                    }
+                case '7':
+                    if (!game.getBackhistory().isEmpty() && !game.getForwardhistory().isEmpty()) {
+                        game.backToTownHall();
+                        return;
+                    } else {
+                        System.out.println("Option " + select + " is not available. Please reselect.");
+                        continue;
+                    }
+                default:
+                    System.out.println("Option " + select + " is not available. Please reselect.");
+            }
         }
-        switch (select.charAt(0)) {
-            case '1':
-                char loc_select = select.charAt(1);
-                if ((loc_select - 'A' <= game.getMap().getEdgeListforVertex(game.getCurrentLocation()).size() - 1) && Character.isUpperCase(loc_select)) {
-                    game.move(loc_select);
-                } else {
-                    System.out.println("Option "+select+" not available. Please reselect.");
-                    action(game);
-                }
-                break;
-            case '2':
-                viewResidentInfo();
-                Innermenu();
-                break;
-            case '3':
-                burningDownTheHouse(game);
-                break;
-            case '4':
-                // DirtyDeedsDoneDirtCheap.dirtyDeeds();
-            case '5':
-                if (!game.getBackhistory().isEmpty()) {
-                    game.back();
-                } else if (game.getBackhistory().isEmpty() && !game.getForwardhistory().isEmpty()) {
-                    game.forward();
-                } else if (game.getBackhistory().isEmpty() && game.getForwardhistory().isEmpty()) {
-                    game.backToTownHall();
-                } else {
-                    System.out.println("Option "+select+" not available. Please reselect.");
-                }
-                break;
-            case '6':
-                if (!game.getBackhistory().isEmpty() && !game.getForwardhistory().isEmpty()) {
-                    game.forward();
-                } else if ((game.getBackhistory().isEmpty() && !game.getForwardhistory().isEmpty())
-                        || (!game.getBackhistory().isEmpty()) && game.getForwardhistory().isEmpty()) {
-                    game.backToTownHall();
-                } else {
-                    System.out.println("Option "+select+" is not available. Please reselect.");
-                }
-                break;
-            case '7':
-                if (!game.getBackhistory().isEmpty() && !game.getForwardhistory().isEmpty()) {
-                    game.backToTownHall();
-                } else {
-                    System.out.println("Option "+select+" is not available. Please reselect.");
-                }
-                break;
-            default:
-                System.out.println("Option "+select+" is not available. Please reselect.");
-        }
+
     }
 
     public static void displayMenu(TheWorld game) {
@@ -93,12 +104,12 @@ public class GreenDolphinStreetPrison extends HeavenDoor implements Action{
         }
         System.out.printf("[%d] Back to Town Hall%n%n", i++);
     }
-    
+
     public void burningDownTheHouse(TheWorld game) {
         BurningDownTheHouse bdh = new BurningDownTheHouse();
-        Scanner sc=new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
         System.out.print("Enter location of Emporio: ");
-        String cityName=sc.nextLine();
+        String cityName = sc.nextLine();
         if (game.getMap().containsCity(cityName)) {
             bdh.breadthFirstTraversal(game.getMap(), cityName);
         } else {
