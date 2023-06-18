@@ -15,20 +15,18 @@ import java.util.Scanner;
 public class AnotherOneBitesTheDust {
 
     private Graph map;
-//    private int maxConsecutiveIndex = -1;
-//    private int maxConsecutive = -1;
 
     public AnotherOneBitesTheDust(Graph map) {
         this.map = map;
     }
-    
-    public String getPath(){
+
+    public String getPath() {
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter Yoshikage Kira's path: ");
         String path = sc.nextLine();
         return path;
     }
-    
+
     public void hasBitesTheDust(String path) {
 
         ArrayList<String> result = new ArrayList<>();
@@ -45,12 +43,10 @@ public class AnotherOneBitesTheDust {
             if (isConsecutive(currentLocation, nextLocation) && !temp.contains(nextLocation)) {
                 temp += " > " + nextLocation;
                 numLocation++;
-            }
-            else {      // Consecutive location ended
+            } else {      // Consecutive location ended
                 if (numLocation > 1) {
                     result.add(temp);
                 }
-//                updateMaxConsecutiveLocation(numLocation, result.indexOf(temp));
                 temp = nextLocation;
                 numLocation = 1;
             }
@@ -59,14 +55,11 @@ public class AnotherOneBitesTheDust {
         if (numLocation > 1) {
             result.add(temp);
         }
-//        updateMaxConsecutiveLocation(numLocation, result.indexOf(temp));
 
-        
         result.sort((a, b) -> a.length() - b.length());
         boolean hasBitesTheDust = false;
         System.out.println("=".repeat(70));
 
-        
         for (int i = result.size() - 1; i >= 0; i--) {
 
             if (hasRepeatedPath(result.get(i), result, i)) {
@@ -76,19 +69,12 @@ public class AnotherOneBitesTheDust {
                 break;
             }
         }
-        
+
         if (!hasBitesTheDust) {
             System.out.println("Bites the Dust is not activated.");
         }
         System.out.println("=".repeat(70));
     }
-
-//    public void updateMaxConsecutiveLocation(int numLocation, int currentIndex) {
-//        if (numLocation > maxConsecutive) {
-//            maxConsecutiveIndex = currentIndex;
-//            maxConsecutive = numLocation;
-//        }
-//    }
 
     public boolean isConsecutive(String source, String destination) {
         return map.hasEdge(source, destination);

@@ -5,6 +5,7 @@
 package ResidentsData;
 
 import JOJOLands.Action;
+import JOJOLands.AnotherOneBitesTheDust;
 import JOJOLands.MinimumSpanningTree;
 import JOJOLands.TheWorld;
 
@@ -21,7 +22,7 @@ public class AngeloRock extends HeavenDoor implements Action {
     public void action(TheWorld game) {
         displayMenu(game);
         String select = game.getSelection();
-        if(select==""){
+        if (select == "") {
             action(game);
         }
         switch (select.charAt(0)) {
@@ -43,7 +44,7 @@ public class AngeloRock extends HeavenDoor implements Action {
                 redHotChiliPepper(game);
                 break;
             case '4':
-                
+                anotherOneBitesTheDust(game);
                 break;
             case '5':
                 if (!game.getBackhistory().isEmpty()) {
@@ -98,5 +99,10 @@ public class AngeloRock extends HeavenDoor implements Action {
         MinimumSpanningTree mst = new MinimumSpanningTree();
         mst.calculateCost(game.getMap().getEdgeList());
         System.out.println("=".repeat(70));
+    }
+    
+    public void anotherOneBitesTheDust(TheWorld game){
+        AnotherOneBitesTheDust btd = new AnotherOneBitesTheDust(game.getMap());
+        btd.hasBitesTheDust(btd.getPath());
     }
 }

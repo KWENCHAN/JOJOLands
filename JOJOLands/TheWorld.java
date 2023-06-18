@@ -99,19 +99,12 @@ public class TheWorld {
             case "1" -> {
                 setMap(JSONReader.readMap(JSONReader.readJSON(selectMap())));
                 setCurrentLocation(map.getVertex("Town Hall"));
-                //burningDownTheHouse("Trattoria Trussardi");
-                AnotherOneBitesTheDust obj = new AnotherOneBitesTheDust(map);
-                obj.hasBitesTheDust("Jade Garden > Cafe Deux Magots > Town Hall > Morioh Grand Hotel > Jade Garden > Town Hall > Jade Garden > Cafe Deux Magots > Town Hall > Jade Garden > Town Hall > Morioh Grand Hotel");
-                obj.hasBitesTheDust("Savage Garden > Angelo Rock > Savage Garden > Angelo Rock > Savage Garden");
-                obj.hasBitesTheDust("Joestar Mansion > Libeccio > DIO's Mansion > Vineyard > DIO's Mansion > Libeccio > DIO's Mansion > Vineyard > San Giorgio Maggiore");
-                setDay(1);
                 setDay(1);
                 start();
                 break;
             }
             case "2" -> {
                 System.out.print("Enter the path of your save file: ");
-                //“C:\\HON YAO ZHI\\Data Structure\\AssignmentJOJO\\loadGame.JSON”
                 String savepath = sc.nextLine();
                 loadGame(savepath);
                 break;
@@ -403,10 +396,5 @@ public class TheWorld {
         while (!exit) {
             locationlist.get(this.currentLocation.getName()).action(this);
         }
-    }
-
-    public void anotherOneBitesTheDust(){
-        AnotherOneBitesTheDust btd = new AnotherOneBitesTheDust(map);
-        btd.hasBitesTheDust(btd.getPath());
     }
 }
