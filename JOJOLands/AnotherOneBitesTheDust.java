@@ -45,7 +45,6 @@ public class AnotherOneBitesTheDust {
 
         for (int i = 0; i < pathArr.length - 1; i++) {
 
-            System.out.println("");
             temp = pathArr[i].trim();
             numLocation = 1;
             for (int j = i; j < pathArr.length - 1; j++) {
@@ -70,10 +69,6 @@ public class AnotherOneBitesTheDust {
 
         if (numLocation > 1) {
             result.add(temp);
-        }
-
-        for (int i = 0; i < result.size(); i++) {
-            System.out.println(result.get(i));
         }
 
         result.sort((a, b) -> a.length() - b.length());
